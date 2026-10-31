@@ -1,6 +1,7 @@
 import { useCallback, useState } from 'react';
 import { Header } from './components/Header';
 import { HeroDepthExperience } from './components/HeroDepthExperience';
+import { WaterGlassInterlude } from './components/WaterGlassInterlude';
 import { FormatsSection } from './components/FormatsSection';
 import { HistorySection } from './components/HistorySection';
 import { WhereToBuySection } from './components/WhereToBuySection';
@@ -48,13 +49,16 @@ export function App() {
           onDarkSceneChange={handleSourceDark}
         />
 
+        {/* Visual Still-Life Bridge: Sunlit Crystal Glass & Water Caustics */}
+        <WaterGlassInterlude />
+
         {/* Block 3: «Выберите свой формат» (0,5 / 1 / 1,5 L) */}
         <FormatsSection onOrderFormat={(sel) => openOrderModal(sel)} />
 
-        {/* Block 4: «Как всё начиналось» (Family Story, Crimea Silhouette, Frunze Plant) */}
+        {/* Block 4: «Как всё начиналось» (Western Crimea Coast -> Frunze Plant) */}
         <HistorySection />
 
-        {/* Block 5: «Где купить» (Direct Delivery & Planned Retail) */}
+        {/* Block 5: «Где купить» (Direct Delivery & Planned Retail Still-Life) */}
         <WhereToBuySection
           onDeliveryClick={() => openOrderModal()}
           onRetailClick={() => setActiveModal('retail')}

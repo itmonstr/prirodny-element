@@ -25,19 +25,38 @@ export function WhereToBuySection({
       const items = section.querySelectorAll('.buy-reveal');
       gsap.fromTo(
         items,
-        { opacity: 0, y: 26 },
+        { opacity: 0, y: 24 },
         {
           opacity: 1,
           y: 0,
-          duration: 0.9,
-          stagger: 0.14,
+          duration: 0.85,
+          stagger: 0.12,
           ease: 'power2.out',
           scrollTrigger: {
             trigger: section,
-            start: 'top 78%',
+            start: 'top 80%',
           },
         }
       );
+
+      const photos = section.querySelectorAll('.buy-scenario__still-img');
+      photos.forEach((img) => {
+        gsap.fromTo(
+          img,
+          { scale: 1.05, yPercent: -2 },
+          {
+            scale: 1,
+            yPercent: 2,
+            ease: 'none',
+            scrollTrigger: {
+              trigger: img,
+              start: 'top bottom',
+              end: 'bottom top',
+              scrub: 0.6,
+            },
+          }
+        );
+      });
     });
 
     return () => mm.revert();
@@ -64,33 +83,17 @@ export function WhereToBuySection({
         <div className="buy-diptych">
           {/* Scenario 1: Direct Delivery */}
           <article className="buy-scenario buy-reveal">
-            <div
-              className="buy-scenario__media buy-scenario__media--delivery"
-              onClick={onDeliveryClick}
-            >
-              <div className="buy-scenario__sunlight" aria-hidden="true" />
-              <div className="buy-scenario__horizon" aria-hidden="true" />
-              <div className="buy-scenario__bottles-pair" aria-hidden="true">
-                <img
-                  src={assetUrl('assets/bottle-15-still.webp')}
-                  alt=""
-                  width={212}
-                  height={709}
-                  loading="lazy"
-                  decoding="async"
-                  className="buy-scenario__bottle-back"
-                />
-                <img
-                  src={assetUrl('assets/bottle-15-sparkling.webp')}
-                  alt="Формат 1,5 л для прямой доставки"
-                  width={214}
-                  height={709}
-                  loading="lazy"
-                  decoding="async"
-                  className="buy-scenario__bottle-front"
-                />
-              </div>
-              <span className="buy-scenario__caption-tag">Со склада в с. Фрунзе · 0,5 и 1,5 л</span>
+            <div className="buy-scenario__media" onClick={onDeliveryClick}>
+              <img
+                src={assetUrl('assets/buy-delivery-scene.webp')}
+                alt="Настоящие бутылки «Природный Элемент» 1,5 л для прямой доставки"
+                width={1440}
+                height={900}
+                loading="lazy"
+                decoding="async"
+                className="buy-scenario__still-img"
+              />
+              <div className="buy-scenario__sheen" aria-hidden="true" />
             </div>
 
             <div className="buy-scenario__body">
@@ -115,38 +118,17 @@ export function WhereToBuySection({
 
           {/* Scenario 2: Retail Stores */}
           <article className="buy-scenario buy-reveal">
-            <div
-              className="buy-scenario__media buy-scenario__media--retail"
-              onClick={onRetailClick}
-            >
-              <div className="buy-scenario__horizon" aria-hidden="true" />
-              <div className="buy-scenario__retail-trio" aria-hidden="true">
-                <img
-                  src={assetUrl('assets/bottle-05-still.webp')}
-                  alt=""
-                  width={152}
-                  height={504}
-                  loading="lazy"
-                  decoding="async"
-                />
-                <img
-                  src={assetUrl('assets/bottle-05-sparkling.webp')}
-                  alt=""
-                  width={152}
-                  height={502}
-                  loading="lazy"
-                  decoding="async"
-                />
-                <img
-                  src={assetUrl('assets/bottle-15-sparkling.webp')}
-                  alt="Ассортимент «Природный Элемент» для розничных точек"
-                  width={214}
-                  height={709}
-                  loading="lazy"
-                  decoding="async"
-                />
-              </div>
-              <span className="buy-scenario__caption-tag">Формируется розничная сеть · Крым</span>
+            <div className="buy-scenario__media" onClick={onRetailClick}>
+              <img
+                src={assetUrl('assets/buy-retail-scene.webp')}
+                alt="Ассортимент бутылок «Природный Элемент» 0,5 л и 1,5 л для розничных точек"
+                width={1440}
+                height={900}
+                loading="lazy"
+                decoding="async"
+                className="buy-scenario__still-img"
+              />
+              <div className="buy-scenario__sheen" aria-hidden="true" />
             </div>
 
             <div className="buy-scenario__body">

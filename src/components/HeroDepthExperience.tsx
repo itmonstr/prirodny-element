@@ -46,6 +46,7 @@ export function HeroDepthExperience({
   const rootRef = useRef<HTMLDivElement | null>(null);
   const stageRef = useRef<HTMLDivElement | null>(null);
   const deepBgRef = useRef<HTMLDivElement | null>(null);
+  const aquiferRaysRef = useRef<HTMLDivElement | null>(null);
   const heroCopyRef = useRef<HTMLDivElement | null>(null);
   const bottleWrapRef = useRef<HTMLDivElement | null>(null);
   const bottleImgRef = useRef<HTMLImageElement | null>(null);
@@ -84,26 +85,26 @@ export function HeroDepthExperience({
         if (!reduceMotion && bottleImgRef.current) {
           gsap.fromTo(
             bottleImgRef.current,
-            { opacity: 0, scale: 0.95, y: 26 },
-            { opacity: 1, scale: 1, y: 0, duration: 1.35, ease: 'power3.out' }
+            { opacity: 0, scale: 0.95, y: 24 },
+            { opacity: 1, scale: 1, y: 0, duration: 1.3, ease: 'power3.out' }
           );
           if (bottleSheenRef.current) {
             gsap.fromTo(
               bottleSheenRef.current,
               { xPercent: -95, opacity: 0 },
-              { xPercent: 95, opacity: 0.72, duration: 2.1, delay: 0.25, ease: 'power2.inOut' }
+              { xPercent: 95, opacity: 0.72, duration: 2.0, delay: 0.22, ease: 'power2.inOut' }
             );
           }
           if (heroCopyRef.current) {
             gsap.fromTo(
               heroCopyRef.current.children,
-              { opacity: 0, y: 20 },
+              { opacity: 0, y: 18 },
               {
                 opacity: 1,
                 y: 0,
-                duration: 1.05,
-                stagger: 0.1,
-                delay: 0.15,
+                duration: 1.0,
+                stagger: 0.09,
+                delay: 0.14,
                 ease: 'power3.out',
               }
             );
@@ -111,7 +112,7 @@ export function HeroDepthExperience({
         }
 
         if (isDesktop && !reduceMotion) {
-          // Desktop continuous scroll-driven choreography (Scene 1 -> Scene 2)
+          // Optimized 212vh continuous choreography: zero empty slate-blue gaps, zero dead scroll
           const startOffsetX = () => Math.min(window.innerWidth * 0.16, 224);
 
           gsap.set(bottleWrapRef.current, {
@@ -123,74 +124,81 @@ export function HeroDepthExperience({
           });
           gsap.set([sourceLeftRef.current, sourceRightRef.current], {
             opacity: 0,
-            y: 36,
+            y: 30,
             pointerEvents: 'none',
           });
           gsap.set(deepBgRef.current, { opacity: 0 });
-          gsap.set(strataRef.current, { opacity: 0, y: 40 });
+          gsap.set(aquiferRaysRef.current, { opacity: 0, xPercent: -4 });
+          gsap.set(strataRef.current, { opacity: 0, y: 32 });
           gsap.set(depthScaleRef.current, { opacity: 0 });
 
           const mineralItems = sourceRightRef.current?.querySelectorAll('.mineral-row') ?? [];
-          gsap.set(mineralItems, { opacity: 0, y: 20 });
+          gsap.set(mineralItems, { opacity: 0, y: 18 });
+
+          // Dedicated dark-header observer: stays dark from 80m transition until the sticky stage & top decompression gradient clear the header
+          ScrollTrigger.create({
+            trigger: root,
+            start: () => `top -${Math.round(window.innerHeight * 0.27)}`,
+            end: 'bottom -24px',
+            invalidateOnRefresh: true,
+            onToggle: (self) => onDarkSceneChange(self.isActive),
+            onRefresh: (self) => onDarkSceneChange(self.isActive),
+          });
 
           const tl = gsap.timeline({
             scrollTrigger: {
               trigger: root,
               start: 'top top',
               end: 'bottom bottom',
-              scrub: 0.65,
+              scrub: 0.55,
               invalidateOnRefresh: true,
               onUpdate: (self) => {
                 const p = self.progress;
-                // Map scroll progress 0.06..0.56 -> 0..80 meters
-                const normDepth = gsap.utils.clamp(0, 1, (p - 0.06) / 0.5);
+                // Map scroll progress 0.04..0.58 -> 0..80 meters smoothly
+                const normDepth = gsap.utils.clamp(0, 1, (p - 0.04) / 0.54);
                 depthProgressRef.current = normDepth;
                 const meters = Math.round(normDepth * 80);
                 setDepthMeters(meters);
-                setHeroInteractive(p < 0.24);
-                onDarkSceneChange(p > 0.28 && p < 0.96);
-              },
-              onRefresh: (self) => {
-                const p = self.progress;
-                onDarkSceneChange(self.isActive && p > 0.28 && p < 0.96);
-              },
-              onLeave: () => {
-                onDarkSceneChange(false);
+                setHeroInteractive(p < 0.22);
               },
               onLeaveBack: () => {
                 depthProgressRef.current = 0;
                 setDepthMeters(0);
                 setHeroInteractive(true);
-                onDarkSceneChange(false);
               },
             },
           });
 
-          // Phase 1 (0 -> 0.36): Hero copy recedes, environment dives into 80m artesian blue, bottle glides to dead center
+          // Phase 1 (0 -> 0.44): Hero copy recedes as sunlit shafts & 80m marine depth emerge immediately
           tl.to(
             heroCopyRef.current,
-            { opacity: 0, y: -54, duration: 0.28, ease: 'power2.inOut' },
-            0.02
+            { opacity: 0, y: -46, duration: 0.3, ease: 'power2.inOut' },
+            0.01
           )
             .to(
               deepBgRef.current,
               { opacity: 1, duration: 0.38, ease: 'sine.inOut' },
+              0.05
+            )
+            .to(
+              aquiferRaysRef.current,
+              { opacity: 1, xPercent: 3, duration: 0.55, ease: 'sine.out' },
               0.08
             )
             .to(
               depthScaleRef.current,
-              { opacity: 1, duration: 0.2, ease: 'sine.out' },
-              0.1
+              { opacity: 1, duration: 0.22, ease: 'sine.out' },
+              0.07
             )
             .to(
               depthFillRef.current,
-              { scaleY: 1, duration: 0.5, ease: 'none' },
-              0.06
+              { scaleY: 1, duration: 0.54, ease: 'none' },
+              0.04
             )
             .to(
               strataRef.current,
-              { opacity: 1, y: 0, duration: 0.42, ease: 'power2.out' },
-              0.16
+              { opacity: 1, y: 0, duration: 0.44, ease: 'power2.out' },
+              0.12
             )
             .fromTo(
               bottleWrapRef.current,
@@ -201,34 +209,34 @@ export function HeroDepthExperience({
               },
               {
                 x: 0,
-                y: 8,
-                scale: 0.86,
+                y: 6,
+                scale: 0.87,
                 duration: 0.46,
                 ease: 'power2.inOut',
               },
-              0.06
+              0.04
             );
 
           if (bottleSheenRef.current) {
             tl.fromTo(
               bottleSheenRef.current,
               { xPercent: -85, opacity: 0.18 },
-              { xPercent: 85, opacity: 0.55, duration: 0.5, ease: 'sine.inOut' },
-              0.1
+              { xPercent: 85, opacity: 0.58, duration: 0.54, ease: 'sine.inOut' },
+              0.08
             );
           }
 
-          // Phase 2 (0.36 -> 0.85): Reveal 80m narrative on left & mineral composition rows on right
+          // Phase 2 (0.25 -> 0.74): Overlapping reveal of 80m narrative & mineral table (zero barren screen!)
           tl.to(
             sourceLeftRef.current,
             {
               opacity: 1,
               y: 0,
               pointerEvents: 'auto',
-              duration: 0.26,
+              duration: 0.28,
               ease: 'power2.out',
             },
-            0.36
+            0.25
           )
             .to(
               sourceRightRef.current,
@@ -236,31 +244,45 @@ export function HeroDepthExperience({
                 opacity: 1,
                 y: 0,
                 pointerEvents: 'auto',
-                duration: 0.22,
+                duration: 0.24,
                 ease: 'power2.out',
               },
-              0.4
+              0.3
             )
             .to(
               mineralItems,
               {
                 opacity: 1,
                 y: 0,
-                duration: 0.24,
+                duration: 0.25,
                 stagger: 0.055,
                 ease: 'power2.out',
               },
-              0.43
+              0.33
             )
-            // Hold calm composure so user reads comfortably (0.72 -> 1.0)
-            .to(bottleWrapRef.current, { y: 0, duration: 0.25, ease: 'sine.inOut' }, 0.75);
+            // Phase 3 (0.72 -> 1.00): Subtle living drift during reading beat before sunlit glass scene
+            .to(
+              bottleWrapRef.current,
+              { y: -4, duration: 0.28, ease: 'sine.inOut' },
+              0.72
+            )
+            .to(
+              aquiferRaysRef.current,
+              { xPercent: 7, opacity: 0.72, duration: 0.28, ease: 'none' },
+              0.72
+            )
+            .to(
+              strataRef.current,
+              { y: -14, duration: 0.28, ease: 'none' },
+              0.72
+            );
         } else {
           // Mobile / Reduced-motion scroll tracking for dark header switching & smooth depth counter
           if (mobileSourceRef.current) {
             ScrollTrigger.create({
               trigger: mobileSourceRef.current,
               start: 'top 68px',
-              end: 'bottom 56px',
+              end: 'bottom -24px',
               onToggle: (self) => onDarkSceneChange(self.isActive),
               onRefresh: (self) => onDarkSceneChange(self.isActive),
             });
@@ -280,11 +302,11 @@ export function HeroDepthExperience({
               revealTargets.forEach((el) => {
                 gsap.fromTo(
                   el,
-                  { opacity: 0, y: 24 },
+                  { opacity: 0, y: 22 },
                   {
                     opacity: 1,
                     y: 0,
-                    duration: 0.85,
+                    duration: 0.8,
                     ease: 'power2.out',
                     scrollTrigger: {
                       trigger: el,
@@ -308,7 +330,7 @@ export function HeroDepthExperience({
     if (isDesktop && rootRef.current) {
       const rect = rootRef.current.getBoundingClientRect();
       const absTop = window.scrollY + rect.top;
-      const targetScroll = absTop + rootRef.current.offsetHeight * 0.56;
+      const targetScroll = absTop + (rootRef.current.offsetHeight - window.innerHeight) * 0.82;
       window.scrollTo({ top: targetScroll, behavior: 'smooth' });
     } else if (mobileSourceRef.current) {
       mobileSourceRef.current.scrollIntoView({ behavior: 'smooth' });
@@ -324,6 +346,7 @@ export function HeroDepthExperience({
 
         {/* Deep 80m Artesian Aquifer Environment Layer */}
         <div ref={deepBgRef} className="hero-depth-stage__deep-bg" aria-hidden="true">
+          <div ref={aquiferRaysRef} className="aquifer-rays" />
           <div ref={strataRef} className="aquifer-strata">
             <span className="aquifer-strata__line aquifer-strata__line--1" />
             <span className="aquifer-strata__line aquifer-strata__line--2" />
@@ -336,6 +359,9 @@ export function HeroDepthExperience({
           <span className="depth-scale__mark">0 м</span>
           <div className="depth-scale__track">
             <div ref={depthFillRef} className="depth-scale__fill" />
+            <span className="depth-scale__tick depth-scale__tick--25" />
+            <span className="depth-scale__tick depth-scale__tick--50" />
+            <span className="depth-scale__tick depth-scale__tick--75" />
           </div>
           <span className="depth-scale__live">{depthMeters} м</span>
         </div>
@@ -457,16 +483,10 @@ export function HeroDepthExperience({
               Наш артезианский источник расположен в Сакском районе Крыма, близ озера Богайлы. Мы
               бережно относимся к качеству воды на каждом этапе производства.
             </p>
-            <figure className="source-water-detail">
-              <img
-                src={assetUrl('assets/water-glass.webp')}
-                alt="Чистая артезианская вода в стакане"
-                width={1046}
-                height={685}
-                loading="lazy"
-                decoding="async"
-              />
-            </figure>
+            <div className="source-origin-coords">
+              <span className="source-origin-coords__line" aria-hidden="true" />
+              <span>Сакский район · оз. Богайлы · с. Фрунзе</span>
+            </div>
           </div>
 
           <div ref={sourceRightRef} className="source-panel source-panel--right">
@@ -489,11 +509,15 @@ export function HeroDepthExperience({
         </div>
       </div>
 
-      {/* Anchor target: positioned at 162vh on desktop, and right above Block 2 on mobile */}
+      {/* Anchor target: positioned at 80m reveal on desktop, and right above Block 2 on mobile */}
       <div id="source" className="hero-depth-journey__source-anchor" aria-hidden="true" />
 
       {/* ==================== DEDICATED MOBILE & TABLET BLOCK 2 ==================== */}
-      <section ref={mobileSourceRef} className="source-mobile-section" aria-labelledby="source-mobile-heading">
+      <section
+        ref={mobileSourceRef}
+        className="source-mobile-section"
+        aria-labelledby="source-mobile-heading"
+      >
         <div className="source-mobile-section__inner">
           <div className="source-mobile-meter m-reveal" aria-hidden="true">
             <span className="source-mobile-meter__line" />
@@ -514,27 +538,17 @@ export function HeroDepthExperience({
             бережно относимся к качеству воды на каждом этапе производства.
           </p>
 
-          <div className="source-mobile-visuals m-reveal">
-            <div className="source-mobile-visuals__bottle">
-              <img
-                src={assetUrl('assets/bottle-hero.webp')}
-                alt="Бутылка «Природный Элемент»"
-                width={500}
-                height={1850}
-                loading="lazy"
-                decoding="async"
-              />
-            </div>
-            <div className="source-mobile-visuals__glass">
-              <img
-                src={assetUrl('assets/water-glass.webp')}
-                alt="Прозрачная питьевая вода"
-                width={1046}
-                height={685}
-                loading="lazy"
-                decoding="async"
-              />
-            </div>
+          <div className="source-mobile-showcase m-reveal">
+            <div className="source-mobile-showcase__halo" aria-hidden="true" />
+            <img
+              src={assetUrl('assets/bottle-hero.webp')}
+              alt="Бутылка «Природный Элемент» на глубине источника"
+              width={500}
+              height={1850}
+              loading="lazy"
+              decoding="async"
+              className="source-mobile-showcase__bottle"
+            />
           </div>
 
           <div className="mineral-table mineral-table--mobile m-reveal">
