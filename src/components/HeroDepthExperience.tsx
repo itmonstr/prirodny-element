@@ -71,13 +71,17 @@ export function HeroDepthExperience({
     mm.add(
       {
         isDesktop: '(min-width: 1024px)',
-        isCompact: '(max-width: 1023px)',
+        isMobile: '(max-width: 1023px)',
+        isShortPhone: '(max-width: 680px) and (max-height: 700px)',
+        isCompactLandscape: '(max-width: 1023px) and (max-height: 500px) and (orientation: landscape)',
         reduceMotion: '(prefers-reduced-motion: reduce)',
       },
       (context) => {
-        const { isDesktop, isCompact, reduceMotion } = context.conditions as {
+        const { isDesktop, isShortPhone, isCompactLandscape, reduceMotion } = context.conditions as {
           isDesktop: boolean;
-          isCompact: boolean;
+          isMobile: boolean;
+          isShortPhone: boolean;
+          isCompactLandscape: boolean;
           reduceMotion: boolean;
         };
 
@@ -112,33 +116,6 @@ export function HeroDepthExperience({
         }
 
         isDesktopRef.current = isDesktop;
-        if (isCompact) {
-          const source = root.querySelector<HTMLElement>('.source-mobile-section');
-          if (source) {
-            ScrollTrigger.create({
-              trigger: source,
-              start: 'top 80px',
-              end: 'bottom 80px',
-              onToggle: (self) => onDarkSceneChange(self.isActive),
-              onRefresh: (self) => onDarkSceneChange(self.isActive),
-            });
-            if (!reduceMotion) {
-              gsap.fromTo(
-                source.querySelectorAll('.source-mobile-section__reveal'),
-                { opacity: 0, y: 20 },
-                {
-                  opacity: 1,
-                  y: 0,
-                  duration: 0.75,
-                  stagger: 0.1,
-                  ease: 'power2.out',
-                  scrollTrigger: { trigger: source, start: 'top 78%' },
-                }
-              );
-            }
-          }
-          return;
-        }
         if (!reduceMotion) {
           // Optimized continuous choreography on desktop and mobile:
           // In Hero: Title & lead text + bottle. As you scroll, title fades out,
@@ -146,8 +123,8 @@ export function HeroDepthExperience({
           // bottle stays as the central protagonist and transitions smoothly.
 
           const startOffsetX = () => (isDesktop ? Math.min(window.innerWidth * 0.16, 224) : 0);
-          const startOffsetY = () => (isDesktop ? 0 : 108);
-          const endOffsetY = () => (isDesktop ? 6 : 116);
+          const startOffsetY = () => (isDesktop || isCompactLandscape ? 0 : 108);
+          const endOffsetY = () => (isDesktop ? 6 : isCompactLandscape ? 4 : 116);
           const endScale = () => (isDesktop ? 0.87 : 0.84);
 
           gsap.set(bottleWrapRef.current, {
@@ -391,6 +368,12 @@ export function HeroDepthExperience({
               );
             }
 
+            // A short phone cannot fit the bottle beside the source copy and mineral table.
+            // Let the bottle leave before either text panel appears, then return for the handoff.
+            if (isShortPhone) {
+              tl.to(bottleWrapRef.current, { opacity: 0, duration: 0.08, ease: 'power1.out' }, 0.08);
+            }
+
             // Step 2 (0.16 -> 0.44): 80m source narrative beat
             tl.to(
               sourceLeftRef.current,
@@ -426,7 +409,7 @@ export function HeroDepthExperience({
                 {
                   y: () => endOffsetY() + Math.round(window.innerHeight * 0.17),
                   scale: 0.66,
-                  opacity: 0.55,
+                  opacity: isShortPhone ? 0 : 0.55,
                   duration: 0.1,
                   ease: 'power2.inOut',
                 },
@@ -503,10 +486,6 @@ export function HeroDepthExperience({
   }, [onDarkSceneChange]);
 
   const scrollToSource = () => {
-    if (window.matchMedia('(max-width: 1023px)').matches) {
-      rootRef.current?.querySelector('#source')?.scrollIntoView({ behavior: 'smooth' });
-      return;
-    }
     if (rootRef.current) {
       const rect = rootRef.current.getBoundingClientRect();
       const absTop = window.scrollY + rect.top;
@@ -676,43 +655,7 @@ export function HeroDepthExperience({
         </div>
       </div>
 
-      <section className="source-mobile-section" aria-labelledby="source-mobile-title">
-        <div className="container source-mobile-section__inner">
-          <div className="source-mobile-section__intro source-mobile-section__reveal">
-            <div className="source-depth-figure" aria-label="Глубина скважины 80 метров">
-              <span className="source-depth-figure__num">80</span>
-              <span className="source-depth-figure__unit">метров</span>
-            </div>
-            <h2 id="source-mobile-title" className="source-panel__title">Источник глубиной 80 метров</h2>
-            <p className="source-panel__text">
-              Наш артезианский источник расположен в Сакском районе Крыма, близ озера Богайлы. Мы
-              бережно относимся к качеству воды на каждом этапе производства.
-            </p>
-            <div className="source-origin-coords">
-              <span className="source-origin-coords__line" aria-hidden="true" />
-              <span>Сакский район · оз. Богайлы · с. Фрунзе</span>
-            </div>
-          </div>
-          <div className="source-mobile-section__composition source-mobile-section__reveal">
-            <h3 className="source-mobile-section__subtitle">Состав воды</h3>
-            <div className="mineral-table" role="region" aria-label="Показатели состава воды">
-              {MINERAL_ROWS.map((row) => (
-                <div key={row.symbol} className="mineral-row">
-                  <div className="mineral-row__symbol">{row.symbol}</div>
-                  <div className="mineral-row__meta">
-                    <span className="mineral-row__name">{row.name}</span>
-                    <span className="mineral-row__value">{row.unit}</span>
-                  </div>
-                </div>
-              ))}
-            </div>
-            <p className="mineral-footnote">
-              Точные числовые значения публикуются на основании протокола лабораторного анализа
-              скважины.
-            </p>
-          </div>
-        </div>
-      </section>
+      {/* Anchor target */}
       <div id="source" className="hero-depth-journey__source-anchor" aria-hidden="true" />
     </div>
   );

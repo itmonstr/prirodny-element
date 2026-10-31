@@ -2265,7 +2265,8 @@ h3,
 
   /* Unified Continuous Scroll Journey on Tablet & Mobile (Same choreography as Desktop) */
   .hero-depth-journey {
-    height: 250vh;
+    height: 275vh;
+    height: 275dvh;
     background-color: #0c2b4d;
   }
 
@@ -2274,6 +2275,7 @@ h3,
     top: 0;
     width: 100%;
     height: 100svh;
+    height: 100dvh;
     overflow: hidden;
     background: linear-gradient(180deg, #ffffff 0%, #f5fafd 62%, #ebf5fc 100%);
   }
@@ -2696,71 +2698,14 @@ h3,
    MOBILE PHONE BREAKPOINT (<= 680px): Snap Vitrine + Compact Controls
    ========================================================================== */
 
-@media (min-width: 681px) and (max-width: 1023px) {
-  .hero-depth-journey {
-    height: auto;
-  }
-
-  .hero-depth-stage {
-    position: relative;
-    height: max(620px, 100svh);
-  }
-
-  .hero-copy {
-    top: 88px;
-  }
-
-  .hero-bottle-stage {
-    top: 73%;
-  }
-
-  .hero-bottle-stage__figure {
-    height: clamp(220px, 34svh, 260px);
-  }
-
-  .hero-depth-stage__deep-bg,
-  .depth-scale,
-  .source-panel {
-    display: none;
-  }
-
-  .hero-depth-journey__source-anchor {
-    top: max(620px, 100svh);
-  }
-
-  .source-mobile-section {
-    display: block;
-    padding: 112px 0 104px;
-    background: linear-gradient(180deg, #ebf5fc 0%, #17497d 8%, #123c69 34%, #0c2b4d 100%);
-    color: var(--bg-white);
-  }
-
-  .source-mobile-section__inner {
-    display: grid;
-    gap: 64px;
-    max-width: 720px;
-  }
-
-  .source-mobile-section__subtitle {
-    margin-bottom: 22px;
-    font-family: var(--font-serif);
-    font-size: 2.3rem;
-    font-weight: 500;
-  }
-
-  .source-mobile-section .mineral-row {
-    grid-template-columns: 64px minmax(0, 1fr);
-  }
-}
-
 @media (max-width: 680px) {
-  .hero-depth-journey {
-    height: auto;
+  :root {
+    --gutter: clamp(16px, 5.4vw, 20px);
   }
 
-  .hero-depth-stage {
-    position: relative;
-    height: max(620px, 100svh);
+  .hero-depth-journey {
+    height: 300vh;
+    height: 300dvh;
   }
 
   .hero-copy,
@@ -2769,100 +2714,30 @@ h3,
     top: max(88px, calc(76px + env(safe-area-inset-top)));
   }
 
-  .hero-copy {
-    max-width: none;
+  .section-title {
+    font-size: clamp(2.15rem, 12vw, 3.2rem);
   }
 
-  .hero-bottle-stage {
-    top: 65%;
+  .glass-interlude,
+  .formats-section,
+  .history-section,
+  .buy-section {
+    padding-block: clamp(52px, 14vw, 72px);
   }
 
-  .hero-bottle-stage__figure {
-    height: clamp(205px, 35svh, 300px);
+  .formats-header {
+    align-items: stretch;
   }
 
-  .hero-depth-stage__deep-bg,
-  .depth-scale,
-  .source-panel {
-    display: none;
+  .formats-header__titles,
+  .water-type-switch {
+    width: 100%;
   }
 
-  .hero-depth-journey__source-anchor {
-    top: max(620px, 100svh);
-  }
-
-  .source-mobile-section {
-    display: block;
-    padding: 96px 0 88px;
-    background: linear-gradient(180deg, #ebf5fc 0%, #17497d 8%, #123c69 34%, #0c2b4d 100%);
-    color: var(--bg-white);
-  }
-
-  .source-mobile-section__inner {
-    display: grid;
-    gap: 58px;
-  }
-
-  .source-mobile-section .source-depth-figure {
-    margin-bottom: 16px;
-  }
-
-  .source-mobile-section .source-depth-figure__num {
-    font-size: clamp(4rem, 15vw, 5rem);
-  }
-
-  .source-mobile-section .source-panel__title {
-    font-size: clamp(1.7rem, 6.5vw, 2.15rem);
-    margin-bottom: 18px;
-  }
-
-  .source-mobile-section .source-panel__text {
-    font-size: 0.94rem;
-    line-height: 1.65;
-    margin-bottom: 20px;
-  }
-
-  .source-mobile-section .source-origin-coords {
-    align-items: flex-start;
-    font-size: 0.76rem;
-    line-height: 1.5;
-  }
-
-  .source-mobile-section .source-origin-coords__line {
-    margin-top: 0.7em;
-    flex-shrink: 0;
-  }
-
-  .source-mobile-section__subtitle {
-    margin-bottom: 18px;
-    font-family: var(--font-serif);
-    font-size: 2rem;
-    font-weight: 500;
-    line-height: 1.1;
-  }
-
-  .source-mobile-section .mineral-row {
-    grid-template-columns: 42px minmax(0, 1fr);
-    gap: 12px;
-    padding: 12px 0;
-  }
-
-  .source-mobile-section .mineral-row__symbol {
-    font-size: 1.45rem;
-  }
-
-  .source-mobile-section .mineral-row__name {
-    font-size: 0.85rem;
-    overflow-wrap: anywhere;
-  }
-
-  .source-mobile-section .mineral-row__value {
-    font-size: 0.73rem;
-  }
-
-  .source-mobile-section .mineral-footnote {
-    font-size: 0.72rem;
-    line-height: 1.5;
+  .water-type-switch__btn {
+    flex: 1;
+    justify-content: center;
+    padding-inline: 10px;
   }
 
   .formats-mobile-tabs {
@@ -2947,6 +2822,45 @@ h3,
     align-items: stretch;
   }
 
+  .formats-footer__text {
+    grid-template-columns: auto minmax(0, 1fr);
+    gap: 10px;
+    font-size: 0.9rem;
+  }
+
+  .history-coast-panorama__badge,
+  .history-gallery__caption,
+  .buy-scenario__text,
+  .site-footer__address,
+  .site-footer__email {
+    overflow-wrap: anywhere;
+  }
+
+  .buy-scenario {
+    gap: 20px;
+  }
+
+  .buy-scenario__media {
+    aspect-ratio: 4 / 3;
+  }
+
+  .finale-section {
+    padding-top: 58px;
+  }
+
+  .finale-bottle-stage__wrap {
+    height: clamp(280px, 52svh, 360px);
+  }
+
+  .site-footer__bottom {
+    align-items: flex-start;
+    gap: 18px;
+  }
+
+  .site-footer__legal-links {
+    align-items: flex-start;
+  }
+
   .formats-footer .btn-pill {
     width: 100%;
   }
@@ -2954,66 +2868,6 @@ h3,
   .site-footer__top {
     grid-template-columns: 1fr;
     gap: 32px;
-  }
-}
-
-@media (max-width: 1023px) and (max-height: 500px) and (orientation: landscape) {
-  .hero-depth-stage {
-    height: max(360px, 100svh);
-  }
-
-  .hero-copy {
-    left: var(--gutter);
-    top: 52%;
-    width: 46%;
-    max-width: 390px;
-    transform: translateY(-50%);
-    align-items: flex-start;
-    text-align: left;
-  }
-
-  .hero-copy__title {
-    font-size: clamp(1.9rem, 5.2vw, 2.7rem);
-    margin-bottom: 6px;
-  }
-
-  .hero-copy__lead {
-    max-width: 360px;
-    font-size: 0.76rem;
-    line-height: 1.4;
-    margin-bottom: 10px;
-  }
-
-  .hero-copy__actions {
-    flex-wrap: nowrap;
-    gap: 6px;
-  }
-
-  .hero-copy__actions .btn-pill {
-    min-height: 36px;
-    padding-inline: 12px;
-    font-size: 0.74rem;
-  }
-
-  .hero-bottle-stage {
-    left: 76%;
-    top: 53%;
-  }
-
-  .hero-bottle-stage__figure {
-    height: min(56svh, 210px);
-  }
-
-  .hero-mobile-actions {
-    display: none;
-  }
-
-  .hero-depth-journey__source-anchor {
-    top: max(360px, 100svh);
-  }
-
-  .source-mobile-section {
-    padding-top: 82px;
   }
 }
 
@@ -3050,6 +2904,93 @@ h3,
 
   .source-panel--right .mineral-row {
     padding-block: 8px;
+  }
+}
+
+@media (max-width: 1023px) and (max-height: 500px) and (orientation: landscape) {
+  .hero-copy {
+    left: var(--gutter);
+    top: 52%;
+    width: 46%;
+    max-width: 390px;
+    transform: translateY(-50%);
+    align-items: flex-start;
+    text-align: left;
+  }
+
+  .hero-copy__title {
+    font-size: clamp(1.85rem, 5vw, 2.6rem);
+  }
+
+  .hero-copy__lead {
+    max-width: 360px;
+    font-size: 0.75rem;
+    line-height: 1.35;
+  }
+
+  .hero-bottle-stage {
+    left: 76%;
+    top: 52%;
+  }
+
+  .hero-bottle-stage__figure {
+    height: min(55svh, 210px);
+  }
+
+  .hero-mobile-actions {
+    display: none;
+  }
+
+  .source-panel--left,
+  .source-panel--right {
+    top: 64px;
+  }
+
+  .source-panel--left .source-depth-figure {
+    margin-bottom: 0;
+  }
+
+  .source-panel--left .source-depth-figure__num {
+    font-size: 2.7rem;
+  }
+
+  .source-panel--left .source-panel__title {
+    margin-bottom: 6px;
+    font-size: 1.2rem;
+  }
+
+  .source-panel--left .source-panel__text {
+    max-width: 560px;
+    margin-bottom: 8px;
+    font-size: 0.76rem;
+    line-height: 1.35;
+  }
+
+  .source-panel--left .source-origin-coords {
+    padding-top: 7px;
+  }
+
+  .source-panel--right {
+    max-width: 620px;
+  }
+
+  .source-panel--right .mineral-table {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0 20px;
+    padding: 4px 14px;
+  }
+
+  .source-panel--right .mineral-row {
+    padding: 6px 0;
+  }
+
+  .source-panel--right .mineral-row:last-child {
+    grid-column: 1 / -1;
+  }
+
+  .source-panel--right .mineral-footnote {
+    margin-top: 6px;
   }
 }
 
