@@ -72,12 +72,14 @@ export function HeroDepthExperience({
       {
         isDesktop: '(min-width: 1024px)',
         isMobile: '(max-width: 1023px)',
+        isShortPhone: '(max-width: 680px) and (max-height: 700px)',
         reduceMotion: '(prefers-reduced-motion: reduce)',
       },
       (context) => {
-        const { isDesktop, reduceMotion } = context.conditions as {
+        const { isDesktop, isShortPhone, reduceMotion } = context.conditions as {
           isDesktop: boolean;
           isMobile: boolean;
+          isShortPhone: boolean;
           reduceMotion: boolean;
         };
 
@@ -112,7 +114,6 @@ export function HeroDepthExperience({
         }
 
         isDesktopRef.current = isDesktop;
-
         if (!reduceMotion) {
           // Optimized continuous choreography on desktop and mobile:
           // In Hero: Title & lead text + bottle. As you scroll, title fades out,
@@ -176,6 +177,9 @@ export function HeroDepthExperience({
                 setDepthMeters(meters);
                 if (heroCopyRef.current) {
                   heroCopyRef.current.style.pointerEvents = p < 0.14 ? 'auto' : 'none';
+                }
+                if (heroMobileActionsRef.current) {
+                  heroMobileActionsRef.current.style.pointerEvents = p < 0.14 ? 'auto' : 'none';
                 }
               },
               onLeaveBack: () => {
@@ -342,13 +346,11 @@ export function HeroDepthExperience({
                   x: 0,
                   y: () => startOffsetY(),
                   scale: 1,
-                  opacity: 1,
                 },
                 {
                   x: 0,
                   y: () => endOffsetY(),
                   scale: () => endScale(),
-                  opacity: 1,
                   duration: 0.32,
                   ease: 'power2.inOut',
                 },
@@ -362,6 +364,12 @@ export function HeroDepthExperience({
                 { xPercent: 85, opacity: 0.58, duration: 0.38, ease: 'sine.inOut' },
                 0.05
               );
+            }
+
+            // A short phone cannot fit the bottle beside the source copy and mineral table.
+            // Let the bottle leave before either text panel appears, then return for the handoff.
+            if (isShortPhone) {
+              tl.to(bottleWrapRef.current, { opacity: 0, duration: 0.08, ease: 'power1.out' }, 0.08);
             }
 
             // Step 2 (0.16 -> 0.44): 80m source narrative beat
@@ -399,7 +407,7 @@ export function HeroDepthExperience({
                 {
                   y: () => endOffsetY() + Math.round(window.innerHeight * 0.17),
                   scale: 0.66,
-                  opacity: 0.55,
+                  opacity: isShortPhone ? 0 : 0.55,
                   duration: 0.1,
                   ease: 'power2.inOut',
                 },
