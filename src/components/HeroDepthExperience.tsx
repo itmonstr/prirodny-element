@@ -388,6 +388,23 @@ export function HeroDepthExperience({
                 },
                 0.44
               )
+              // Make room for the minerals card: depth gauge steps aside, bottle sinks lower & recedes
+              .to(
+                depthScaleRef.current,
+                { opacity: 0, duration: 0.06, ease: 'power1.out' },
+                0.45
+              )
+              .to(
+                bottleWrapRef.current,
+                {
+                  y: () => endOffsetY() + Math.round(window.innerHeight * 0.17),
+                  scale: 0.66,
+                  opacity: 0.55,
+                  duration: 0.1,
+                  ease: 'power2.inOut',
+                },
+                0.44
+              )
               // Step 4 (0.51 -> 0.78): Mineral composition table reveals with all 5 rows crisp and legible
               .to(
                 sourceRightRef.current,
@@ -431,8 +448,19 @@ export function HeroDepthExperience({
               )
               .to(
                 bottleWrapRef.current,
-                { y: () => endOffsetY() + 8, duration: 0.16, ease: 'sine.inOut' },
+                {
+                  y: () => endOffsetY() + 8,
+                  scale: () => endScale(),
+                  opacity: 1,
+                  duration: 0.12,
+                  ease: 'sine.inOut',
+                },
                 0.84
+              )
+              .to(
+                depthScaleRef.current,
+                { opacity: 1, duration: 0.08, ease: 'sine.out' },
+                0.86
               );
           }
         } else {
