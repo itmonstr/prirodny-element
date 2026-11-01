@@ -1,7 +1,6 @@
 import { useLayoutEffect, useRef } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import { assetUrl } from '../utils/assetUrl';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -66,7 +65,7 @@ export function WhereToBuySection({
     <section
       ref={sectionRef}
       id="where-to-buy"
-      className="buy-section"
+      className="buy-section buy-section--editorial"
       aria-labelledby="buy-section-title"
     >
       <div className="container buy-section__inner">
@@ -74,23 +73,20 @@ export function WhereToBuySection({
           <h2 id="buy-section-title" className="section-title">
             Где купить
           </h2>
-          <p className="section-lead">Выберите удобный способ узнать о воде и заказать её.</p>
+          <p className="section-lead">Ближе к вам. Каждый день.</p>
         </header>
 
         <div className="buy-diptych">
           {/* Scenario 1: Direct Delivery */}
           <article className="buy-scenario buy-scenario--delivery">
-            <div className="buy-scenario__media">
-              <img
-                src={assetUrl('assets/buy-delivery-hd.png')}
-                alt="Настоящие бутылки «Природный Элемент» 1,5 л для прямой доставки"
-                width={1440}
-                height={900}
-                loading="lazy"
-                decoding="async"
-                className="buy-scenario__still-img"
-              />
-              <div className="buy-scenario__sheen" aria-hidden="true" />
+            <div className="buy-route" aria-hidden="true">
+              <span className="buy-route__number">01 / НАПРЯМУЮ</span>
+              <svg className="buy-route__drawing" viewBox="0 0 360 160" fill="none">
+                <path className="buy-route__trail" d="M20 116H105C147 116 132 42 180 42S214 116 260 116H338" />
+                <circle cx="20" cy="116" r="5" />
+                <path d="M263 71L298 42L333 71M273 64V101H323V64M291 101V79H305V101" />
+              </svg>
+              <span className="buy-route__caption">От источника — к вашему столу</span>
             </div>
 
             <div className="buy-scenario__body">
@@ -111,22 +107,18 @@ export function WhereToBuySection({
 
           {/* Scenario 2: Retail Stores */}
           <article className="buy-scenario buy-scenario--retail">
-            <div className="buy-scenario__media">
-              <img
-                src={assetUrl('assets/buy-retail-hd.png')}
-                alt="Ассортимент бутылок «Природный Элемент» 0,5 л и 1,5 л для розничных точек"
-                width={1440}
-                height={900}
-                loading="lazy"
-                decoding="async"
-                className="buy-scenario__still-img"
-              />
-              <div className="buy-scenario__sheen" aria-hidden="true" />
+            <div className="buy-route" aria-hidden="true">
+              <span className="buy-route__number">02 / РЯДОМ С ВАМИ</span>
+              <svg className="buy-route__drawing" viewBox="0 0 360 160" fill="none">
+                <path d="M122 63L133 35H227L238 63M129 81V126H231V81M120 63H240V73C240 88 216 88 216 73C216 88 192 88 192 73C192 88 168 88 168 73C168 88 144 88 144 73C144 88 120 88 120 73V63ZM157 126V99H180V126M196 100H217V115H196V100" />
+                <path className="buy-route__trail" d="M22 126H105M255 126H338" />
+              </svg>
+              <span className="buy-route__caption">Выход в розницу планируется</span>
             </div>
 
             <div className="buy-scenario__body">
               <h3 className="buy-scenario__title">В магазинах</h3>
-              <p className="buy-scenario__text">Появление в магазинах планируется. Уточните актуальный статус.</p>
+              <p className="buy-scenario__text">Готовимся стать ближе. Узнайте о появлении воды в магазинах.</p>
               <div className="buy-scenario__action">
                 <button
                   type="button"

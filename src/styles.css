@@ -3914,3 +3914,26 @@ h3,
   backface-visibility: hidden;
   will-change: transform;
 }
+
+/* Typographic purchase composition with original line illustrations. */
+.buy-section--editorial .buy-diptych { gap: 0; }
+.buy-section--editorial .buy-scenario { padding: clamp(26px, 4vw, 56px); }
+.buy-route { display: flex; flex-direction: column; color: #123c69; }
+.buy-scenario--retail .buy-route { color: #d8ecf8; }
+.buy-route__number { font-size: .72rem; font-weight: 600; letter-spacing: .17em; }
+.buy-route__drawing { display: block; width: 100%; height: clamp(130px, 14vw, 180px); margin-block: 18px 8px; stroke: currentColor; stroke-width: 1.4; stroke-linecap: round; stroke-linejoin: round; transition: transform .6s ease; }
+.buy-route__trail { stroke-dasharray: 4 7; }
+.buy-route__caption { font-size: .78rem; letter-spacing: .02em; padding-bottom: 24px; border-bottom: 1px solid currentColor; }
+.buy-section--editorial .buy-scenario__body { padding: 28px 0 0; min-height: 230px; }
+.buy-section--editorial .buy-scenario__title { font-size: clamp(2.7rem, 4vw, 4.5rem); }
+.buy-section--editorial .buy-scenario__text { line-height: 1.6; max-width: 340px; }
+@media (hover: hover) and (prefers-reduced-motion: no-preference) {
+  .buy-scenario:hover .buy-route__drawing { transform: translateY(-5px); }
+}
+@media (max-width: 680px) {
+  .buy-section--editorial .buy-scenario { padding: 28px 24px; }
+  .buy-section--editorial .buy-scenario__body { min-height: 0; gap: 16px; padding-top: 22px; }
+  .buy-section--editorial .buy-scenario__action { margin-top: 8px; }
+  .buy-route__drawing { height: 125px; margin-block: 10px 4px; }
+  .buy-route__caption { padding-bottom: 20px; }
+}
