@@ -39,19 +39,18 @@ export function WhereToBuySection({
         }
       );
 
-      const photos = section.querySelectorAll('.buy-scenario__still-img');
-      photos.forEach((img) => {
+      const zones = section.querySelectorAll('.buy-scenario');
+      zones.forEach((zone) => {
         gsap.fromTo(
-          img,
-          { scale: 1.05, yPercent: -2 },
+          zone,
+          { clipPath: 'inset(8% 0 0 0)', y: 28, opacity: 0 },
           {
-            scale: 1,
-            yPercent: 2,
-            ease: 'none',
+            clipPath: 'inset(0% 0 0 0)', y: 0, opacity: 1,
+            ease: 'power2.out',
             scrollTrigger: {
-              trigger: img,
-              start: 'top bottom',
-              end: 'bottom top',
+              trigger: zone,
+              start: 'top 90%',
+              end: 'top 45%',
               scrub: 0.6,
             },
           }
@@ -74,16 +73,13 @@ export function WhereToBuySection({
           <h2 id="buy-section-title" className="section-title">
             Где купить
           </h2>
-          <p className="section-lead">
-            Заказывайте воду напрямую с доставкой. По мере выхода продукции в розницу здесь появится
-            карта магазинов.
-          </p>
+          <p className="section-lead">Выберите удобный способ узнать о воде и заказать её.</p>
         </header>
 
         <div className="buy-diptych">
           {/* Scenario 1: Direct Delivery */}
-          <article className="buy-scenario buy-reveal">
-            <div className="buy-scenario__media" onClick={onDeliveryClick}>
+          <article className="buy-scenario buy-scenario--delivery">
+            <div className="buy-scenario__media">
               <img
                 src={assetUrl('assets/buy-delivery-scene.webp')}
                 alt="Настоящие бутылки «Природный Элемент» 1,5 л для прямой доставки"
@@ -98,10 +94,7 @@ export function WhereToBuySection({
 
             <div className="buy-scenario__body">
               <h3 className="buy-scenario__title">Доставка</h3>
-              <p className="buy-scenario__text">
-                Заказ воды напрямую через согласованный канал связи с производителем. Свежие партии
-                отгружаются непосредственно со склада завода в Сакском районе.
-              </p>
+              <p className="buy-scenario__text">Закажите воду напрямую с доставкой.</p>
               <div className="buy-scenario__action">
                 <button
                   type="button"
@@ -109,16 +102,15 @@ export function WhereToBuySection({
                   onClick={onDeliveryClick}
                 >
                   Оформить заказ
+                  <span className="buy-scenario__arrow" aria-hidden="true">↗</span>
                 </button>
               </div>
             </div>
           </article>
 
-          <div className="buy-diptych__divider buy-reveal" aria-hidden="true" />
-
           {/* Scenario 2: Retail Stores */}
-          <article className="buy-scenario buy-reveal">
-            <div className="buy-scenario__media" onClick={onRetailClick}>
+          <article className="buy-scenario buy-scenario--retail">
+            <div className="buy-scenario__media">
               <img
                 src={assetUrl('assets/buy-retail-scene.webp')}
                 alt="Ассортимент бутылок «Природный Элемент» 0,5 л и 1,5 л для розничных точек"
@@ -133,10 +125,7 @@ export function WhereToBuySection({
 
             <div className="buy-scenario__body">
               <h3 className="buy-scenario__title">В магазинах</h3>
-              <p className="buy-scenario__text">
-                Выход продукции в розничные магазины и торговые сети планируется. Вы можете уточнить
-                актуальный статус поставок или условия сотрудничества напрямую.
-              </p>
+              <p className="buy-scenario__text">Появление в магазинах планируется. Уточните актуальный статус.</p>
               <div className="buy-scenario__action">
                 <button
                   type="button"
@@ -144,6 +133,7 @@ export function WhereToBuySection({
                   onClick={onRetailClick}
                 >
                   Уточнить наличие
+                  <span className="buy-scenario__arrow" aria-hidden="true">↗</span>
                 </button>
               </div>
             </div>
