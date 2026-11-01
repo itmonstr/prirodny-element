@@ -75,7 +75,7 @@ export function FinaleFooterSection({
                   trigger: wrapper,
                   start: 'top 82%',
                   end: 'center 54%',
-                  scrub: 0.65,
+                  scrub: 0.85,
                 },
               }
             );
@@ -93,7 +93,7 @@ export function FinaleFooterSection({
                   trigger: wrapper,
                   start: 'top 75%',
                   end: 'bottom bottom',
-                  scrub: 0.75,
+                  scrub: 0.85,
                 },
               }
             );
@@ -111,7 +111,7 @@ export function FinaleFooterSection({
                   trigger: wrapper,
                   start: 'top 78%',
                   end: 'center center',
-                  scrub: 0.75,
+                  scrub: 0.85,
                 },
               }
             );

@@ -48,22 +48,24 @@ export function HistorySection() {
         // Scene 1 & 2: Coast -> Factory 2026
         gsap.set([production.current, year.current], { autoAlpha: 0 });
         gsap.set(year.current, { y: 32 });
-        gsap.set(factory.current, { scale: 1.08, clipPath: 'inset(0 0 100% 0)' });
+        gsap.set(factory.current, { scale: 1.08, opacity: 0 });
 
         gsap.timeline({
           scrollTrigger: {
             trigger: journey.current,
             start: 'top top',
             end: 'bottom bottom',
-            scrub: 0.7,
+            scrub: 0.85,
+            fastScrollEnd: true,
+            preventOverlaps: true,
             invalidateOnRefresh: true,
           },
         })
-          .to(coastImg.current, { scale: 1.16, ease: 'none', duration: 0.42 }, 0)
-          .to(production.current, { autoAlpha: 1, duration: 0.18 }, 0.36)
-          .to(coast.current, { autoAlpha: 0, duration: 0.18 }, 0.36)
-          .to(factory.current, { clipPath: 'inset(0 0 0% 0)', scale: 1, duration: 0.3, ease: 'power2.out' }, 0.4)
-          .to(year.current, { autoAlpha: 1, y: 0, duration: 0.18, ease: 'power2.out' }, 0.48);
+          .to(coastImg.current, { scale: 1.12, ease: 'none', duration: 0.42 }, 0)
+          .to(production.current, { autoAlpha: 1, duration: 0.22 }, 0.34)
+          .to(coast.current, { autoAlpha: 0, duration: 0.22 }, 0.34)
+          .to(factory.current, { opacity: 1, scale: 1, duration: 0.36, ease: 'power1.out' }, 0.36)
+          .to(year.current, { autoAlpha: 1, y: 0, duration: 0.22, ease: 'power1.out' }, 0.46);
 
         // ==================== CINEMATIC BOTTLING SCENE (BAIKAL430 LEVEL) ====================
         if (bottlingCinema.current) {
@@ -78,7 +80,9 @@ export function HistorySection() {
               trigger: bottlingCinema.current,
               start: 'top top',
               end: 'bottom bottom',
-              scrub: 0.65,
+              scrub: 0.85,
+              fastScrollEnd: true,
+              preventOverlaps: true,
               invalidateOnRefresh: true,
             },
           });
@@ -100,7 +104,7 @@ export function HistorySection() {
             {
               opacity: 0,
               y: -30,
-              ease: 'power2.in',
+              ease: 'power1.in',
               duration: 0.22,
             },
             0.24
@@ -111,7 +115,7 @@ export function HistorySection() {
             factoryLayer.current,
             {
               opacity: 1,
-              ease: 'power2.inOut',
+              ease: 'power1.inOut',
               duration: 0.38,
             },
             0.30
@@ -130,7 +134,7 @@ export function HistorySection() {
               {
                 opacity: 1,
                 y: 0,
-                ease: 'power2.out',
+                ease: 'power1.out',
                 duration: 0.30,
               },
               0.46

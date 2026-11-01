@@ -40,22 +40,23 @@ export function WhereToBuySection({
       );
 
       const zones = section.querySelectorAll('.buy-scenario');
-      zones.forEach((zone) => {
-        gsap.fromTo(
-          zone,
-          { clipPath: 'inset(8% 0 0 0)', y: 28, opacity: 0 },
-          {
-            clipPath: 'inset(0% 0 0 0)', y: 0, opacity: 1,
-            ease: 'power2.out',
-            scrollTrigger: {
-              trigger: zone,
-              start: 'top 90%',
-              end: 'top 45%',
-              scrub: 0.6,
-            },
-          }
-        );
-      });
+      gsap.fromTo(
+        zones,
+        { opacity: 0, y: 32, scale: 0.98 },
+        {
+          opacity: 1,
+          y: 0,
+          scale: 1,
+          duration: 0.95,
+          stagger: 0.14,
+          ease: 'power2.out',
+          scrollTrigger: {
+            trigger: section,
+            start: 'top 78%',
+            toggleActions: 'play none none reverse',
+          },
+        }
+      );
     });
 
     return () => mm.revert();

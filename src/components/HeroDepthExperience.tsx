@@ -1,4 +1,4 @@
-import { useLayoutEffect, useRef, useState } from 'react';
+import { useLayoutEffect, useRef } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { WaterLightCanvas } from './WaterLightCanvas';
@@ -56,10 +56,10 @@ export function HeroDepthExperience({
   const strataRef = useRef<HTMLDivElement | null>(null);
   const depthScaleRef = useRef<HTMLDivElement | null>(null);
   const depthFillRef = useRef<HTMLDivElement | null>(null);
+  const depthLiveRef = useRef<HTMLSpanElement | null>(null);
   const heroMobileActionsRef = useRef<HTMLDivElement | null>(null);
 
   const depthProgressRef = useRef<number>(0);
-  const [depthMeters, setDepthMeters] = useState<number>(0);
   const isDesktopRef = useRef<boolean>(true);
 
   useLayoutEffect(() => {
@@ -166,7 +166,9 @@ export function HeroDepthExperience({
               trigger: root,
               start: 'top top',
               end: 'bottom bottom',
-              scrub: 0.55,
+              scrub: 0.85,
+              fastScrollEnd: true,
+              preventOverlaps: true,
               invalidateOnRefresh: true,
               onUpdate: (self) => {
                 const p = self.progress;
@@ -176,7 +178,9 @@ export function HeroDepthExperience({
                 const normDepth = gsap.utils.clamp(0, 1, (p - 0.03) / depthRange);
                 depthProgressRef.current = normDepth;
                 const meters = Math.round(normDepth * 80);
-                setDepthMeters(meters);
+                if (depthLiveRef.current) {
+                  depthLiveRef.current.textContent = `${meters} м`;
+                }
                 if (heroCopyRef.current) {
                   heroCopyRef.current.style.pointerEvents = p < 0.14 ? 'auto' : 'none';
                 }
@@ -186,7 +190,9 @@ export function HeroDepthExperience({
               },
               onLeaveBack: () => {
                 depthProgressRef.current = 0;
-                setDepthMeters(0);
+                if (depthLiveRef.current) {
+                  depthLiveRef.current.textContent = '0 м';
+                }
                 if (heroCopyRef.current) {
                   heroCopyRef.current.style.pointerEvents = 'auto';
                 }
@@ -480,7 +486,7 @@ export function HeroDepthExperience({
           );
         } else {
           // Reduced motion fallback
-          setDepthMeters(80);
+          if (depthLiveRef.current) depthLiveRef.current.textContent = '80 м';
           depthProgressRef.current = 1;
         }
       },
@@ -525,7 +531,7 @@ export function HeroDepthExperience({
             <span className="depth-scale__tick depth-scale__tick--50" />
             <span className="depth-scale__tick depth-scale__tick--75" />
           </div>
-          <span className="depth-scale__live">{depthMeters} м</span>
+          <span ref={depthLiveRef} className="depth-scale__live">0 м</span>
         </div>
 
         <div className="hero-depth-stage__container">

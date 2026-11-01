@@ -39,7 +39,6 @@
 
 html {
   font-size: 16px;
-  scroll-behavior: smooth;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-rendering: optimizeLegibility;
@@ -1619,6 +1618,7 @@ h3,
   width: auto;
 }
 
+.format-column--v10 .format-bottle-wrap__img,
 .format-column--v10 .format-bottle-silhouette__svg {
   height: clamp(276px, 37.2svh, 374px);
   width: auto;
@@ -1636,8 +1636,10 @@ h3,
   object-fit: contain;
   filter: drop-shadow(0 18px 28px rgba(14, 42, 71, 0.14));
   transition:
-    transform 0.6s var(--ease-out-expo),
-    filter 0.6s var(--ease-out-expo);
+    transform 0.5s var(--ease-out-expo),
+    filter 0.5s var(--ease-out-expo),
+    opacity 0.35s ease;
+  will-change: transform, opacity;
 }
 
 .format-column.is-active .format-bottle-wrap__img,
@@ -1647,7 +1649,9 @@ h3,
 }
 
 .formats-stage.is-switching-type .format-bottle-wrap__img {
-  transform: translateY(-4px) scale(0.985);
+  opacity: 0.68;
+  transform: translateY(-4px) scale(0.98);
+  filter: drop-shadow(0 0 24px rgba(60, 160, 240, 0.5)) drop-shadow(0 14px 24px rgba(14, 42, 71, 0.18));
 }
 
 /* Realistic Dual-Layer Studio Shadows */
@@ -2696,7 +2700,8 @@ h3,
     height: clamp(202px, 29.5svh, 252px);
   }
 
-  .format-column--v10 .format-bottle-silhouette__svg {
+  .format-column--v10 .format-bottle-wrap__img,
+.format-column--v10 .format-bottle-silhouette__svg {
     height: clamp(236px, 34.5svh, 294px);
   }
 
@@ -3025,7 +3030,8 @@ h3,
     height: 242px;
   }
 
-  .format-column--v10 .format-bottle-silhouette__svg {
+  .format-column--v10 .format-bottle-wrap__img,
+.format-column--v10 .format-bottle-silhouette__svg {
     height: 278px;
   }
 
@@ -3266,7 +3272,8 @@ h3,
     height: 244px;
   }
 
-  .format-column--v10 .format-bottle-silhouette__svg {
+  .format-column--v10 .format-bottle-wrap__img,
+.format-column--v10 .format-bottle-silhouette__svg {
     height: 266px;
   }
 
@@ -3854,4 +3861,15 @@ h3,
   .history-story__scene { position: relative; min-height: 75svh; }
   .history-story__coast > img { position: absolute; inset: 0; }
   .history-story__factory { position: absolute; }
+}
+
+/* GPU Composite & Smooth Render Boost for Sticky Stages */
+.hero-depth-exp__stage,
+.depth-to-light-stage,
+.history-story__stage,
+.bottling-cinema__stage {
+  transform: translate3d(0, 0, 0);
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+  will-change: transform;
 }

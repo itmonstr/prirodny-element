@@ -126,11 +126,11 @@ export function DepthToLightTransition({ onDarkSceneChange }: DepthToLightTransi
           transformOrigin: '50% 20%',
         });
         gsap.fromTo(waterWrapRef.current,
-          { clipPath: 'inset(100% 0 0 0)' },
+          { opacity: 0.25 },
           {
-            clipPath: 'inset(0% 0 0 0)',
-            ease: 'none',
-            scrollTrigger: { trigger: section, start: 'top bottom', end: 'top top', scrub: true },
+            opacity: 1,
+            ease: 'power1.out',
+            scrollTrigger: { trigger: section, start: 'top bottom', end: 'top top', scrub: 0.85 },
           }
         );
         gsap.set(waterRaysRef.current, { opacity: 0.55, scale: 1 });
@@ -165,7 +165,9 @@ export function DepthToLightTransition({ onDarkSceneChange }: DepthToLightTransi
             trigger: section,
             start: 'top top',
             end: 'bottom bottom',
-            scrub: 0.65,
+            scrub: 0.85,
+            fastScrollEnd: true,
+            preventOverlaps: true,
             invalidateOnRefresh: true,
           },
         });
@@ -298,7 +300,7 @@ export function DepthToLightTransition({ onDarkSceneChange }: DepthToLightTransi
               opacity: 1,
               y: 0,
               scale: 1,
-              ease: 'power3.out',
+              ease: 'power2.out',
               duration: 0.34,
             },
             1.47
@@ -314,7 +316,7 @@ export function DepthToLightTransition({ onDarkSceneChange }: DepthToLightTransi
               opacity: 1,
               y: 0,
               scale: 1,
-              ease: 'power3.out',
+              ease: 'power2.out',
               duration: 0.34,
             },
             1.51
@@ -330,7 +332,7 @@ export function DepthToLightTransition({ onDarkSceneChange }: DepthToLightTransi
               opacity: 1,
               y: 0,
               scale: 1,
-              ease: 'power3.out',
+              ease: 'power2.out',
               duration: 0.34,
             },
             1.54
