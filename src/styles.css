@@ -894,11 +894,6 @@ h3,
   overflow: visible;
 }
 
-.depth-rising-bottle { pointer-events: none; }
-@media (prefers-reduced-motion: reduce) {
-  .depth-rising-bottle { display: none; }
-}
-
 .depth-to-light-stage {
   position: sticky;
   top: 0;
