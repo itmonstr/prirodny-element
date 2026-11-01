@@ -894,7 +894,7 @@ h3,
   overflow: visible;
 }
 
-.depth-rising-bottle { pointer-events: none; }
+.depth-rising-bottle { pointer-events: none; opacity: 0; }
 @media (prefers-reduced-motion: reduce) {
   .depth-rising-bottle { display: none; }
 }

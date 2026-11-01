@@ -136,7 +136,7 @@ export function DepthToLightTransition({
           x: 0,
           y: 0,
           scale: isDesktop ? 0.87 : 0.84,
-          opacity: 1,
+          opacity: 0,
         });
         gsap.set(introRef.current, { opacity: 0, y: 12 });
         gsap.set(introLinesRef.current, { opacity: 0, y: 32 });
@@ -168,12 +168,17 @@ export function DepthToLightTransition({
           },
         });
 
-        // The source bottle has fully exited before this scene enters.
+        // Reveal the bottle only after the new background reaches the viewport.
         tl.to(
           risingBottleRef.current,
-          { y: () => -window.innerHeight * 1.2, ease: 'sine.inOut', duration: 0.38 },
+          { opacity: 1, ease: 'power1.out', duration: 0.06 },
           0
         )
+          .to(
+            risingBottleRef.current,
+            { y: () => -window.innerHeight * 1.2, ease: 'sine.inOut', duration: 0.28 },
+            0.05
+          )
           .to(
             waterImgRef.current,
             {
