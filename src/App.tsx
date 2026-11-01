@@ -2,7 +2,6 @@ import { useCallback, useState } from 'react';
 import { Header } from './components/Header';
 import { HeroDepthExperience } from './components/HeroDepthExperience';
 import { DepthToLightTransition } from './components/DepthToLightTransition';
-import { FormatsSection } from './components/FormatsSection';
 import { HistorySection } from './components/HistorySection';
 import { WhereToBuySection } from './components/WhereToBuySection';
 import { FinaleFooterSection } from './components/FinaleFooterSection';
@@ -54,11 +53,11 @@ export function App() {
           onDarkSceneChange={handleSourceDark}
         />
 
-        {/* Cinematic Scroll Transition: «Из глубины к свету» (80m Depth -> Surface Light -> 3 Bottles) */}
-        <DepthToLightTransition onDarkSceneChange={handleTransitionDark} />
-
-        {/* Block 3: «Выберите свой формат» (0,5 / 1 / 1,5 L) */}
-        <FormatsSection onOrderFormat={(sel) => openOrderModal(sel)} />
+        {/* Cinematic Showcase: «Из глубины к свету» & Выбор формата (0,5 л и 1,5 л • Газ и Негаз) */}
+        <DepthToLightTransition
+          onDarkSceneChange={handleTransitionDark}
+          onOrderFormat={(sel) => openOrderModal(sel)}
+        />
 
         {/* Block 4: «Как всё начиналось» (Western Crimea Coast -> Frunze Plant) */}
         <HistorySection />

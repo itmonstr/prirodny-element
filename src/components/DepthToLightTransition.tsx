@@ -1,51 +1,49 @@
-import { useLayoutEffect, useRef } from 'react';
+import { useLayoutEffect, useRef, useState } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import type { OrderSelection, VolumeFormat, WaterType } from '../types';
 import { assetUrl } from '../utils/assetUrl';
 
 gsap.registerPlugin(ScrollTrigger);
 
 interface DepthToLightTransitionProps {
   onDarkSceneChange?: (isDark: boolean) => void;
+  onOrderFormat?: (selection: OrderSelection) => void;
 }
 
-interface BottleMeta {
+interface BottleFormatMeta {
+  volumeKey: VolumeFormat;
   volume: string;
   tagline: string;
   detail: string;
-  src: string;
+  sparklingSrc: string;
+  stillSrc: string;
   width: number;
   height: number;
   alt: string;
   modClass: string;
 }
 
-const BOTTLES: BottleMeta[] = [
+const BOTTLES: BottleFormatMeta[] = [
   {
+    volumeKey: '0.5',
     volume: '0,5 л',
     tagline: 'Всегда с собой',
-    detail: 'Для динамичного дня, тренировок и встреч',
-    src: assetUrl('assets/bottle-05l.webp'),
+    detail: 'Для динамичного дня, тренировок, встреч и автомобиля',
+    sparklingSrc: assetUrl('assets/bottle-05-sparkling.webp'),
+    stillSrc: assetUrl('assets/bottle-05-still.webp'),
     width: 233,
     height: 740,
     alt: 'Бутылка артезианской воды «Природный Элемент» 0,5 л',
     modClass: 'depth-bottle-card--05',
   },
   {
-    volume: '1,0 л',
-    tagline: 'На каждый день',
-    detail: 'Идеальный баланс для рабочего стола',
-    src: assetUrl('assets/bottle-10l.webp'),
-    width: 261,
-    height: 871,
-    alt: 'Бутылка артезианской воды «Природный Элемент» 1,0 л',
-    modClass: 'depth-bottle-card--10',
-  },
-  {
+    volumeKey: '1.5',
     volume: '1,5 л',
     tagline: 'Для дома и отдыха',
-    detail: 'Семейный формат для дома и путешествий',
-    src: assetUrl('assets/bottle-15l.webp'),
+    detail: 'Семейный объём для дома, загородного отдыха и путешествий',
+    sparklingSrc: assetUrl('assets/bottle-15-sparkling.webp'),
+    stillSrc: assetUrl('assets/bottle-15-still.webp'),
     width: 302,
     height: 914,
     alt: 'Бутылка артезианской воды «Природный Элемент» 1,5 л',
@@ -53,7 +51,10 @@ const BOTTLES: BottleMeta[] = [
   },
 ];
 
-export function DepthToLightTransition({ onDarkSceneChange }: DepthToLightTransitionProps) {
+export function DepthToLightTransition({
+  onDarkSceneChange,
+  onOrderFormat,
+}: DepthToLightTransitionProps) {
   const sectionRef = useRef<HTMLElement | null>(null);
   const stageRef = useRef<HTMLDivElement | null>(null);
   const waterWrapRef = useRef<HTMLDivElement | null>(null);
@@ -70,6 +71,8 @@ export function DepthToLightTransition({ onDarkSceneChange }: DepthToLightTransi
   const bottlesHeaderRef = useRef<HTMLDivElement | null>(null);
   const bottleCardsRef = useRef<(HTMLDivElement | null)[]>([]);
   const outroCueRef = useRef<HTMLDivElement | null>(null);
+
+  const [waterType, setWaterType] = useState<WaterType>('sparkling');
 
   useLayoutEffect(() => {
     const section = sectionRef.current;
@@ -91,7 +94,6 @@ export function DepthToLightTransition({ onDarkSceneChange }: DepthToLightTransi
         };
 
         if (reduceMotion) {
-          // Static graceful presentation
           if (introRef.current) introRef.current.style.display = 'none';
           if (bloomRef.current) bloomRef.current.style.opacity = '0';
           if (daylightBgRef.current) daylightBgRef.current.style.opacity = '1';
@@ -125,7 +127,8 @@ export function DepthToLightTransition({ onDarkSceneChange }: DepthToLightTransi
           yPercent: isDesktop ? 6 : 4,
           transformOrigin: '50% 20%',
         });
-        gsap.fromTo(waterWrapRef.current,
+        gsap.fromTo(
+          waterWrapRef.current,
           { opacity: 0.25 },
           {
             opacity: 1,
@@ -137,7 +140,9 @@ export function DepthToLightTransition({ onDarkSceneChange }: DepthToLightTransi
         gsap.set(causticsRef.current, { opacity: 0.35 });
         gsap.set(bubblesRef.current, { opacity: 0.45, y: 0 });
         gsap.set(risingBottleRef.current, {
-          xPercent: -50, yPercent: -50, x: 0,
+          xPercent: -50,
+          yPercent: -50,
+          x: 0,
           y: () => window.innerHeight * 0.9,
           scale: isDesktop ? 0.87 : 0.84,
           opacity: 1,
@@ -150,12 +155,12 @@ export function DepthToLightTransition({ onDarkSceneChange }: DepthToLightTransi
         gsap.set(bottlesHeaderRef.current, { opacity: 0, y: 24 });
         gsap.set(outroCueRef.current, { opacity: 0, y: 12 });
 
-        bottleCardsRef.current.forEach((card, idx) => {
+        bottleCardsRef.current.forEach((card) => {
           if (!card) return;
           gsap.set(card, {
             opacity: 0,
             y: isDesktop ? 48 : 36,
-            scale: idx === 1 ? 0.94 : 0.92,
+            scale: 0.94,
           });
         });
 
@@ -173,21 +178,25 @@ export function DepthToLightTransition({ onDarkSceneChange }: DepthToLightTransi
         });
 
         // 1. PHASE ONE (0.00 -> 0.38): Ascent from the deep artesian aquifer towards the surface
-        tl.to(risingBottleRef.current, {
-          y: () => -window.innerHeight * 0.9,
-          ease: 'power1.inOut',
-          duration: 0.52,
-        }, 0)
-        .to(
-          waterImgRef.current,
+        tl.to(
+          risingBottleRef.current,
           {
-            scale: 1.22,
-            yPercent: isDesktop ? -10 : -8,
-            ease: 'none',
-            duration: 0.4,
+            y: () => -window.innerHeight * 0.9,
+            ease: 'power1.inOut',
+            duration: 0.52,
           },
           0
         )
+          .to(
+            waterImgRef.current,
+            {
+              scale: 1.22,
+              yPercent: isDesktop ? -10 : -8,
+              ease: 'none',
+              duration: 0.4,
+            },
+            0
+          )
           .to(
             waterRaysRef.current,
             {
@@ -257,7 +266,7 @@ export function DepthToLightTransition({ onDarkSceneChange }: DepthToLightTransi
             ease: 'power2.inOut',
             duration: 0.28,
           },
-          1.20
+          1.2
         )
           .to(
             daylightBgRef.current,
@@ -266,7 +275,7 @@ export function DepthToLightTransition({ onDarkSceneChange }: DepthToLightTransi
               ease: 'power2.out',
               duration: 0.32,
             },
-          1.28
+            1.28
           )
           .to(
             bloomRef.current,
@@ -279,7 +288,7 @@ export function DepthToLightTransition({ onDarkSceneChange }: DepthToLightTransi
             1.44
           );
 
-        // 3. PHASE THREE (0.46 -> 0.88): The 3 Authentic Bottles Materialize from the Light
+        // 3. PHASE THREE: The 2 Authentic Bottles Materialize from the Light (0.5L and 1.5L)
         tl.to(
           bottlesHeaderRef.current,
           {
@@ -288,58 +297,26 @@ export function DepthToLightTransition({ onDarkSceneChange }: DepthToLightTransi
             ease: 'power2.out',
             duration: 0.26,
           },
-          1.40
+          1.4
         );
 
-        // Center 1.0L Bottle leads the arrival
-        const centerCard = bottleCardsRef.current[1];
-        if (centerCard) {
+        // Both bottle cards reveal gracefully with slight natural stagger
+        bottleCardsRef.current.forEach((card, idx) => {
+          if (!card) return;
           tl.to(
-            centerCard,
+            card,
             {
               opacity: 1,
               y: 0,
               scale: 1,
               ease: 'power2.out',
-              duration: 0.34,
+              duration: 0.36,
             },
-            1.47
+            1.46 + idx * 0.08
           );
-        }
+        });
 
-        // Left 0.5L Bottle follows in harmonious triad
-        const leftCard = bottleCardsRef.current[0];
-        if (leftCard) {
-          tl.to(
-            leftCard,
-            {
-              opacity: 1,
-              y: 0,
-              scale: 1,
-              ease: 'power2.out',
-              duration: 0.34,
-            },
-            1.51
-          );
-        }
-
-        // Right 1.5L Bottle settles in
-        const rightCard = bottleCardsRef.current[2];
-        if (rightCard) {
-          tl.to(
-            rightCard,
-            {
-              opacity: 1,
-              y: 0,
-              scale: 1,
-              ease: 'power2.out',
-              duration: 0.34,
-            },
-            1.54
-          );
-        }
-
-        // 4. PHASE FOUR (0.80 -> 1.00): Subtle cue naturally leading into «Выберите свой формат»
+        // 4. PHASE FOUR (0.80 -> 1.00): Subtle cue leading into History section
         tl.to(
           outroCueRef.current,
           {
@@ -357,19 +334,12 @@ export function DepthToLightTransition({ onDarkSceneChange }: DepthToLightTransi
     return () => mm.revert();
   }, [onDarkSceneChange]);
 
-  const scrollToFormats = () => {
-    const el = document.getElementById('formats');
-    if (el) {
-      el.scrollIntoView({ behavior: 'smooth' });
-    }
-  };
-
   return (
     <section
       ref={sectionRef}
-      id="depth-to-light"
+      id="formats"
       className="depth-to-light-section"
-      aria-label="Из глубины к свету: артезианская вода Природный Элемент"
+      aria-label="Из глубины к свету: форматы артезианской воды Природный Элемент"
     >
       <div ref={stageRef} className="depth-to-light-stage">
         {/* ================= 1. DEEP WATER & ASCENT BACKGROUND ================= */}
@@ -409,7 +379,14 @@ export function DepthToLightTransition({ onDarkSceneChange }: DepthToLightTransi
 
         <div ref={risingBottleRef} className="hero-bottle-stage depth-rising-bottle" aria-hidden="true">
           <div className="hero-bottle-stage__figure">
-            <img className="hero-bottle-stage__img" src={assetUrl('assets/bottle-hero.webp')} alt="" width={500} height={1850} decoding="async" />
+            <img
+              className="hero-bottle-stage__img"
+              src={assetUrl('assets/bottle-hero.webp')}
+              alt=""
+              width={500}
+              height={1850}
+              decoding="async"
+            />
           </div>
         </div>
 
@@ -418,8 +395,22 @@ export function DepthToLightTransition({ onDarkSceneChange }: DepthToLightTransi
           <div className="container depth-intro__inner">
             <span className="depth-intro__badge">Из глубины к свету</span>
             <h2 className="depth-intro__title">
-              <span ref={(el) => { introLinesRef.current[0] = el; }} className="depth-intro__line">Рождённая на глубине 80 метров,</span>
-              <span ref={(el) => { introLinesRef.current[1] = el; }} className="depth-intro__line">вода поднимается навстречу солнцу</span>
+              <span
+                ref={(el) => {
+                  introLinesRef.current[0] = el;
+                }}
+                className="depth-intro__line"
+              >
+                Рождённая на глубине 80 метров,
+              </span>
+              <span
+                ref={(el) => {
+                  introLinesRef.current[1] = el;
+                }}
+                className="depth-intro__line"
+              >
+                вода поднимается навстречу солнцу
+              </span>
             </h2>
             <p ref={introLeadRef} className="depth-intro__lead">
               Кристальная чистота крымского источника раскрывается в прозрачном утреннем свете.
@@ -433,76 +424,130 @@ export function DepthToLightTransition({ onDarkSceneChange }: DepthToLightTransi
           <div className="depth-daylight-caustic-drift" />
         </div>
 
-        {/* ================= 4. THE 3 REAL BOTTLES MATERIALIZATION ================= */}
+        {/* ================= 4. THE 2 REAL BOTTLES MATERIALIZATION (0.5L & 1.5L) ================= */}
         <div className="container depth-bottles-container">
           <div ref={bottlesHeaderRef} className="depth-bottles-header">
             <span className="depth-bottles-subtitle">Природный Элемент</span>
-            <h3 className="depth-bottles-title">Три гармоничных формата</h3>
+            <h3 className="depth-bottles-title">Два гармоничных формата</h3>
             <p className="depth-bottles-lead">
-              Для любого момента вашего дня — от первой утренней пробежки до семейного ужина.
+              Чистейшая артезианская вода в двух удобных объёмах — в наличии газированная и негазированная.
             </p>
+
+            {/* Interactive Sparkling / Still Water Switcher */}
+            <div className="water-type-switch depth-water-switch" role="group" aria-label="Тип воды">
+              <button
+                type="button"
+                className={`water-type-switch__btn ${waterType === 'sparkling' ? 'is-active' : ''}`}
+                onClick={() => setWaterType('sparkling')}
+              >
+                <span className="water-type-switch__dot water-type-switch__dot--sparkling" />
+                Газированная
+              </button>
+              <button
+                type="button"
+                className={`water-type-switch__btn ${waterType === 'still' ? 'is-active' : ''}`}
+                onClick={() => setWaterType('still')}
+              >
+                <span className="water-type-switch__dot water-type-switch__dot--still" />
+                Негазированная
+              </button>
+            </div>
           </div>
 
           <div className="depth-bottles-vitrine">
-            {BOTTLES.map((item, idx) => (
-              <div
-                key={item.volume}
-                ref={(el) => {
-                  bottleCardsRef.current[idx] = el;
-                }}
-                className={`depth-bottle-card ${item.modClass}`}
-              >
-                <div className="depth-bottle-card__pedestal">
-                  {/* Subtle caustic refraction behind bottle */}
-                  <div className="depth-bottle-card__aura" aria-hidden="true" />
+            {BOTTLES.map((item, idx) => {
+              const currentSrc = waterType === 'sparkling' ? item.sparklingSrc : item.stillSrc;
+              return (
+                <div
+                  key={item.volumeKey}
+                  ref={(el) => {
+                    bottleCardsRef.current[idx] = el;
+                  }}
+                  className={`depth-bottle-card ${item.modClass}`}
+                >
+                  <div className="depth-bottle-card__pedestal">
+                    {/* Subtle caustic refraction behind bottle */}
+                    <div className="depth-bottle-card__aura" aria-hidden="true" />
 
-                  <img
-                    src={item.src}
-                    alt={item.alt}
-                    width={item.width}
-                    height={item.height}
-                    loading="lazy"
-                    decoding="async"
-                    className="depth-bottle-card__img"
-                  />
+                    <img
+                      src={currentSrc}
+                      alt={`${item.alt} (${waterType === 'sparkling' ? 'газированная' : 'негазированная'})`}
+                      width={item.width}
+                      height={item.height}
+                      loading="lazy"
+                      decoding="async"
+                      className="depth-bottle-card__img"
+                    />
 
-                  {/* Specular sheen over PET bottle body */}
-                  <div
-                    className="depth-bottle-card__sheen"
-                    style={{
-                      WebkitMaskImage: `url(${item.src})`,
-                      maskImage: `url(${item.src})`,
-                    }}
-                    aria-hidden="true"
-                  >
-                    <span className="depth-bottle-card__sheen-beam" />
+                    {/* Specular sheen over PET bottle body */}
+                    <div
+                      className="depth-bottle-card__sheen"
+                      style={{
+                        WebkitMaskImage: `url(${currentSrc})`,
+                        maskImage: `url(${currentSrc})`,
+                      }}
+                      aria-hidden="true"
+                    >
+                      <span className="depth-bottle-card__sheen-beam" />
+                    </div>
+
+                    {/* Realistic diffuse soft shadow & contact plane */}
+                    <div className="depth-bottle-card__shadows" aria-hidden="true">
+                      <span className="depth-bottle-card__shadow-cast" />
+                      <span className="depth-bottle-card__shadow-contact" />
+                    </div>
                   </div>
 
-                  {/* Realistic diffuse soft shadow & contact plane */}
-                  <div className="depth-bottle-card__shadows" aria-hidden="true">
-                    <span className="depth-bottle-card__shadow-cast" />
-                    <span className="depth-bottle-card__shadow-contact" />
+                  <div className="depth-bottle-card__meta">
+                    <span className="depth-bottle-card__vol">{item.volume}</span>
+                    <span className="depth-bottle-card__tagline">{item.tagline}</span>
+
+                    {/* Clear "Газ / Негаз" Badges and Selector */}
+                    <div className="depth-bottle-card__types" aria-label="Доступные варианты">
+                      <button
+                        type="button"
+                        className={`depth-type-pill ${waterType === 'sparkling' ? 'is-active' : ''}`}
+                        onClick={() => setWaterType('sparkling')}
+                        title="Выбрать газированную воду"
+                      >
+                        Газ
+                      </button>
+                      <span className="depth-type-pill-divider">•</span>
+                      <button
+                        type="button"
+                        className={`depth-type-pill ${waterType === 'still' ? 'is-active' : ''}`}
+                        onClick={() => setWaterType('still')}
+                        title="Выбрать негазированную воду"
+                      >
+                        Негаз
+                      </button>
+                    </div>
+
+                    <span className="depth-bottle-card__detail">{item.detail}</span>
+
+                    <button
+                      type="button"
+                      className="btn-pill btn-pill--primary depth-bottle-card__order-btn"
+                      onClick={() =>
+                        onOrderFormat?.({
+                          volume: item.volumeKey,
+                          waterType,
+                        })
+                      }
+                      aria-label={`Заказать ${item.volume} (${waterType === 'sparkling' ? 'газированная' : 'негазированная'})`}
+                    >
+                      Заказать {item.volume}
+                    </button>
                   </div>
                 </div>
-
-                <div className="depth-bottle-card__meta">
-                  <span className="depth-bottle-card__vol">{item.volume}</span>
-                  <span className="depth-bottle-card__tagline">{item.tagline}</span>
-                  <span className="depth-bottle-card__detail">{item.detail}</span>
-                </div>
-              </div>
-            ))}
+              );
+            })}
           </div>
 
-          {/* ================= 5. SEAMLESS CUE INTO «ВЫБЕРИТЕ СВОЙ ФОРМАТ» ================= */}
+          {/* ================= 5. SEAMLESS OUTRO TO NEXT SECTION ================= */}
           <div ref={outroCueRef} className="depth-outro-cue">
-            <button
-              type="button"
-              className="depth-outro-cue__btn"
-              onClick={scrollToFormats}
-              aria-label="Перейти к выбору формата"
-            >
-              <span>Выберите формат и оформите заказ</span>
+            <a href="#history" className="depth-outro-cue__btn" aria-label="Перейти к истории бренда">
+              <span>История создания</span>
               <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
                 <path
                   d="M8 2.5V13.5M8 13.5L3.5 9M8 13.5L12.5 9"
@@ -512,7 +557,7 @@ export function DepthToLightTransition({ onDarkSceneChange }: DepthToLightTransi
                   strokeLinejoin="round"
                 />
               </svg>
-            </button>
+            </a>
           </div>
         </div>
       </div>

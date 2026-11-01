@@ -1206,13 +1206,18 @@ h3,
   margin-inline: auto;
 }
 
+.depth-water-switch {
+  margin-top: clamp(14px, 1.8vw, 22px);
+  box-shadow: 0 4px 18px rgba(18, 60, 105, 0.08);
+}
+
 .depth-bottles-vitrine {
   display: flex;
   align-items: flex-end;
   justify-content: center;
-  gap: clamp(16px, 4.2vw, 54px);
+  gap: clamp(28px, 6vw, 96px);
   width: 100%;
-  max-width: 960px;
+  max-width: 820px;
   position: relative;
 }
 
@@ -1223,21 +1228,16 @@ h3,
   text-align: center;
   position: relative;
   flex: 1;
-  max-width: 280px;
+  max-width: 320px;
   will-change: transform, opacity;
 }
 
 .depth-bottle-card--05 {
-  max-width: 230px;
-}
-
-.depth-bottle-card--10 {
-  max-width: 260px;
-  z-index: 2;
+  max-width: 290px;
 }
 
 .depth-bottle-card--15 {
-  max-width: 290px;
+  max-width: 330px;
 }
 
 .depth-bottle-card__pedestal {
@@ -1265,19 +1265,15 @@ h3,
   max-width: 100%;
   object-fit: contain;
   filter: drop-shadow(0 18px 34px rgba(12, 43, 77, 0.09));
-  transition: transform 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+  transition: transform 0.4s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.25s ease;
 }
 
 .depth-bottle-card--05 .depth-bottle-card__img {
-  height: clamp(210px, 28vh, 320px);
-}
-
-.depth-bottle-card--10 .depth-bottle-card__img {
-  height: clamp(245px, 33vh, 380px);
+  height: clamp(220px, 30vh, 340px);
 }
 
 .depth-bottle-card--15 .depth-bottle-card__img {
-  height: clamp(265px, 36vh, 415px);
+  height: clamp(265px, 38vh, 420px);
 }
 
 .depth-bottle-card:hover .depth-bottle-card__img {
@@ -1376,11 +1372,57 @@ h3,
   letter-spacing: 0.03em;
 }
 
+.depth-bottle-card__types {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin-block: 6px 6px;
+  background: rgba(18, 60, 105, 0.06);
+  border: 1px solid rgba(18, 60, 105, 0.14);
+  padding: 3px 10px;
+  border-radius: 9999px;
+}
+
+.depth-type-pill {
+  font-family: inherit;
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: var(--ink-secondary, #5b7692);
+  background: transparent;
+  border: none;
+  padding: 2px 7px;
+  border-radius: 9999px;
+  cursor: pointer;
+  transition: all 0.22s ease;
+}
+
+.depth-type-pill:hover {
+  color: var(--color-primary-deep, #144677);
+}
+
+.depth-type-pill.is-active {
+  background: var(--blue-deep, #0c2b4d);
+  color: #ffffff;
+  box-shadow: 0 2px 8px rgba(12, 43, 77, 0.25);
+}
+
+.depth-type-pill-divider {
+  font-size: 0.65rem;
+  color: rgba(18, 60, 105, 0.35);
+}
+
 .depth-bottle-card__detail {
   font-size: clamp(0.72rem, 0.85vw, 0.82rem);
   line-height: 1.35;
   color: var(--ink-secondary, #5b7692);
-  max-width: 220px;
+  max-width: 240px;
+}
+
+.depth-bottle-card__order-btn {
+  margin-top: 10px;
+  padding: 8px 22px;
+  font-size: 0.85rem;
+  white-space: nowrap;
 }
 
 /* 5. Seamless Outro Action Cue */
@@ -2987,19 +3029,15 @@ h3,
   }
 
   .depth-bottles-vitrine {
-    gap: clamp(10px, 2.5vw, 24px);
+    gap: clamp(14px, 3.5vw, 36px);
   }
 
   .depth-bottle-card--05 .depth-bottle-card__img {
     height: clamp(170px, 24vh, 250px);
   }
 
-  .depth-bottle-card--10 .depth-bottle-card__img {
-    height: clamp(195px, 28vh, 290px);
-  }
-
   .depth-bottle-card--15 .depth-bottle-card__img {
-    height: clamp(210px, 30vh, 320px);
+    height: clamp(210px, 30vh, 310px);
   }
 
   .depth-bottle-card__detail {

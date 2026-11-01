@@ -39,7 +39,7 @@ export function Modals({
   const isOrderOrRetail = activeModal === 'order' || activeModal === 'retail';
 
   const volumeLabel =
-    selection.volume === '0.5' ? '0,5 л' : selection.volume === '1.0' ? '1 л' : '1,5 л';
+    selection.volume === '0.5' ? '0,5 л' : '1,5 л';
   const typeLabel = selection.waterType === 'sparkling' ? 'газированная' : 'негазированная';
 
   const buildMailtoHref = () => {
@@ -139,14 +139,14 @@ export function Modals({
                     <div className="modal-selector-group">
                       <span className="modal-form__label">Объём</span>
                       <div className="modal-pills">
-                        {(['0.5', '1.0', '1.5'] as VolumeFormat[]).map((v) => (
+                        {(['0.5', '1.5'] as VolumeFormat[]).map((v) => (
                           <button
                             key={v}
                             type="button"
                             className={`modal-pill ${selection.volume === v ? 'is-active' : ''}`}
                             onClick={() => onSelectionChange({ ...selection, volume: v })}
                           >
-                            {v === '0.5' ? '0,5 л' : v === '1.0' ? '1 л' : '1,5 л'}
+                            {v === '0.5' ? '0,5 л' : '1,5 л'}
                           </button>
                         ))}
                       </div>
