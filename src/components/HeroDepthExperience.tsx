@@ -474,7 +474,7 @@ export function HeroDepthExperience({
               );
           }
           tl.to(
-            [bottleWrapRef.current, depthScaleRef.current, sourceLeftRef.current, sourceRightRef.current],
+            [depthScaleRef.current, sourceLeftRef.current, sourceRightRef.current],
             { opacity: 0, duration: 0.08, ease: 'power1.inOut' },
             0.92
           );
