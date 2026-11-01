@@ -62,6 +62,8 @@ export function DepthToLightTransition({ onDarkSceneChange }: DepthToLightTransi
   const causticsRef = useRef<HTMLDivElement | null>(null);
   const bubblesRef = useRef<HTMLDivElement | null>(null);
   const introRef = useRef<HTMLDivElement | null>(null);
+  const introLinesRef = useRef<(HTMLSpanElement | null)[]>([]);
+  const introLeadRef = useRef<HTMLParagraphElement | null>(null);
   const bloomRef = useRef<HTMLDivElement | null>(null);
   const daylightBgRef = useRef<HTMLDivElement | null>(null);
   const bottlesHeaderRef = useRef<HTMLDivElement | null>(null);
@@ -126,6 +128,8 @@ export function DepthToLightTransition({ onDarkSceneChange }: DepthToLightTransi
         gsap.set(causticsRef.current, { opacity: 0.35 });
         gsap.set(bubblesRef.current, { opacity: 0.45, y: 0 });
         gsap.set(introRef.current, { opacity: 1, y: 0 });
+        gsap.set(introLinesRef.current, { opacity: 0, y: 32 });
+        gsap.set(introLeadRef.current, { opacity: 0, y: 16 });
         gsap.set(bloomRef.current, { opacity: 0, scale: 0.92 });
         gsap.set(daylightBgRef.current, { opacity: 0 });
         gsap.set(bottlesHeaderRef.current, { opacity: 0, y: 24 });
@@ -192,6 +196,21 @@ export function DepthToLightTransition({ onDarkSceneChange }: DepthToLightTransi
             0
           )
           .to(
+            introLinesRef.current[0],
+            { opacity: 1, y: 0, ease: 'power2.out', duration: 0.13 },
+            0.01
+          )
+          .to(
+            introLinesRef.current[1],
+            { opacity: 1, y: 0, ease: 'power2.out', duration: 0.13 },
+            0.12
+          )
+          .to(
+            introLeadRef.current,
+            { opacity: 1, y: 0, ease: 'power2.out', duration: 0.1 },
+            0.22
+          )
+          .to(
             introRef.current,
             {
               opacity: 0,
@@ -199,7 +218,7 @@ export function DepthToLightTransition({ onDarkSceneChange }: DepthToLightTransi
               ease: 'power2.in',
               duration: 0.22,
             },
-            0.14
+            0.34
           );
 
         // 2. PHASE TWO (0.30 -> 0.62): Breaking the surface — Sunlight flood & Caustics bloom
@@ -366,11 +385,10 @@ export function DepthToLightTransition({ onDarkSceneChange }: DepthToLightTransi
           <div className="container depth-intro__inner">
             <span className="depth-intro__badge">Из глубины к свету</span>
             <h2 className="depth-intro__title">
-              Рождённая на глубине 80 метров,
-              <br />
-              вода поднимается навстречу солнцу
+              <span ref={(el) => { introLinesRef.current[0] = el; }} className="depth-intro__line">Рождённая на глубине 80 метров,</span>
+              <span ref={(el) => { introLinesRef.current[1] = el; }} className="depth-intro__line">вода поднимается навстречу солнцу</span>
             </h2>
-            <p className="depth-intro__lead">
+            <p ref={introLeadRef} className="depth-intro__lead">
               Кристальная чистота крымского источника раскрывается в прозрачном утреннем свете.
             </p>
           </div>
