@@ -252,9 +252,11 @@ h3,
 
 .site-header.is-scrolled {
   padding: 12px 0;
-  background-color: rgba(245, 250, 253, 0.88);
-  backdrop-filter: blur(10px);
-  border-bottom-color: rgba(18, 60, 105, 0.07);
+  background-color: rgba(245, 250, 253, 0.94);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border-bottom-color: rgba(18, 60, 105, 0.08);
+  box-shadow: 0 4px 20px rgba(12, 43, 77, 0.06);
 }
 
 .site-header.is-dark-scene {
@@ -263,7 +265,11 @@ h3,
 }
 
 .site-header.is-dark-scene.is-scrolled {
-  background-color: rgba(18, 60, 105, 0.82);
+  background-color: rgba(12, 43, 77, 0.92);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border-bottom-color: rgba(255, 255, 255, 0.12);
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.28);
 }
 
 .site-header.is-hidden {
@@ -895,6 +901,52 @@ h3,
 }
 
 .depth-rising-bottle { pointer-events: none; opacity: 0; }
+.depth-rising-bottle .hero-bottle-stage__img {
+  filter: brightness(.86) contrast(.88) saturate(.78) drop-shadow(0 0 18px rgba(66, 191, 221, .28));
+}
+.bottle-water-light {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  background: rgba(39, 157, 191, .18);
+  mask-size: 100% 100%;
+  mask-repeat: no-repeat;
+  -webkit-mask-size: 100% 100%;
+  -webkit-mask-repeat: no-repeat;
+}
+.bottle-water-light::after {
+  content: '';
+  position: absolute;
+  inset: -35% -80%;
+  background: repeating-linear-gradient(155deg, transparent 0 12%, rgba(156, 239, 255, .42) 14%, transparent 17% 25%);
+  mix-blend-mode: screen;
+  animation: bottle-caustic-drift 5s ease-in-out infinite alternate;
+}
+.bottle-turbulence { position: absolute; inset: -8% -80% -55%; opacity: 0; }
+.bottle-turbulence__bubble {
+  position: absolute;
+  border: 1px solid rgba(209, 249, 255, .7);
+  border-radius: 50%;
+  background: radial-gradient(circle at 28% 23%, rgba(255,255,255,.9) 0 8%, rgba(185,238,255,.08) 25% 65%, rgba(174,235,250,.38) 95%);
+  box-shadow: inset -1px -2px 3px rgba(31,113,157,.3);
+  animation: bottle-bubble-rise 1.2s linear infinite;
+  will-change: transform, opacity;
+}
+.bottle-turbulence__bubble--1 { z-index: 2; }
+.bottle-turbulence__bubble--2 { filter: blur(.6px); }
+@keyframes bottle-bubble-rise {
+  0% { opacity: 0; transform: translate3d(-12px, 65px, 0) scale(.65); }
+  15% { opacity: .85; }
+  75% { opacity: .65; }
+  100% { opacity: 0; transform: translate3d(20px, -180px, 0) scale(1.2); }
+}
+@keyframes bottle-caustic-drift {
+  from { transform: translate3d(-8%, 12%, 0) rotate(-4deg); }
+  to { transform: translate3d(8%, -12%, 0) rotate(4deg); }
+}
+@media (max-width: 680px) {
+  .bottle-turbulence__bubble:nth-child(3n) { display: none; }
+}
 @media (prefers-reduced-motion: reduce) {
   .depth-rising-bottle { display: none; }
 }

@@ -42,6 +42,8 @@ export function FinaleFooterSection({
           end: 'bottom top',
           onToggle: (self) => onDarkSceneChange(self.isActive),
           onRefresh: (self) => onDarkSceneChange(self.isActive),
+          onLeave: () => onDarkSceneChange(false),
+          onLeaveBack: () => onDarkSceneChange(false),
         });
 
         if (!reduceMotion) {

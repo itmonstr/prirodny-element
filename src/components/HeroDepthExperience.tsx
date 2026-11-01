@@ -149,14 +149,18 @@ export function HeroDepthExperience({
           const mineralItems = sourceRightRef.current?.querySelectorAll('.mineral-row') ?? [];
           gsap.set(mineralItems, { opacity: 0, y: 18 });
 
-          // Dedicated dark-header observer: stays dark from 80m transition until the sticky stage & top decompression gradient clear the header
+          // Dedicated dark-header observer: only activates when the deep 80m aquifer background is visible (progress >= 0.30)
           ScrollTrigger.create({
             trigger: root,
-            start: () => `top -${Math.round(window.innerHeight * 0.25)}`,
-            end: 'bottom -24px',
+            start: 'top top',
+            end: 'bottom bottom',
             invalidateOnRefresh: true,
-            onToggle: (self) => onDarkSceneChange(self.isActive),
-            onRefresh: (self) => onDarkSceneChange(self.isActive),
+            onUpdate: (self) => {
+              const isAquiferDark = self.progress >= (isDesktop ? 0.30 : 0.26);
+              onDarkSceneChange(self.isActive && isAquiferDark);
+            },
+            onLeave: () => onDarkSceneChange(false),
+            onLeaveBack: () => onDarkSceneChange(false),
           });
 
           const tl = gsap.timeline({

@@ -52,7 +52,8 @@ export function Header({ isDarkScene, onOrderClick }: HeaderProps) {
     setMobileOpen(false);
   };
 
-  const invertTheme = isDarkScene && !mobileOpen;
+  const isTopHero = !scrolled;
+  const invertTheme = isDarkScene && !isTopHero && !mobileOpen;
 
   return (
     <>
