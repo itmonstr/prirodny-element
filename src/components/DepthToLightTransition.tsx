@@ -127,15 +127,6 @@ export function DepthToLightTransition({
           yPercent: isDesktop ? 6 : 4,
           transformOrigin: '50% 20%',
         });
-        gsap.fromTo(
-          waterWrapRef.current,
-          { opacity: 0.25 },
-          {
-            opacity: 1,
-            ease: 'power1.out',
-            scrollTrigger: { trigger: section, start: 'top bottom', end: 'top top', scrub: 0.85 },
-          }
-        );
         gsap.set(waterRaysRef.current, { opacity: 0.55, scale: 1 });
         gsap.set(causticsRef.current, { opacity: 0.35 });
         gsap.set(bubblesRef.current, { opacity: 0.45, y: 0 });
@@ -143,7 +134,7 @@ export function DepthToLightTransition({
           xPercent: -50,
           yPercent: -50,
           x: 0,
-          y: () => window.innerHeight * 0.9,
+          y: () => -window.innerHeight * 0.22,
           scale: isDesktop ? 0.87 : 0.84,
           opacity: 1,
         });
@@ -183,7 +174,7 @@ export function DepthToLightTransition({
           {
             y: () => -window.innerHeight * 0.9,
             ease: 'power1.inOut',
-            duration: 0.52,
+            duration: 0.38,
           },
           0
         )
@@ -229,22 +220,22 @@ export function DepthToLightTransition({
           .to(
             introRef.current,
             { opacity: 1, y: 0, ease: 'power2.out', duration: 0.12 },
-            0.55
+            0.41
           )
           .to(
             introLinesRef.current[0],
             { opacity: 1, y: 0, ease: 'power2.out', duration: 0.13 },
-            0.57
+            0.44
           )
           .to(
             introLinesRef.current[1],
             { opacity: 1, y: 0, ease: 'power2.out', duration: 0.13 },
-            0.68
+            0.55
           )
           .to(
             introLeadRef.current,
             { opacity: 1, y: 0, ease: 'power2.out', duration: 0.1 },
-            0.79
+            0.66
           )
           .to(
             introRef.current,

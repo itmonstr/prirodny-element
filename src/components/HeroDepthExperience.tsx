@@ -297,7 +297,7 @@ export function HeroDepthExperience({
               )
               .to(
                 bottleWrapRef.current,
-                { y: () => endOffsetY() - 6, duration: 0.28, ease: 'sine.inOut' },
+                { y: () => endOffsetY() - Math.round(window.innerHeight * 0.22), duration: 0.28, ease: 'sine.inOut' },
                 0.72
               )
               .to(
@@ -465,7 +465,7 @@ export function HeroDepthExperience({
               .to(
                 bottleWrapRef.current,
                 {
-                  y: () => endOffsetY() + 8,
+                  y: () => endOffsetY() - Math.round(window.innerHeight * 0.22),
                   scale: () => endScale(),
                   opacity: 1,
                   duration: 0.12,
