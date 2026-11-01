@@ -176,7 +176,7 @@ export function HistorySection() {
             <img
               ref={factory}
               className="history-story__factory"
-              src={assetUrl('assets/factory.webp')}
+              src={assetUrl('assets/factory-exterior-01.webp')}
               alt="Завод питьевой воды «Природный Элемент»"
               width={3200}
               height={2133}
