@@ -57,6 +57,7 @@ export function DepthToLightTransition({ onDarkSceneChange }: DepthToLightTransi
   const sectionRef = useRef<HTMLElement | null>(null);
   const stageRef = useRef<HTMLDivElement | null>(null);
   const waterWrapRef = useRef<HTMLDivElement | null>(null);
+  const risingBottleRef = useRef<HTMLDivElement | null>(null);
   const waterImgRef = useRef<HTMLImageElement | null>(null);
   const waterRaysRef = useRef<HTMLDivElement | null>(null);
   const causticsRef = useRef<HTMLDivElement | null>(null);
@@ -111,7 +112,7 @@ export function DepthToLightTransition({ onDarkSceneChange }: DepthToLightTransi
           start: 'top top',
           end: 'bottom bottom',
           onUpdate: (self) => {
-            const isDarkPart = self.progress < 0.42;
+            const isDarkPart = self.progress < 0.65;
             onDarkSceneChange?.(self.isActive && isDarkPart);
           },
           onLeave: () => onDarkSceneChange?.(false),
@@ -136,7 +137,13 @@ export function DepthToLightTransition({ onDarkSceneChange }: DepthToLightTransi
         gsap.set(waterRaysRef.current, { opacity: 0.55, scale: 1 });
         gsap.set(causticsRef.current, { opacity: 0.35 });
         gsap.set(bubblesRef.current, { opacity: 0.45, y: 0 });
-        gsap.set(introRef.current, { opacity: 1, y: 0 });
+        gsap.set(risingBottleRef.current, {
+          xPercent: -50, yPercent: -50, x: 0,
+          y: () => window.innerHeight * 0.9,
+          scale: isDesktop ? 0.87 : 0.84,
+          opacity: 1,
+        });
+        gsap.set(introRef.current, { opacity: 0, y: 12 });
         gsap.set(introLinesRef.current, { opacity: 0, y: 32 });
         gsap.set(introLeadRef.current, { opacity: 0, y: 16 });
         gsap.set(bloomRef.current, { opacity: 0, scale: 0.92 });
@@ -170,6 +177,11 @@ export function DepthToLightTransition({ onDarkSceneChange }: DepthToLightTransi
           { opacity: 1, ease: 'power2.out', duration: 0.34, immediateRender: false },
           0
         )
+        .to(risingBottleRef.current, {
+          y: () => -window.innerHeight * 0.9,
+          ease: 'power1.inOut',
+          duration: 0.52,
+        }, 0)
         .to(
           waterImgRef.current,
           {
@@ -210,19 +222,24 @@ export function DepthToLightTransition({ onDarkSceneChange }: DepthToLightTransi
             0
           )
           .to(
+            introRef.current,
+            { opacity: 1, y: 0, ease: 'power2.out', duration: 0.12 },
+            0.49
+          )
+          .to(
             introLinesRef.current[0],
             { opacity: 1, y: 0, ease: 'power2.out', duration: 0.13 },
-            0.01
+            0.51
           )
           .to(
             introLinesRef.current[1],
             { opacity: 1, y: 0, ease: 'power2.out', duration: 0.13 },
-            0.12
+            0.62
           )
           .to(
             introLeadRef.current,
             { opacity: 1, y: 0, ease: 'power2.out', duration: 0.1 },
-            0.22
+            0.73
           )
           .to(
             introRef.current,
@@ -232,7 +249,7 @@ export function DepthToLightTransition({ onDarkSceneChange }: DepthToLightTransi
               ease: 'power2.in',
               duration: 0.22,
             },
-            0.34
+            0.88
           );
 
         // 2. PHASE TWO (0.30 -> 0.62): Breaking the surface — Sunlight flood & Caustics bloom
@@ -244,7 +261,7 @@ export function DepthToLightTransition({ onDarkSceneChange }: DepthToLightTransi
             ease: 'power2.inOut',
             duration: 0.28,
           },
-          0.28
+          0.96
         )
           .to(
             daylightBgRef.current,
@@ -253,7 +270,7 @@ export function DepthToLightTransition({ onDarkSceneChange }: DepthToLightTransi
               ease: 'power2.out',
               duration: 0.32,
             },
-            0.36
+          1.04
           )
           .to(
             bloomRef.current,
@@ -263,7 +280,7 @@ export function DepthToLightTransition({ onDarkSceneChange }: DepthToLightTransi
               ease: 'sine.out',
               duration: 0.22,
             },
-            0.52
+            1.2
           );
 
         // 3. PHASE THREE (0.46 -> 0.88): The 3 Authentic Bottles Materialize from the Light
@@ -275,7 +292,7 @@ export function DepthToLightTransition({ onDarkSceneChange }: DepthToLightTransi
             ease: 'power2.out',
             duration: 0.26,
           },
-          0.46
+          1.12
         );
 
         // Center 1.0L Bottle leads the arrival
@@ -290,7 +307,7 @@ export function DepthToLightTransition({ onDarkSceneChange }: DepthToLightTransi
               ease: 'power3.out',
               duration: 0.34,
             },
-            0.5
+            1.17
           );
         }
 
@@ -306,7 +323,7 @@ export function DepthToLightTransition({ onDarkSceneChange }: DepthToLightTransi
               ease: 'power3.out',
               duration: 0.34,
             },
-            0.54
+            1.21
           );
         }
 
@@ -322,7 +339,7 @@ export function DepthToLightTransition({ onDarkSceneChange }: DepthToLightTransi
               ease: 'power3.out',
               duration: 0.34,
             },
-            0.56
+            1.24
           );
         }
 
@@ -335,7 +352,7 @@ export function DepthToLightTransition({ onDarkSceneChange }: DepthToLightTransi
             ease: 'power2.out',
             duration: 0.18,
           },
-          0.82
+          1.48
         );
       },
       section
@@ -392,6 +409,12 @@ export function DepthToLightTransition({ onDarkSceneChange }: DepthToLightTransi
 
           {/* Deep Navy Gradient Vignette for 100% seamless joint with 80m aquifer */}
           <div className="depth-water-vignette" />
+        </div>
+
+        <div ref={risingBottleRef} className="hero-bottle-stage depth-rising-bottle" aria-hidden="true">
+          <div className="hero-bottle-stage__figure">
+            <img className="hero-bottle-stage__img" src={assetUrl('assets/bottle-hero.webp')} alt="" width={500} height={1850} decoding="async" />
+          </div>
         </div>
 
         {/* ================= 2. INTRO EDITORIAL BEAT («Из глубины к свету») ================= */}
