@@ -210,8 +210,8 @@ export function HistorySection() {
               ref={factoryImg}
               src={assetUrl('assets/factory-ready.webp')}
               alt="Готовая продукция воды «Природный Элемент» к отправке"
-              width={1024}
-              height={576}
+              width={2560}
+              height={1440}
               loading="lazy"
               decoding="async"
               className="bottling-cinema__bg-img"
