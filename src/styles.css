@@ -3539,7 +3539,8 @@ h3,
 }
 
 /* Connected history sequence */
-.history-story { height: 215svh; background: #f4f8fb; }
+.history-story { background: #f4f8fb; }
+.history-story__journey { height: 215svh; }
 .history-story__stage { position: sticky; top: 0; height: 100svh; overflow: hidden; isolation: isolate; }
 .history-story__scene { position: absolute; inset: 0; overflow: hidden; }
 .history-story__coast { background: #123c69; color: white; }
@@ -3555,9 +3556,13 @@ h3,
 .history-story__production-copy { position: absolute; left: clamp(24px, 6vw, 100px); top: 27%; width: 36%; max-width: 520px; z-index: 1; }
 .history-story__year { display: block; font: 400 clamp(6rem, 14vw, 14rem)/.9 var(--font-serif); margin: 28px 0; }
 .history-story__production-copy p { font-size: clamp(1.15rem, 1.8vw, 1.7rem); line-height: 1.4; }
-.history-story__conveyor { position: absolute; right: 2.5vw; bottom: 4vh; z-index: 2; width: min(28vw, 390px); margin: 0; background: #fff; padding: 8px; box-shadow: 0 18px 42px rgba(14,42,71,.16); }
-.history-story__conveyor img { display: block; width: 100%; aspect-ratio: 2.14; object-fit: cover; }
-.history-story__conveyor figcaption { font-size: .78rem; margin-top: 8px; }
+.history-bottling { display: grid; grid-template-columns: .8fr 1.2fr; align-items: center; gap: clamp(36px, 7vw, 120px); padding-block: clamp(90px, 11vw, 160px); }
+.history-bottling__copy { max-width: 440px; }
+.history-bottling__copy h3 { font: 400 clamp(2.7rem, 4.5vw, 5rem)/1.08 var(--font-serif); color: #123c69; margin: 24px 0; }
+.history-bottling__copy p { color: var(--ink-secondary); font-size: clamp(1rem, 1.35vw, 1.2rem); line-height: 1.7; }
+.history-bottling__image { margin: 0; }
+.history-bottling__image img { display: block; width: 100%; aspect-ratio: 1.65; object-fit: cover; }
+.history-bottling__image figcaption { color: var(--ink-muted); font-size: .82rem; margin-top: 12px; }
 
 /* Two visual destinations */
 .buy-section { background: #fff; padding: clamp(72px, 8vw, 120px) 0; }
@@ -3582,10 +3587,10 @@ h3,
 .buy-scenario--retail .btn-pill--outline { color: white; border-color: rgba(255,255,255,.7); }
 
 @media (max-width: 1023px) {
-  .history-story { height: 195svh; }
+  .history-story__journey { height: 195svh; }
   .history-story__production-copy { top: 12%; width: 44%; }
   .history-story__factory { right: 3%; width: 52%; height: 68%; top: 15%; }
-  .history-story__conveyor { width: min(35vw, 320px); right: 24px; bottom: 26px; }
+  .history-bottling { gap: 30px; }
   .buy-diptych { grid-template-columns: 1fr; gap: 16px; }
   .buy-scenario__media { aspect-ratio: 16/9; }
 }
@@ -3593,18 +3598,18 @@ h3,
   .history-story__coast-copy { bottom: 60px; }
   .history-story__coast-copy .section-title { font-size: clamp(2.7rem, 11vw, 4rem); }
   .history-story__coast > img { object-position: 50% center; }
-  .history-story { height: 175svh; }
+  .history-story__journey { height: 175svh; }
   .history-story__production-copy { left: 24px; right: 24px; top: 9%; width: auto; }
   .history-story__year { font-size: clamp(5rem, 22vw, 8rem); margin: 12px 0; }
   .history-story__production-copy p { font-size: 1.08rem; max-width: 300px; }
   .history-story__factory { left: 24px; right: 24px; top: 42%; width: calc(100% - 48px); height: 42%; }
-  .history-story__conveyor { left: auto; right: 12px; bottom: 3%; width: 46%; padding: 5px; }
-  .history-story__conveyor img { max-height: 15svh; }
+  .history-bottling { grid-template-columns: 1fr; gap: 28px; padding-block: 72px; }
+  .history-bottling__copy h3 { font-size: 2.7rem; }
   .buy-scenario__media { aspect-ratio: 4/3; }
   .buy-scenario__body { min-height: 0; gap: 12px; }
 }
 @media (prefers-reduced-motion: reduce) {
-  .history-story { height: auto; }
+  .history-story__journey { height: auto; }
   .history-story__stage { position: relative; height: auto; overflow: visible; }
   .history-story__scene { position: relative; min-height: 75svh; }
   .history-story__coast > img { position: absolute; inset: 0; }
