@@ -72,15 +72,13 @@ export function HeroDepthExperience({
       {
         isDesktop: '(min-width: 1024px)',
         isMobile: '(max-width: 1023px)',
-        isShortPhone: '(max-width: 680px) and (max-height: 700px)',
         isCompactLandscape: '(max-width: 1023px) and (max-height: 500px) and (orientation: landscape)',
         reduceMotion: '(prefers-reduced-motion: reduce)',
       },
       (context) => {
-        const { isDesktop, isShortPhone, isCompactLandscape, reduceMotion } = context.conditions as {
+        const { isDesktop, isCompactLandscape, reduceMotion } = context.conditions as {
           isDesktop: boolean;
           isMobile: boolean;
-          isShortPhone: boolean;
           isCompactLandscape: boolean;
           reduceMotion: boolean;
         };
@@ -124,7 +122,7 @@ export function HeroDepthExperience({
 
           const startOffsetX = () => (isDesktop ? Math.min(window.innerWidth * 0.16, 224) : 0);
           const startOffsetY = () => (isDesktop || isCompactLandscape ? 0 : 108);
-          const endOffsetY = () => (isDesktop ? 6 : isCompactLandscape ? 4 : 116);
+          const endOffsetY = () => (isDesktop ? 6 : isCompactLandscape ? 4 : 0);
           const endScale = () => (isDesktop ? 0.87 : 0.84);
 
           gsap.set(bottleWrapRef.current, {
@@ -374,13 +372,7 @@ export function HeroDepthExperience({
               );
             }
 
-            // A short phone cannot fit the bottle beside the source copy and mineral table.
-            // Let the bottle leave before either text panel appears, then return for the handoff.
-            if (isShortPhone) {
-              tl.to(bottleWrapRef.current, { opacity: 0, duration: 0.08, ease: 'power1.out' }, 0.08);
-            }
-
-            // Step 2 (0.16 -> 0.44): 80m source narrative beat
+            // The source copy frames a centered bottle; the mineral table follows its exit.
             tl.to(
               sourceLeftRef.current,
               {
@@ -392,7 +384,7 @@ export function HeroDepthExperience({
               },
               0.16
             )
-              // Step 3 (0.44 -> 0.50): 80m narrative cleanly fades out completely before minerals enter
+              // Hold the source story while the bottle rises, then change to the composition.
               .to(
                 sourceLeftRef.current,
                 {
@@ -402,26 +394,9 @@ export function HeroDepthExperience({
                   duration: 0.08,
                   ease: 'power2.in',
                 },
-                0.44
+                0.81
               )
-              // Make room for the minerals card: depth gauge steps aside, bottle sinks lower & recedes
-              .to(
-                depthScaleRef.current,
-                { opacity: 0, duration: 0.06, ease: 'power1.out' },
-                0.45
-              )
-              .to(
-                bottleWrapRef.current,
-                {
-                  y: () => endOffsetY() + Math.round(window.innerHeight * 0.17),
-                  scale: 0.66,
-                  opacity: isShortPhone ? 0 : 0.55,
-                  duration: 0.1,
-                  ease: 'power2.inOut',
-                },
-                0.44
-              )
-              // Step 4 (0.51 -> 0.78): Mineral composition table reveals with all 5 rows crisp and legible
+              // The composition appears only after the bottle has cleared the top edge.
               .to(
                 sourceRightRef.current,
                 {
@@ -431,7 +406,7 @@ export function HeroDepthExperience({
                   duration: 0.14,
                   ease: 'power2.out',
                 },
-                0.51
+                0.91
               )
               .to(
                 mineralItems,
@@ -442,9 +417,9 @@ export function HeroDepthExperience({
                   stagger: 0.015,
                   ease: 'power2.out',
                 },
-                0.52
+                0.92
               )
-              // Step 5 (0.78 -> 0.86): Minerals fade out smoothly into interlude
+              // Fade the composition before leaving the pinned scene.
               .to(
                 sourceRightRef.current,
                 {
@@ -454,7 +429,7 @@ export function HeroDepthExperience({
                   duration: 0.08,
                   ease: 'power2.in',
                 },
-                0.94
+                1.25
               )
               // Final hold and ambient drift before transition into the sunlit glass interlude
               .to(
@@ -467,22 +442,17 @@ export function HeroDepthExperience({
                 {
                   y: () => -window.innerHeight * 1.2,
                   scale: () => endScale(),
-                  opacity: isShortPhone ? 0 : 1,
+                  opacity: 1,
                   duration: 0.22,
                   ease: 'sine.inOut',
                 },
-                0.66
-              )
-              .to(
-                depthScaleRef.current,
-                { opacity: 1, duration: 0.08, ease: 'sine.out' },
-                0.86
+                0.58
               );
           }
           tl.to(
             [depthScaleRef.current, sourceLeftRef.current, sourceRightRef.current],
             { opacity: 0, duration: 0.08, ease: 'power1.inOut' },
-            1.02
+            isDesktop ? 1.02 : 1.37
           );
         } else {
           // Reduced motion fallback

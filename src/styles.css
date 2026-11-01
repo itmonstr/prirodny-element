@@ -2922,6 +2922,7 @@ h3,
     display: flex;
     flex-direction: column;
     align-items: center;
+    bottom: max(24px, env(safe-area-inset-bottom));
   }
 
   .source-panel--left .source-depth-figure {
@@ -2948,7 +2949,8 @@ h3,
   .source-panel--left .source-panel__text {
     font-size: 0.84rem;
     line-height: 1.58;
-    margin-bottom: 16px;
+    margin-top: auto;
+    margin-bottom: 12px;
     max-width: 380px;
   }
 
