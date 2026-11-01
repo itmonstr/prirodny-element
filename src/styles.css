@@ -3557,130 +3557,206 @@ h3,
 .history-story__year { display: block; font: 400 clamp(6rem, 14vw, 14rem)/.9 var(--font-serif); margin: 28px 0; }
 .history-story__production-copy p { font-size: clamp(1.15rem, 1.8vw, 1.7rem); line-height: 1.4; }
 /* ==========================================================================
-   PRODUCTION SECTION: «БЕРЕЖНОЕ ПРОИЗВОДСТВО» (Lean & Balanced Editorial)
+   CINEMATIC BOTTLING SCROLL EXPERIENCE (BAIKAL430 LEVEL)
+   «От источника до каждой бутылки» -> «Готова отправиться к вам»
    ========================================================================== */
 
-.history-bottling {
-  padding-block: clamp(52px, 6vw, 84px);
-  background-color: #f4f8fb;
-}
-
-.history-bottling__header {
-  max-width: 1120px;
-  margin-inline: auto;
-  margin-bottom: clamp(24px, 3.2vw, 38px);
-}
-
-.history-bottling__header .history-story__eyebrow {
-  display: inline-block;
-  font-size: 0.74rem;
-  font-weight: 700;
-  letter-spacing: 0.18em;
-  text-transform: uppercase;
-  color: #165b94;
-  margin-bottom: 8px;
-}
-
-.history-bottling__header h3 {
-  font-family: var(--font-serif);
-  font-size: clamp(2rem, 3.2vw, 2.85rem);
-  line-height: 1.16;
-  font-weight: 400;
-  color: #123c69;
-  margin: 0;
-}
-
-.history-bottling__grid {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: clamp(20px, 2.8vw, 36px);
-  max-width: 1120px;
-  margin-inline: auto;
-}
-
-.history-bottling__card,
-.history-bottling__story {
-  background: #ffffff;
-  border: 1px solid rgba(18, 60, 105, 0.08);
-  border-radius: 12px;
-  overflow: hidden;
-  box-shadow: 0 4px 18px rgba(12, 43, 77, 0.04);
-  display: flex;
-  flex-direction: column;
-  transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.35s cubic-bezier(0.22, 1, 0.36, 1);
-}
-
-.history-bottling__card:hover,
-.history-bottling__story:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 10px 28px rgba(12, 43, 77, 0.08);
-}
-
-.history-bottling__media,
-.history-bottling__image {
+.bottling-cinema {
   position: relative;
-  width: 100%;
-  height: clamp(180px, 19vw, 235px);
-  overflow: hidden;
-  background-color: #eaf3f9;
-  margin: 0;
+  height: 165vh;
+  background-color: #081a2e;
 }
 
-.history-bottling__img,
-.history-bottling__image img {
-  display: block;
+.bottling-cinema__stage {
+  position: sticky;
+  top: 0;
+  left: 0;
   width: 100%;
-  height: 100%;
+  height: 100svh;
+  overflow: hidden;
+  background-color: #081a2e;
+}
+
+.bottling-cinema__layer {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+  will-change: opacity, transform;
+}
+
+.bottling-cinema__layer--conveyor {
+  z-index: 1;
+}
+
+.bottling-cinema__layer--factory {
+  z-index: 2;
+}
+
+.bottling-cinema__bg-img {
+  position: absolute;
+  inset: -6% -4%;
+  width: 108%;
+  height: 112%;
   object-fit: cover;
   object-position: center center;
-  transition: transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+  will-change: transform;
 }
 
-.history-bottling__card:nth-child(2) .history-bottling__img,
-.history-bottling__story--reverse .history-bottling__image img {
+.bottling-cinema__layer--conveyor .bottling-cinema__bg-img {
+  object-position: center 54%;
+  filter: brightness(0.92) contrast(1.08) saturate(1.05);
+}
+
+.bottling-cinema__layer--factory .bottling-cinema__bg-img {
   object-position: center 60%;
+  filter: brightness(0.9) contrast(1.06) saturate(1.05);
 }
 
-.history-bottling__card:hover .history-bottling__img,
-.history-bottling__story:hover .history-bottling__image img {
-  transform: scale(1.035);
+/* Atmospheric Cinematic Scrims for pristine readability */
+.bottling-cinema__scrim {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
 }
 
-.history-bottling__body,
-.history-bottling__story-copy {
-  padding: clamp(20px, 2.4vw, 28px);
+.bottling-cinema__scrim--deep {
+  background: linear-gradient(
+    180deg,
+    rgba(8, 26, 46, 0.72) 0%,
+    rgba(8, 26, 46, 0.38) 35%,
+    rgba(8, 26, 46, 0.55) 75%,
+    rgba(8, 26, 46, 0.88) 100%
+  );
+}
+
+.bottling-cinema__scrim--ambient {
+  background: linear-gradient(
+    180deg,
+    rgba(8, 26, 46, 0.76) 0%,
+    rgba(8, 26, 46, 0.42) 35%,
+    rgba(8, 26, 46, 0.58) 75%,
+    rgba(8, 26, 46, 0.92) 100%
+  );
+}
+
+/* Content Container & Grid */
+.bottling-cinema__content {
+  position: relative;
+  z-index: 5;
+  height: 100%;
   display: flex;
-  flex-direction: column;
-  flex-grow: 1;
+  align-items: center;
+  justify-content: space-between;
+  padding-block: clamp(32px, 5vw, 64px);
 }
 
-.history-bottling__badge,
-.history-bottling__number {
-  display: inline-block;
-  font-size: 0.72rem;
-  font-weight: 700;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  color: #165b94;
-  margin-bottom: 8px;
+.bottling-cinema__text-col {
+  position: relative;
+  max-width: 680px;
+  min-height: 240px;
+  display: flex;
+  align-items: center;
 }
 
-.history-bottling__card-title,
-.history-bottling__story-copy h4 {
+.bottling-cinema__title-pane {
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 100%;
+  will-change: transform, opacity;
+}
+
+.bottling-cinema__heading {
   font-family: var(--font-serif);
-  font-size: clamp(1.25rem, 1.7vw, 1.6rem);
-  line-height: 1.25;
-  font-weight: 500;
-  color: #123c69;
-  margin: 0 0 10px 0;
+  font-size: clamp(2.6rem, 5.2vw, 4.8rem);
+  line-height: 1.1;
+  font-weight: 400;
+  letter-spacing: -0.015em;
+  color: #ffffff;
+  text-shadow: 0 4px 32px rgba(4, 18, 32, 0.75);
+  margin: 0;
 }
 
-.history-bottling__card-text,
-.history-bottling__story-copy p {
-  font-size: clamp(0.9rem, 1.05vw, 0.98rem);
-  line-height: 1.55;
-  color: var(--ink-secondary, #4a6682);
-  margin: 0;
+.bottling-cinema__cue {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: clamp(18px, 2.5vw, 28px);
+  padding: 10px 24px;
+  font-size: clamp(0.85rem, 1vw, 0.94rem);
+  font-weight: 500;
+  letter-spacing: 0.02em;
+  color: #ffffff;
+  background: rgba(255, 255, 255, 0.14);
+  border: 1px solid rgba(255, 255, 255, 0.28);
+  border-radius: 9999px;
+  backdrop-filter: blur(10px);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.18);
+  text-decoration: none;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.bottling-cinema__cue:hover {
+  background: rgba(255, 255, 255, 0.25);
+  border-color: rgba(255, 255, 255, 0.45);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 26px rgba(0, 0, 0, 0.28);
+}
+
+.bottling-cinema__cue svg {
+  transition: transform 0.3s ease;
+}
+
+.bottling-cinema__cue:hover svg {
+  transform: translateY(3px);
+}
+
+/* Real Bottle Silhouette Anchor connecting to «Где купить» */
+.bottling-cinema__bottle-pane {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: clamp(12px, 4vw, 48px);
+  will-change: transform, opacity;
+}
+
+.bottling-cinema__bottle-aura {
+  position: absolute;
+  inset: -20% -30%;
+  background: radial-gradient(
+    ellipse at 50% 60%,
+    rgba(169, 216, 240, 0.35) 0%,
+    rgba(40, 140, 210, 0.12) 48%,
+    transparent 72%
+  );
+  pointer-events: none;
+}
+
+.bottling-cinema__bottle-img {
+  display: block;
+  height: clamp(260px, 48vh, 520px);
+  width: auto;
+  object-fit: contain;
+  filter: drop-shadow(0 24px 44px rgba(4, 15, 28, 0.65));
+}
+
+.bottling-cinema__bottle-shadow {
+  position: absolute;
+  bottom: -10px;
+  width: 70%;
+  height: 20px;
+  background: radial-gradient(
+    ellipse at center,
+    rgba(0, 0, 0, 0.5) 0%,
+    transparent 70%
+  );
+  border-radius: 50%;
+  filter: blur(6px);
+  pointer-events: none;
 }
 
 /* Two visual destinations */
@@ -3722,13 +3798,46 @@ h3,
   .history-story__year { font-size: clamp(5rem, 22vw, 8rem); margin: 12px 0; }
   .history-story__production-copy p { font-size: 1.08rem; max-width: 300px; }
   .history-story__factory { left: 24px; right: 24px; top: 42%; width: calc(100% - 48px); height: 42%; }
-  .history-bottling { padding-block: 44px; }
-  .history-bottling__header { margin-bottom: 20px; }
-  .history-bottling__header h3 { font-size: clamp(1.85rem, 7vw, 2.4rem); }
-  .history-bottling__grid { grid-template-columns: 1fr; gap: 16px; }
-  .history-bottling__media, .history-bottling__image { height: 180px; }
-  .history-bottling__body, .history-bottling__story-copy { padding: 18px 20px 22px; }
-  .history-bottling__card-title, .history-bottling__story-copy h4 { font-size: 1.35rem; margin-bottom: 8px; }
+  /* Mobile Cinematic Bottling Stage */
+  .bottling-cinema {
+    height: 135vh;
+  }
+
+  .bottling-cinema__content {
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+    padding-inline: 20px;
+  }
+
+  .bottling-cinema__text-col {
+    max-width: 100%;
+    min-height: 180px;
+    z-index: 2;
+  }
+
+  .bottling-cinema__heading {
+    font-size: clamp(2.1rem, 9.5vw, 3.2rem);
+  }
+
+  .bottling-cinema__cue {
+    padding: 8px 18px;
+    font-size: 0.82rem;
+    margin-top: 14px;
+  }
+
+  .bottling-cinema__bottle-pane {
+    position: absolute;
+    right: 8px;
+    bottom: 8%;
+    margin-right: 0;
+    opacity: 0.85;
+    z-index: 1;
+  }
+
+  .bottling-cinema__bottle-img {
+    height: clamp(190px, 32vh, 260px);
+  }
   .buy-scenario__media { aspect-ratio: 4/3; }
   .buy-scenario__body { min-height: 0; gap: 12px; }
 }
