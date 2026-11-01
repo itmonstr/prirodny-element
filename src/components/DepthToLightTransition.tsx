@@ -58,6 +58,7 @@ export function DepthToLightTransition({
   const sectionRef = useRef<HTMLElement | null>(null);
   const stageRef = useRef<HTMLDivElement | null>(null);
   const waterWrapRef = useRef<HTMLDivElement | null>(null);
+  const risingBottleRef = useRef<HTMLDivElement | null>(null);
   const waterImgRef = useRef<HTMLImageElement | null>(null);
   const waterRaysRef = useRef<HTMLDivElement | null>(null);
   const causticsRef = useRef<HTMLDivElement | null>(null);
@@ -129,6 +130,14 @@ export function DepthToLightTransition({
         gsap.set(waterRaysRef.current, { opacity: 0.55, scale: 1 });
         gsap.set(causticsRef.current, { opacity: 0.35 });
         gsap.set(bubblesRef.current, { opacity: 0.45, y: 0 });
+        gsap.set(risingBottleRef.current, {
+          xPercent: -50,
+          yPercent: -50,
+          x: 0,
+          y: 0,
+          scale: isDesktop ? 0.87 : 0.84,
+          opacity: 1,
+        });
         gsap.set(introRef.current, { opacity: 0, y: 12 });
         gsap.set(introLinesRef.current, { opacity: 0, y: 32 });
         gsap.set(introLeadRef.current, { opacity: 0, y: 16 });
@@ -159,18 +168,22 @@ export function DepthToLightTransition({
           },
         });
 
-        // The original bottle rises out with the previous sticky scene;
-        // this scene carries the water and the copy without a duplicate bottle.
+        // The source bottle has fully exited before this scene enters.
         tl.to(
-          waterImgRef.current,
-          {
-            scale: 1.22,
-            yPercent: isDesktop ? -10 : -8,
-            ease: 'none',
-            duration: 0.4,
-          },
+          risingBottleRef.current,
+          { y: () => -window.innerHeight * 1.2, ease: 'sine.inOut', duration: 0.38 },
           0
         )
+          .to(
+            waterImgRef.current,
+            {
+              scale: 1.22,
+              yPercent: isDesktop ? -10 : -8,
+              ease: 'none',
+              duration: 0.4,
+            },
+            0
+          )
           .to(
             waterRaysRef.current,
             {
@@ -203,22 +216,22 @@ export function DepthToLightTransition({
           .to(
             introRef.current,
             { opacity: 1, y: 0, ease: 'power2.out', duration: 0.12 },
-            0.12
+            0.42
           )
           .to(
             introLinesRef.current[0],
             { opacity: 1, y: 0, ease: 'power2.out', duration: 0.13 },
-            0.15
+            0.45
           )
           .to(
             introLinesRef.current[1],
             { opacity: 1, y: 0, ease: 'power2.out', duration: 0.13 },
-            0.27
+            0.57
           )
           .to(
             introLeadRef.current,
             { opacity: 1, y: 0, ease: 'power2.out', duration: 0.1 },
-            0.39
+            0.69
           )
           .to(
             introRef.current,
@@ -349,6 +362,19 @@ export function DepthToLightTransition({
 
           {/* Deep Navy Gradient Vignette for 100% seamless joint with 80m aquifer */}
           <div className="depth-water-vignette" />
+        </div>
+
+        <div ref={risingBottleRef} className="hero-bottle-stage depth-rising-bottle" aria-hidden="true">
+          <div className="hero-bottle-stage__figure">
+            <img
+              className="hero-bottle-stage__img"
+              src={assetUrl('assets/bottle-hero.webp')}
+              alt=""
+              width={500}
+              height={1850}
+              decoding="async"
+            />
+          </div>
         </div>
 
         {/* ================= 2. INTRO EDITORIAL BEAT («Из глубины к свету») ================= */}

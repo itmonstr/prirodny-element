@@ -297,8 +297,8 @@ export function HeroDepthExperience({
               )
               .to(
                 bottleWrapRef.current,
-                { y: () => endOffsetY() - Math.round(window.innerHeight * 0.22), duration: 0.28, ease: 'sine.inOut' },
-                0.72
+                { y: () => -window.innerHeight * 1.2, duration: 0.22, ease: 'sine.inOut' },
+                0.68
               )
               .to(
                 aquiferRaysRef.current,
@@ -454,7 +454,7 @@ export function HeroDepthExperience({
                   duration: 0.08,
                   ease: 'power2.in',
                 },
-                0.78
+                0.94
               )
               // Final hold and ambient drift before transition into the sunlit glass interlude
               .to(
@@ -465,13 +465,13 @@ export function HeroDepthExperience({
               .to(
                 bottleWrapRef.current,
                 {
-                  y: () => endOffsetY() - Math.round(window.innerHeight * 0.22),
+                  y: () => -window.innerHeight * 1.2,
                   scale: () => endScale(),
-                  opacity: 1,
-                  duration: 0.12,
+                  opacity: isShortPhone ? 0 : 1,
+                  duration: 0.22,
                   ease: 'sine.inOut',
                 },
-                0.84
+                0.66
               )
               .to(
                 depthScaleRef.current,
@@ -482,7 +482,7 @@ export function HeroDepthExperience({
           tl.to(
             [depthScaleRef.current, sourceLeftRef.current, sourceRightRef.current],
             { opacity: 0, duration: 0.08, ease: 'power1.inOut' },
-            0.92
+            1.02
           );
         } else {
           // Reduced motion fallback
