@@ -21,7 +21,6 @@ export function HistorySection() {
   const factoryImg = useRef<HTMLImageElement>(null);
   const title1 = useRef<HTMLDivElement>(null);
   const title2 = useRef<HTMLDivElement>(null);
-  const bottleWrap = useRef<HTMLDivElement>(null);
 
   useLayoutEffect(() => {
     if (!section.current) return;
@@ -34,9 +33,7 @@ export function HistorySection() {
         reduceMotion: '(prefers-reduced-motion: reduce)',
       },
       (context) => {
-        const { isDesktop, reduceMotion } = context.conditions as {
-          isDesktop: boolean;
-          isMobile: boolean;
+        const { reduceMotion } = context.conditions as {
           reduceMotion: boolean;
         };
 
@@ -45,7 +42,6 @@ export function HistorySection() {
           if (year.current) gsap.set(year.current, { autoAlpha: 1, y: 0 });
           if (factoryLayer.current) gsap.set(factoryLayer.current, { opacity: 1 });
           if (title2.current) gsap.set(title2.current, { opacity: 1, y: 0 });
-          if (bottleWrap.current) gsap.set(bottleWrap.current, { opacity: 1, y: 0, scale: 1 });
           return;
         }
 
@@ -76,11 +72,6 @@ export function HistorySection() {
           gsap.set(factoryImg.current, { scale: 1.08, yPercent: 0 });
           gsap.set(title1.current, { opacity: 1, y: 0 });
           gsap.set(title2.current, { opacity: 0, y: 30 });
-          gsap.set(bottleWrap.current, {
-            opacity: 0,
-            y: isDesktop ? 60 : 40,
-            scale: 0.92,
-          });
 
           const tlBottling = gsap.timeline({
             scrollTrigger: {
@@ -115,23 +106,22 @@ export function HistorySection() {
             0.24
           );
 
-          // Phase 2: Smooth cinematic cross-fade to finished product (warehouse/plant)
+          // Phase 2: Smooth cinematic cross-fade to finished product with shining bottle
           tlBottling.to(
             factoryLayer.current,
             {
               opacity: 1,
               ease: 'power2.inOut',
-              duration: 0.36,
+              duration: 0.38,
             },
             0.30
           )
             .to(
               factoryImg.current,
               {
-                scale: 1.0,
-                yPercent: -2,
+                scale: 1.04,
                 ease: 'none',
-                duration: 0.50,
+                duration: 0.52,
               },
               0.32
             )
@@ -141,23 +131,10 @@ export function HistorySection() {
                 opacity: 1,
                 y: 0,
                 ease: 'power2.out',
-                duration: 0.28,
+                duration: 0.30,
               },
-              0.44
+              0.46
             );
-
-          // Phase 3: Real authentic bottle emerges and visually connects to «Где купить»
-          tlBottling.to(
-            bottleWrap.current,
-            {
-              opacity: 1,
-              y: 0,
-              scale: 1,
-              ease: 'power3.out',
-              duration: 0.32,
-            },
-            0.56
-          );
         }
       },
       section
@@ -231,10 +208,10 @@ export function HistorySection() {
           <div ref={factoryLayer} className="bottling-cinema__layer bottling-cinema__layer--factory">
             <img
               ref={factoryImg}
-              src={assetUrl('assets/production-room.webp')}
+              src={assetUrl('assets/factory-ready.webp')}
               alt="Готовая продукция воды «Природный Элемент» к отправке"
-              width={2400}
-              height={1600}
+              width={1024}
+              height={576}
               loading="lazy"
               decoding="async"
               className="bottling-cinema__bg-img"
@@ -280,53 +257,6 @@ export function HistorySection() {
               </div>
             </div>
 
-            {/* Real Authentic Shining Bottle Standing on Floor */}
-            <div ref={bottleWrap} className="bottling-cinema__bottle-pane" aria-hidden="true">
-              <div className="bottling-cinema__bottle-aura" />
-              <img
-                src={assetUrl('assets/bottle-floor-caustics.webp')}
-                alt=""
-                width={640}
-                height={320}
-                loading="lazy"
-                decoding="async"
-                className="bottling-cinema__floor-caustics"
-              />
-              <img
-                src={assetUrl('assets/bottle-contact-shadow.webp')}
-                alt=""
-                width={400}
-                height={160}
-                loading="lazy"
-                decoding="async"
-                className="bottling-cinema__floor-shadow"
-              />
-              <img
-                src={assetUrl('assets/bottle-shining.webp')}
-                alt=""
-                width={500}
-                height={1850}
-                loading="lazy"
-                decoding="async"
-                className="bottling-cinema__bottle-reflection"
-              />
-              <img
-                src={assetUrl('assets/bottle-shining.webp')}
-                alt="Природный Элемент"
-                width={500}
-                height={1850}
-                loading="lazy"
-                decoding="async"
-                className="bottling-cinema__bottle-img"
-              />
-              <div
-                className="bottling-cinema__bottle-sheen"
-                style={{
-                  WebkitMaskImage: `url(${assetUrl('assets/bottle-shining.webp')})`,
-                  maskImage: `url(${assetUrl('assets/bottle-shining.webp')})`,
-                }}
-              />
-            </div>
           </div>
         </div>
       </div>
