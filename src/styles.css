@@ -4083,3 +4083,12 @@ h3,
 }
 
 
+
+/* A transparent 3D stage leaves space for the rising bubble wake. */
+.underwater-model {
+  position: absolute;
+  inset: 0 -100%;
+  pointer-events: none;
+}
+.underwater-model canvas { display: block; width: 100%; height: 100%; }
+.underwater-model__fallback { position: absolute; left: 33.333%; width: 33.333%; height: 100%; object-fit: contain; }

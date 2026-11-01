@@ -1,5 +1,6 @@
 import { useLayoutEffect, useRef, useState } from 'react';
 import gsap from 'gsap';
+import { UnderwaterBottle3D } from './UnderwaterBottle3D';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import type { OrderSelection, VolumeFormat, WaterType } from '../types';
 import { assetUrl } from '../utils/assetUrl';
@@ -59,7 +60,7 @@ export function DepthToLightTransition({
   const stageRef = useRef<HTMLDivElement | null>(null);
   const waterWrapRef = useRef<HTMLDivElement | null>(null);
   const risingBottleRef = useRef<HTMLDivElement | null>(null);
-  const turbulenceRef = useRef<HTMLDivElement | null>(null);
+  const modelMotion = useRef({ progress: 0 });
   const waterImgRef = useRef<HTMLImageElement | null>(null);
   const waterRaysRef = useRef<HTMLDivElement | null>(null);
   const causticsRef = useRef<HTMLDivElement | null>(null);
@@ -131,7 +132,7 @@ export function DepthToLightTransition({
         gsap.set(waterRaysRef.current, { opacity: 0.55, scale: 1 });
         gsap.set(causticsRef.current, { opacity: 0.35 });
         gsap.set(bubblesRef.current, { opacity: 0.45, y: 0 });
-        gsap.set(turbulenceRef.current, { opacity: 0 });
+        gsap.set(modelMotion.current, { progress: 0 });
         gsap.set(risingBottleRef.current, {
           xPercent: -50,
           yPercent: -50,
@@ -176,11 +177,10 @@ export function DepthToLightTransition({
           { opacity: 1, ease: 'power1.out', duration: 0.06 },
           0
         )
-          .to(turbulenceRef.current, { opacity: 1, duration: 0.045, ease: 'power1.out' }, 0.045)
-          .to(turbulenceRef.current, { opacity: 0, duration: 0.09 }, 0.3)
+          .to(modelMotion.current, { progress: 1, duration: 0.34, ease: 'sine.inOut' }, 0.05)
           .to(
             risingBottleRef.current,
-            { y: () => -window.innerHeight * 1.2, ease: 'sine.inOut', duration: 0.28 },
+            { y: () => -window.innerHeight * 1.2, ease: 'power1.in', duration: 0.34 },
             0.05
           )
           .to(
@@ -374,38 +374,8 @@ export function DepthToLightTransition({
         </div>
 
         <div ref={risingBottleRef} className="hero-bottle-stage depth-rising-bottle" aria-hidden="true">
-          <div ref={turbulenceRef} className="bottle-turbulence">
-            {Array.from({ length: 42 }, (_, i) => (
-              <span
-                key={i}
-                className={`bottle-turbulence__bubble bottle-turbulence__bubble--${i % 3}`}
-                style={{
-                  left: `${8 + ((i * 37) % 84)}%`,
-                  top: `${20 + ((i * 23) % 90)}%`,
-                  width: `${3 + ((i * 7) % 14)}px`,
-                  height: `${3 + ((i * 7) % 14)}px`,
-                  animationDuration: `${0.85 + (i % 7) * 0.16}s`,
-                  animationDelay: `${-(i * 0.17)}s`,
-                }}
-              />
-            ))}
-          </div>
           <div className="hero-bottle-stage__figure">
-            <img
-              className="hero-bottle-stage__img"
-              src={assetUrl('assets/bottle-hero.webp')}
-              alt=""
-              width={500}
-              height={1850}
-              decoding="async"
-            />
-            <div
-              className="bottle-water-light"
-              style={{
-                maskImage: `url(${assetUrl('assets/bottle-hero.webp')})`,
-                WebkitMaskImage: `url(${assetUrl('assets/bottle-hero.webp')})`,
-              }}
-            />
+            <UnderwaterBottle3D motion={modelMotion} />
           </div>
         </div>
 
