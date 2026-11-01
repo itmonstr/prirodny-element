@@ -81,7 +81,7 @@ export function WhereToBuySection({
           <article className="buy-scenario buy-scenario--delivery">
             <div className="buy-scenario__media">
               <img
-                src={assetUrl('assets/buy-delivery-scene.webp')}
+                src={assetUrl('assets/buy-delivery-hd.png')}
                 alt="Настоящие бутылки «Природный Элемент» 1,5 л для прямой доставки"
                 width={1440}
                 height={900}
@@ -112,7 +112,7 @@ export function WhereToBuySection({
           <article className="buy-scenario buy-scenario--retail">
             <div className="buy-scenario__media">
               <img
-                src={assetUrl('assets/buy-retail-scene.webp')}
+                src={assetUrl('assets/buy-retail-hd.png')}
                 alt="Ассортимент бутылок «Природный Элемент» 0,5 л и 1,5 л для розничных точек"
                 width={1440}
                 height={900}
