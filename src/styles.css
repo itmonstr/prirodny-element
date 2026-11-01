@@ -3560,9 +3560,12 @@ h3,
 .history-bottling__copy { max-width: 440px; }
 .history-bottling__copy h3 { font: 400 clamp(2.7rem, 4.5vw, 5rem)/1.08 var(--font-serif); color: #123c69; margin: 24px 0; }
 .history-bottling__copy p { color: var(--ink-secondary); font-size: clamp(1rem, 1.35vw, 1.2rem); line-height: 1.7; }
+.history-bottling__gallery { display: grid; gap: 24px; min-width: 0; }
 .history-bottling__image { margin: 0; }
 .history-bottling__image img { display: block; width: 100%; aspect-ratio: 1.65; object-fit: cover; }
 .history-bottling__image figcaption { color: var(--ink-muted); font-size: .82rem; margin-top: 12px; }
+.history-bottling__image--room { width: 78%; margin-left: auto; }
+.history-bottling__image--room img { aspect-ratio: 2.15; object-position: center 66%; }
 
 /* Two visual destinations */
 .buy-section { background: #fff; padding: clamp(72px, 8vw, 120px) 0; }
@@ -3605,6 +3608,8 @@ h3,
   .history-story__factory { left: 24px; right: 24px; top: 42%; width: calc(100% - 48px); height: 42%; }
   .history-bottling { grid-template-columns: 1fr; gap: 28px; padding-block: 72px; }
   .history-bottling__copy h3 { font-size: 2.7rem; }
+  .history-bottling__gallery { gap: 24px; }
+  .history-bottling__image--room { width: 88%; }
   .buy-scenario__media { aspect-ratio: 4/3; }
   .buy-scenario__body { min-height: 0; gap: 12px; }
 }

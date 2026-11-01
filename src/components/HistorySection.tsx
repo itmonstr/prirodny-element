@@ -53,9 +53,12 @@ export function HistorySection() {
       <div className="history-bottling__copy">
         <span className="history-story__eyebrow">Бережное производство</span>
         <h3>От источника<br />до каждой бутылки</h3>
-        <p>Воду разливают на собственной линии рядом с артезианской скважиной. Так мы сохраняем её природный характер на каждом этапе.</p>
+        <p>Воду разливают на собственной линии рядом с артезианской скважиной. Готовые бутылки собирают в партии для отгрузки.</p>
       </div>
-      <figure className="history-bottling__image"><img src={assetUrl('assets/conveyor.webp')} alt="Линия розлива воды «Природный Элемент»" width={932} height={436} loading="lazy" /><figcaption>Линия розлива «Природного Элемента»</figcaption></figure>
+      <div className="history-bottling__gallery">
+        <figure className="history-bottling__image"><img src={assetUrl('assets/conveyor-hd.png')} alt="Линия розлива воды «Природный Элемент»" width={1833} height={858} loading="lazy" /><figcaption>Линия розлива «Природного Элемента»</figcaption></figure>
+        <figure className="history-bottling__image history-bottling__image--room"><img src={assetUrl('assets/production-room.jpg')} alt="Производственный цех с подготовленными к отгрузке бутылками воды" width={2400} height={1600} loading="lazy" /><figcaption>Готовая продукция в цехе</figcaption></figure>
+      </div>
     </div>
   </section>;
 }
