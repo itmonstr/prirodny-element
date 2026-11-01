@@ -280,19 +280,52 @@ export function HistorySection() {
               </div>
             </div>
 
-            {/* Real Bottle Silhouette Handoff */}
+            {/* Real Authentic Shining Bottle Standing on Floor */}
             <div ref={bottleWrap} className="bottling-cinema__bottle-pane" aria-hidden="true">
               <div className="bottling-cinema__bottle-aura" />
               <img
-                src={assetUrl('assets/bottle-hero.webp')}
-                alt="Бутылка воды Природный Элемент"
+                src={assetUrl('assets/bottle-floor-caustics.webp')}
+                alt=""
+                width={640}
+                height={320}
+                loading="lazy"
+                decoding="async"
+                className="bottling-cinema__floor-caustics"
+              />
+              <img
+                src={assetUrl('assets/bottle-contact-shadow.webp')}
+                alt=""
+                width={400}
+                height={160}
+                loading="lazy"
+                decoding="async"
+                className="bottling-cinema__floor-shadow"
+              />
+              <img
+                src={assetUrl('assets/bottle-shining.webp')}
+                alt=""
+                width={500}
+                height={1850}
+                loading="lazy"
+                decoding="async"
+                className="bottling-cinema__bottle-reflection"
+              />
+              <img
+                src={assetUrl('assets/bottle-shining.webp')}
+                alt="Природный Элемент"
                 width={500}
                 height={1850}
                 loading="lazy"
                 decoding="async"
                 className="bottling-cinema__bottle-img"
               />
-              <div className="bottling-cinema__bottle-shadow" />
+              <div
+                className="bottling-cinema__bottle-sheen"
+                style={{
+                  WebkitMaskImage: `url(${assetUrl('assets/bottle-shining.webp')})`,
+                  maskImage: `url(${assetUrl('assets/bottle-shining.webp')})`,
+                }}
+              />
             </div>
           </div>
         </div>
