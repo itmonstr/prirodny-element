@@ -3556,21 +3556,132 @@ h3,
 .history-story__production-copy { position: absolute; left: clamp(24px, 6vw, 100px); top: 27%; width: 36%; max-width: 520px; z-index: 1; }
 .history-story__year { display: block; font: 400 clamp(6rem, 14vw, 14rem)/.9 var(--font-serif); margin: 28px 0; }
 .history-story__production-copy p { font-size: clamp(1.15rem, 1.8vw, 1.7rem); line-height: 1.4; }
-.history-bottling { padding-block: clamp(68px, 7vw, 104px); }
-.history-bottling__header { margin-bottom: clamp(32px, 4vw, 54px); }
-.history-bottling__header h3 { font: 400 clamp(2.6rem, 4vw, 4.4rem)/1.08 var(--font-serif); color: #123c69; margin-top: 18px; }
-.history-bottling__story { display: grid; grid-template-columns: minmax(0, 560px) minmax(0, 380px); justify-content: center; align-items: center; gap: clamp(28px, 4vw, 64px); margin-bottom: clamp(42px, 5vw, 72px); }
-.history-bottling__story:last-child { margin-bottom: 0; }
-.history-bottling__story--reverse { grid-template-columns: minmax(0, 380px) minmax(0, 560px); }
-.history-bottling__story--reverse .history-bottling__image { order: 2; }
-.history-bottling__image { margin: 0; min-width: 0; overflow: hidden; }
-.history-bottling__image img { display: block; width: 100%; aspect-ratio: 1.85; object-fit: cover; transition: transform .8s var(--ease-out-expo); }
-.history-bottling__image:hover img { transform: scale(1.035); }
-.history-bottling__story--reverse .history-bottling__image img { aspect-ratio: 1.8; object-position: center 65%; }
-.history-bottling__story-copy { max-width: 390px; }
-.history-bottling__number { display: block; color: #4a6682; font-size: .75rem; font-weight: 700; letter-spacing: .14em; text-transform: uppercase; margin-bottom: 22px; }
-.history-bottling__story-copy h4 { font: 400 clamp(2rem, 3vw, 3.5rem)/1.15 var(--font-serif); color: #123c69; margin-bottom: 20px; }
-.history-bottling__story-copy p { color: var(--ink-secondary); font-size: clamp(1rem, 1.2vw, 1.1rem); line-height: 1.7; }
+/* ==========================================================================
+   PRODUCTION SECTION: «БЕРЕЖНОЕ ПРОИЗВОДСТВО» (Lean & Balanced Editorial)
+   ========================================================================== */
+
+.history-bottling {
+  padding-block: clamp(52px, 6vw, 84px);
+  background-color: #f4f8fb;
+}
+
+.history-bottling__header {
+  max-width: 1120px;
+  margin-inline: auto;
+  margin-bottom: clamp(24px, 3.2vw, 38px);
+}
+
+.history-bottling__header .history-story__eyebrow {
+  display: inline-block;
+  font-size: 0.74rem;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: #165b94;
+  margin-bottom: 8px;
+}
+
+.history-bottling__header h3 {
+  font-family: var(--font-serif);
+  font-size: clamp(2rem, 3.2vw, 2.85rem);
+  line-height: 1.16;
+  font-weight: 400;
+  color: #123c69;
+  margin: 0;
+}
+
+.history-bottling__grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: clamp(20px, 2.8vw, 36px);
+  max-width: 1120px;
+  margin-inline: auto;
+}
+
+.history-bottling__card,
+.history-bottling__story {
+  background: #ffffff;
+  border: 1px solid rgba(18, 60, 105, 0.08);
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 4px 18px rgba(12, 43, 77, 0.04);
+  display: flex;
+  flex-direction: column;
+  transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.history-bottling__card:hover,
+.history-bottling__story:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 10px 28px rgba(12, 43, 77, 0.08);
+}
+
+.history-bottling__media,
+.history-bottling__image {
+  position: relative;
+  width: 100%;
+  height: clamp(180px, 19vw, 235px);
+  overflow: hidden;
+  background-color: #eaf3f9;
+  margin: 0;
+}
+
+.history-bottling__img,
+.history-bottling__image img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center center;
+  transition: transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.history-bottling__card:nth-child(2) .history-bottling__img,
+.history-bottling__story--reverse .history-bottling__image img {
+  object-position: center 60%;
+}
+
+.history-bottling__card:hover .history-bottling__img,
+.history-bottling__story:hover .history-bottling__image img {
+  transform: scale(1.035);
+}
+
+.history-bottling__body,
+.history-bottling__story-copy {
+  padding: clamp(20px, 2.4vw, 28px);
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+}
+
+.history-bottling__badge,
+.history-bottling__number {
+  display: inline-block;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: #165b94;
+  margin-bottom: 8px;
+}
+
+.history-bottling__card-title,
+.history-bottling__story-copy h4 {
+  font-family: var(--font-serif);
+  font-size: clamp(1.25rem, 1.7vw, 1.6rem);
+  line-height: 1.25;
+  font-weight: 500;
+  color: #123c69;
+  margin: 0 0 10px 0;
+}
+
+.history-bottling__card-text,
+.history-bottling__story-copy p {
+  font-size: clamp(0.9rem, 1.05vw, 0.98rem);
+  line-height: 1.55;
+  color: var(--ink-secondary, #4a6682);
+  margin: 0;
+}
 
 /* Two visual destinations */
 .buy-section { background: #fff; padding: clamp(72px, 8vw, 120px) 0; }
@@ -3598,7 +3709,7 @@ h3,
   .history-story__journey { height: 195svh; }
   .history-story__production-copy { top: 12%; width: 44%; }
   .history-story__factory { right: 3%; width: 52%; height: 68%; top: 15%; }
-  .history-bottling__story, .history-bottling__story--reverse { gap: 32px; }
+  /* history-bottling grid stays fluid */
   .buy-diptych { grid-template-columns: 1fr; gap: 16px; }
   .buy-scenario__media { aspect-ratio: 16/9; }
 }
@@ -3611,13 +3722,13 @@ h3,
   .history-story__year { font-size: clamp(5rem, 22vw, 8rem); margin: 12px 0; }
   .history-story__production-copy p { font-size: 1.08rem; max-width: 300px; }
   .history-story__factory { left: 24px; right: 24px; top: 42%; width: calc(100% - 48px); height: 42%; }
-  .history-bottling { padding-block: 60px; }
-  .history-bottling__header h3 { font-size: 2.5rem; }
-  .history-bottling__story, .history-bottling__story--reverse { grid-template-columns: minmax(0, 1fr); gap: 18px; margin-bottom: 46px; }
-  .history-bottling__image img, .history-bottling__story--reverse .history-bottling__image img { aspect-ratio: 1.9; max-height: 290px; }
-  .history-bottling__story--reverse .history-bottling__image { order: 0; }
-  .history-bottling__story-copy h4 { font-size: 2.2rem; margin-bottom: 12px; }
-  .history-bottling__number { margin-bottom: 12px; }
+  .history-bottling { padding-block: 44px; }
+  .history-bottling__header { margin-bottom: 20px; }
+  .history-bottling__header h3 { font-size: clamp(1.85rem, 7vw, 2.4rem); }
+  .history-bottling__grid { grid-template-columns: 1fr; gap: 16px; }
+  .history-bottling__media, .history-bottling__image { height: 180px; }
+  .history-bottling__body, .history-bottling__story-copy { padding: 18px 20px 22px; }
+  .history-bottling__card-title, .history-bottling__story-copy h4 { font-size: 1.35rem; margin-bottom: 8px; }
   .buy-scenario__media { aspect-ratio: 4/3; }
   .buy-scenario__body { min-height: 0; gap: 12px; }
 }
