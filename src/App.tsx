@@ -1,7 +1,7 @@
 import { useCallback, useState } from 'react';
 import { Header } from './components/Header';
 import { HeroDepthExperience } from './components/HeroDepthExperience';
-import { WaterGlassInterlude } from './components/WaterGlassInterlude';
+import { DepthToLightTransition } from './components/DepthToLightTransition';
 import { FormatsSection } from './components/FormatsSection';
 import { HistorySection } from './components/HistorySection';
 import { WhereToBuySection } from './components/WhereToBuySection';
@@ -11,6 +11,7 @@ import type { ModalKind, OrderSelection } from './types';
 
 export function App() {
   const [darkFromSource, setDarkFromSource] = useState(false);
+  const [darkFromTransition, setDarkFromTransition] = useState(false);
   const [darkFromFinale, setDarkFromFinale] = useState(false);
   const [activeModal, setActiveModal] = useState<ModalKind>(null);
   const [orderSelection, setOrderSelection] = useState<OrderSelection>({
@@ -20,6 +21,10 @@ export function App() {
 
   const handleSourceDark = useCallback((isDark: boolean) => {
     setDarkFromSource(isDark);
+  }, []);
+
+  const handleTransitionDark = useCallback((isDark: boolean) => {
+    setDarkFromTransition(isDark);
   }, []);
 
   const handleFinaleDark = useCallback((isDark: boolean) => {
@@ -38,7 +43,7 @@ export function App() {
       </a>
 
       <Header
-        isDarkScene={darkFromSource || darkFromFinale}
+        isDarkScene={darkFromSource || darkFromTransition || darkFromFinale}
         onOrderClick={() => openOrderModal()}
       />
 
@@ -49,8 +54,8 @@ export function App() {
           onDarkSceneChange={handleSourceDark}
         />
 
-        {/* Visual Still-Life Bridge: Sunlit Crystal Glass & Water Caustics */}
-        <WaterGlassInterlude />
+        {/* Cinematic Scroll Transition: «Из глубины к свету» (80m Depth -> Surface Light -> 3 Bottles) */}
+        <DepthToLightTransition onDarkSceneChange={handleTransitionDark} />
 
         {/* Block 3: «Выберите свой формат» (0,5 / 1 / 1,5 L) */}
         <FormatsSection onOrderFormat={(sel) => openOrderModal(sel)} />

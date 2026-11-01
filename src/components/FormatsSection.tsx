@@ -31,7 +31,7 @@ const FORMATS: FormatItem[] = [
     label: '1 л',
     tagline: 'На каждый день',
     detail: 'Сбалансированный объём для рабочего стола и поддержания водного баланса в течение дня.',
-    hasRealPhoto: false,
+    hasRealPhoto: true,
   },
   {
     volume: '1.5',
@@ -152,6 +152,11 @@ export function FormatsSection({ onOrderFormat }: FormatsSectionProps) {
         ? assetUrl('assets/bottle-05-sparkling.webp')
         : assetUrl('assets/bottle-05-still.webp');
     }
+    if (vol === '1.0') {
+      return type === 'sparkling'
+        ? assetUrl('assets/bottle-10-sparkling.webp')
+        : assetUrl('assets/bottle-10-still.webp');
+    }
     return type === 'sparkling'
       ? assetUrl('assets/bottle-15-sparkling.webp')
       : assetUrl('assets/bottle-15-still.webp');
@@ -271,8 +276,8 @@ export function FormatsSection({ onOrderFormat }: FormatsSectionProps) {
                             alt={`Природный Элемент ${item.label} (${
                               waterType === 'sparkling' ? 'газированная' : 'негазированная'
                             })`}
-                            width={item.volume === '0.5' ? 152 : 214}
-                            height={item.volume === '0.5' ? 502 : 709}
+                            width={item.volume === '0.5' ? 152 : item.volume === '1.0' ? 172 : 214}
+                            height={item.volume === '0.5' ? 502 : item.volume === '1.0' ? 570 : 709}
                             loading="lazy"
                             decoding="async"
                             className="format-bottle-wrap__img"
