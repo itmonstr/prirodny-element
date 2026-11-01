@@ -126,12 +126,11 @@ export function DepthToLightTransition({ onDarkSceneChange }: DepthToLightTransi
           transformOrigin: '50% 20%',
         });
         gsap.fromTo(waterWrapRef.current,
-          { clipPath: 'inset(100% 0 0 0)', opacity: 0 },
+          { clipPath: 'inset(100% 0 0 0)' },
           {
             clipPath: 'inset(0% 0 0 0)',
-            opacity: 0.15,
             ease: 'none',
-            scrollTrigger: { trigger: section, start: 'top bottom', end: 'top top', scrub: 0.65 },
+            scrollTrigger: { trigger: section, start: 'top bottom', end: 'top top', scrub: true },
           }
         );
         gsap.set(waterRaysRef.current, { opacity: 0.55, scale: 1 });
@@ -139,26 +138,10 @@ export function DepthToLightTransition({ onDarkSceneChange }: DepthToLightTransi
         gsap.set(bubblesRef.current, { opacity: 0.45, y: 0 });
         gsap.set(risingBottleRef.current, {
           xPercent: -50, yPercent: -50, x: 0,
-          y: () => -window.innerHeight * (isDesktop ? 0.18 : 0.38),
+          y: () => window.innerHeight * 0.9,
           scale: isDesktop ? 0.87 : 0.84,
           opacity: 1,
         });
-        // The bottle enters with the new scene, before its sticky scroll begins.
-        gsap.fromTo(risingBottleRef.current,
-          { y: () => -window.innerHeight * (isDesktop ? 0.18 : 0.38) },
-          {
-            y: 0,
-            ease: 'none',
-            immediateRender: false,
-            scrollTrigger: {
-              trigger: section,
-              start: 'top bottom',
-              end: 'top top',
-              scrub: 0.45,
-              invalidateOnRefresh: true,
-            },
-          }
-        );
         gsap.set(introRef.current, { opacity: 0, y: 12 });
         gsap.set(introLinesRef.current, { opacity: 0, y: 32 });
         gsap.set(introLeadRef.current, { opacity: 0, y: 16 });
@@ -182,22 +165,16 @@ export function DepthToLightTransition({ onDarkSceneChange }: DepthToLightTransi
             trigger: section,
             start: 'top top',
             end: 'bottom bottom',
-            scrub: 0.8,
+            scrub: 0.65,
             invalidateOnRefresh: true,
           },
         });
 
         // 1. PHASE ONE (0.00 -> 0.38): Ascent from the deep artesian aquifer towards the surface
-        tl.fromTo(waterWrapRef.current,
-          { opacity: 0.15 },
-          { opacity: 1, ease: 'power2.out', duration: 0.34, immediateRender: false },
-          0
-        )
-        .fromTo(risingBottleRef.current, { y: 0 }, {
+        tl.to(risingBottleRef.current, {
           y: () => -window.innerHeight * 0.9,
-          ease: 'sine.inOut',
-          duration: 0.42,
-          immediateRender: false,
+          ease: 'power1.inOut',
+          duration: 0.52,
         }, 0)
         .to(
           waterImgRef.current,
@@ -241,22 +218,22 @@ export function DepthToLightTransition({ onDarkSceneChange }: DepthToLightTransi
           .to(
             introRef.current,
             { opacity: 1, y: 0, ease: 'power2.out', duration: 0.12 },
-            0.40
+            0.55
           )
           .to(
             introLinesRef.current[0],
             { opacity: 1, y: 0, ease: 'power2.out', duration: 0.13 },
-            0.43
+            0.57
           )
           .to(
             introLinesRef.current[1],
             { opacity: 1, y: 0, ease: 'power2.out', duration: 0.13 },
-            0.54
+            0.68
           )
           .to(
             introLeadRef.current,
             { opacity: 1, y: 0, ease: 'power2.out', duration: 0.1 },
-            0.66
+            0.79
           )
           .to(
             introRef.current,
@@ -266,7 +243,7 @@ export function DepthToLightTransition({ onDarkSceneChange }: DepthToLightTransi
               ease: 'power2.in',
               duration: 0.22,
             },
-            0.98
+            1.12
           );
 
         // 2. PHASE TWO (0.30 -> 0.62): Breaking the surface — Sunlight flood & Caustics bloom
@@ -278,7 +255,7 @@ export function DepthToLightTransition({ onDarkSceneChange }: DepthToLightTransi
             ease: 'power2.inOut',
             duration: 0.28,
           },
-          1.06
+          1.20
         )
           .to(
             daylightBgRef.current,
@@ -287,7 +264,7 @@ export function DepthToLightTransition({ onDarkSceneChange }: DepthToLightTransi
               ease: 'power2.out',
               duration: 0.32,
             },
-          1.14
+          1.28
           )
           .to(
             bloomRef.current,
@@ -297,7 +274,7 @@ export function DepthToLightTransition({ onDarkSceneChange }: DepthToLightTransi
               ease: 'sine.out',
               duration: 0.22,
             },
-            1.30
+            1.44
           );
 
         // 3. PHASE THREE (0.46 -> 0.88): The 3 Authentic Bottles Materialize from the Light
@@ -309,7 +286,7 @@ export function DepthToLightTransition({ onDarkSceneChange }: DepthToLightTransi
             ease: 'power2.out',
             duration: 0.26,
           },
-          1.26
+          1.40
         );
 
         // Center 1.0L Bottle leads the arrival
@@ -324,7 +301,7 @@ export function DepthToLightTransition({ onDarkSceneChange }: DepthToLightTransi
               ease: 'power3.out',
               duration: 0.34,
             },
-            1.33
+            1.47
           );
         }
 
@@ -340,7 +317,7 @@ export function DepthToLightTransition({ onDarkSceneChange }: DepthToLightTransi
               ease: 'power3.out',
               duration: 0.34,
             },
-            1.37
+            1.51
           );
         }
 
@@ -356,7 +333,7 @@ export function DepthToLightTransition({ onDarkSceneChange }: DepthToLightTransi
               ease: 'power3.out',
               duration: 0.34,
             },
-            1.40
+            1.54
           );
         }
 
@@ -369,7 +346,7 @@ export function DepthToLightTransition({ onDarkSceneChange }: DepthToLightTransi
             ease: 'power2.out',
             duration: 0.18,
           },
-          1.64
+          1.78
         );
       },
       section

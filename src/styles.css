@@ -461,7 +461,7 @@ h3,
 
 .hero-depth-journey {
   position: relative;
-  height: 200vh;
+  height: 212vh;
   background-color: #0c2b4d;
 }
 
@@ -890,7 +890,7 @@ h3,
 
 .depth-to-light-section {
   position: relative;
-  height: 220svh;
+  height: 250svh;
   background-color: #0c2b4d;
   overflow: visible;
 }
@@ -2722,8 +2722,8 @@ h3,
 
   /* Unified Continuous Scroll Journey on Tablet & Mobile (Same choreography as Desktop) */
   .hero-depth-journey {
-    height: 250vh;
-    height: 250dvh;
+    height: 275vh;
+    height: 275dvh;
     background-color: #0c2b4d;
   }
 
@@ -2978,7 +2978,7 @@ h3,
 
   /* Cinematic Transition on Tablet & Mobile */
   .depth-to-light-section {
-    height: 200svh;
+    height: 220svh;
   }
 
   .depth-bottles-vitrine {
@@ -3167,8 +3167,8 @@ h3,
   }
 
   .hero-depth-journey {
-    height: 270vh;
-    height: 270dvh;
+    height: 300vh;
+    height: 300dvh;
   }
 
   .hero-copy,
