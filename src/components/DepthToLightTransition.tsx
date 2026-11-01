@@ -124,6 +124,7 @@ export function DepthToLightTransition({ onDarkSceneChange }: DepthToLightTransi
           yPercent: isDesktop ? 6 : 4,
           transformOrigin: '50% 20%',
         });
+        gsap.set(waterWrapRef.current, { clipPath: 'inset(100% 0 0 0)' });
         gsap.set(waterRaysRef.current, { opacity: 0.55, scale: 1 });
         gsap.set(causticsRef.current, { opacity: 0.35 });
         gsap.set(bubblesRef.current, { opacity: 0.45, y: 0 });
@@ -156,7 +157,12 @@ export function DepthToLightTransition({ onDarkSceneChange }: DepthToLightTransi
         });
 
         // 1. PHASE ONE (0.00 -> 0.38): Ascent from the deep artesian aquifer towards the surface
-        tl.to(
+        tl.to(waterWrapRef.current, {
+          clipPath: 'inset(0% 0 0 0)',
+          ease: 'none',
+          duration: 0.36,
+        }, 0)
+        .to(
           waterImgRef.current,
           {
             scale: 1.22,
