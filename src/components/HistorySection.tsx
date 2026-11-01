@@ -178,8 +178,8 @@ export function HistorySection() {
               className="history-story__factory"
               src={assetUrl('assets/factory.webp')}
               alt="Завод питьевой воды «Природный Элемент»"
-              width={1170}
-              height={971}
+              width={3200}
+              height={2133}
               loading="lazy"
             />
           </div>
