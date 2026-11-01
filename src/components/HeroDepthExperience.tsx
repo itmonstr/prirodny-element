@@ -166,7 +166,7 @@ export function HeroDepthExperience({
               trigger: root,
               start: 'top top',
               end: 'bottom bottom',
-              scrub: 0.55,
+              scrub: 0.8,
               invalidateOnRefresh: true,
               onUpdate: (self) => {
                 const p = self.progress;
@@ -393,15 +393,15 @@ export function HeroDepthExperience({
                   opacity: 0,
                   y: -16,
                   pointerEvents: 'none',
-                  duration: 0.08,
-                  ease: 'power2.in',
+                  duration: 0.13,
+                  ease: 'sine.inOut',
                 },
                 0.44
               )
               // Make room for the minerals card: depth gauge steps aside, bottle sinks lower & recedes
               .to(
                 depthScaleRef.current,
-                { opacity: 0, duration: 0.06, ease: 'power1.out' },
+                { opacity: 0, duration: 0.11, ease: 'sine.inOut' },
                 0.45
               )
               .to(
@@ -410,8 +410,8 @@ export function HeroDepthExperience({
                   y: () => endOffsetY() + Math.round(window.innerHeight * 0.17),
                   scale: 0.66,
                   opacity: isShortPhone ? 0 : 0.55,
-                  duration: 0.1,
-                  ease: 'power2.inOut',
+                  duration: 0.15,
+                  ease: 'sine.inOut',
                 },
                 0.44
               )
@@ -445,8 +445,8 @@ export function HeroDepthExperience({
                   opacity: 0,
                   y: -16,
                   pointerEvents: 'none',
-                  duration: 0.08,
-                  ease: 'power2.in',
+                  duration: 0.13,
+                  ease: 'sine.inOut',
                 },
                 0.78
               )
@@ -475,7 +475,7 @@ export function HeroDepthExperience({
           }
           tl.to(
             [depthScaleRef.current, sourceLeftRef.current, sourceRightRef.current],
-            { opacity: 0, duration: 0.08, ease: 'power1.inOut' },
+            { opacity: 0, duration: 0.12, ease: 'sine.inOut' },
             0.92
           );
         } else {

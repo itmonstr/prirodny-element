@@ -139,10 +139,26 @@ export function DepthToLightTransition({ onDarkSceneChange }: DepthToLightTransi
         gsap.set(bubblesRef.current, { opacity: 0.45, y: 0 });
         gsap.set(risingBottleRef.current, {
           xPercent: -50, yPercent: -50, x: 0,
-          y: () => window.innerHeight * 0.9,
+          y: () => -window.innerHeight * (isDesktop ? 0.18 : 0.38),
           scale: isDesktop ? 0.87 : 0.84,
           opacity: 1,
         });
+        // The bottle enters with the new scene, before its sticky scroll begins.
+        gsap.fromTo(risingBottleRef.current,
+          { y: () => -window.innerHeight * (isDesktop ? 0.18 : 0.38) },
+          {
+            y: 0,
+            ease: 'none',
+            immediateRender: false,
+            scrollTrigger: {
+              trigger: section,
+              start: 'top bottom',
+              end: 'top top',
+              scrub: 0.45,
+              invalidateOnRefresh: true,
+            },
+          }
+        );
         gsap.set(introRef.current, { opacity: 0, y: 12 });
         gsap.set(introLinesRef.current, { opacity: 0, y: 32 });
         gsap.set(introLeadRef.current, { opacity: 0, y: 16 });
@@ -166,7 +182,7 @@ export function DepthToLightTransition({ onDarkSceneChange }: DepthToLightTransi
             trigger: section,
             start: 'top top',
             end: 'bottom bottom',
-            scrub: 0.65,
+            scrub: 0.8,
             invalidateOnRefresh: true,
           },
         });
@@ -177,10 +193,11 @@ export function DepthToLightTransition({ onDarkSceneChange }: DepthToLightTransi
           { opacity: 1, ease: 'power2.out', duration: 0.34, immediateRender: false },
           0
         )
-        .to(risingBottleRef.current, {
+        .fromTo(risingBottleRef.current, { y: 0 }, {
           y: () => -window.innerHeight * 0.9,
-          ease: 'power1.inOut',
-          duration: 0.52,
+          ease: 'sine.inOut',
+          duration: 0.42,
+          immediateRender: false,
         }, 0)
         .to(
           waterImgRef.current,
@@ -224,22 +241,22 @@ export function DepthToLightTransition({ onDarkSceneChange }: DepthToLightTransi
           .to(
             introRef.current,
             { opacity: 1, y: 0, ease: 'power2.out', duration: 0.12 },
-            0.49
+            0.40
           )
           .to(
             introLinesRef.current[0],
             { opacity: 1, y: 0, ease: 'power2.out', duration: 0.13 },
-            0.51
+            0.43
           )
           .to(
             introLinesRef.current[1],
             { opacity: 1, y: 0, ease: 'power2.out', duration: 0.13 },
-            0.62
+            0.54
           )
           .to(
             introLeadRef.current,
             { opacity: 1, y: 0, ease: 'power2.out', duration: 0.1 },
-            0.73
+            0.66
           )
           .to(
             introRef.current,
@@ -249,7 +266,7 @@ export function DepthToLightTransition({ onDarkSceneChange }: DepthToLightTransi
               ease: 'power2.in',
               duration: 0.22,
             },
-            1.12
+            0.98
           );
 
         // 2. PHASE TWO (0.30 -> 0.62): Breaking the surface — Sunlight flood & Caustics bloom
@@ -261,7 +278,7 @@ export function DepthToLightTransition({ onDarkSceneChange }: DepthToLightTransi
             ease: 'power2.inOut',
             duration: 0.28,
           },
-          1.20
+          1.06
         )
           .to(
             daylightBgRef.current,
@@ -270,7 +287,7 @@ export function DepthToLightTransition({ onDarkSceneChange }: DepthToLightTransi
               ease: 'power2.out',
               duration: 0.32,
             },
-          1.28
+          1.14
           )
           .to(
             bloomRef.current,
@@ -280,7 +297,7 @@ export function DepthToLightTransition({ onDarkSceneChange }: DepthToLightTransi
               ease: 'sine.out',
               duration: 0.22,
             },
-            1.44
+            1.30
           );
 
         // 3. PHASE THREE (0.46 -> 0.88): The 3 Authentic Bottles Materialize from the Light
@@ -292,7 +309,7 @@ export function DepthToLightTransition({ onDarkSceneChange }: DepthToLightTransi
             ease: 'power2.out',
             duration: 0.26,
           },
-          1.40
+          1.26
         );
 
         // Center 1.0L Bottle leads the arrival
@@ -307,7 +324,7 @@ export function DepthToLightTransition({ onDarkSceneChange }: DepthToLightTransi
               ease: 'power3.out',
               duration: 0.34,
             },
-            1.47
+            1.33
           );
         }
 
@@ -323,7 +340,7 @@ export function DepthToLightTransition({ onDarkSceneChange }: DepthToLightTransi
               ease: 'power3.out',
               duration: 0.34,
             },
-            1.51
+            1.37
           );
         }
 
@@ -339,7 +356,7 @@ export function DepthToLightTransition({ onDarkSceneChange }: DepthToLightTransi
               ease: 'power3.out',
               duration: 0.34,
             },
-            1.54
+            1.40
           );
         }
 
@@ -352,7 +369,7 @@ export function DepthToLightTransition({ onDarkSceneChange }: DepthToLightTransi
             ease: 'power2.out',
             duration: 0.18,
           },
-          1.78
+          1.64
         );
       },
       section
