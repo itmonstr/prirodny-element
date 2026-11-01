@@ -245,30 +245,38 @@ export function HistorySection() {
           {/* Foreground Cinematic Typography & Real Bottle Handoff */}
           <div className="container bottling-cinema__content">
             <div className="bottling-cinema__text-col">
-              {/* Scene 1 Heading */}
+              {/* Scene 1: От источника — к каждой бутылке */}
               <div ref={title1} className="bottling-cinema__title-pane bottling-cinema__title-pane--1">
                 <h3 className="bottling-cinema__heading">
-                  От источника<br />до каждой бутылки
+                  От источника —<br />к каждой бутылке
                 </h3>
+                <p className="bottling-cinema__sub">
+                  Бережный розлив на собственном производстве в Крыму.
+                </p>
               </div>
 
-              {/* Scene 2 Heading */}
+              {/* Scene 2: Готова отправиться к вам */}
               <div ref={title2} className="bottling-cinema__title-pane bottling-cinema__title-pane--2">
                 <h3 className="bottling-cinema__heading">
                   Готова отправиться<br />к вам
                 </h3>
-                <a href="#where-to-buy" className="bottling-cinema__cue">
-                  <span>Выбрать способ получения</span>
-                  <svg width="15" height="15" viewBox="0 0 15 15" fill="none" aria-hidden="true">
-                    <path
-                      d="M7.5 2V13M7.5 13L3 8.5M7.5 13L12 8.5"
-                      stroke="currentColor"
-                      strokeWidth="1.4"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                    />
-                  </svg>
-                </a>
+                <p className="bottling-cinema__sub">
+                  От производства — к вашему дому.
+                </p>
+                <div className="bottling-cinema__action">
+                  <a href="#where-to-buy" className="bottling-cinema__btn">
+                    <span>Где купить</span>
+                    <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
+                      <path
+                        d="M7 2V12M7 12L2.5 7.5M7 12L11.5 7.5"
+                        stroke="currentColor"
+                        strokeWidth="1.35"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                      />
+                    </svg>
+                  </a>
+                </div>
               </div>
             </div>
 
