@@ -3556,15 +3556,15 @@ h3,
 .history-story__production-copy { position: absolute; left: clamp(24px, 6vw, 100px); top: 27%; width: 36%; max-width: 520px; z-index: 1; }
 .history-story__year { display: block; font: 400 clamp(6rem, 14vw, 14rem)/.9 var(--font-serif); margin: 28px 0; }
 .history-story__production-copy p { font-size: clamp(1.15rem, 1.8vw, 1.7rem); line-height: 1.4; }
-.history-bottling { padding-block: clamp(88px, 10vw, 144px); }
-.history-bottling__header { margin-bottom: clamp(44px, 6vw, 84px); }
-.history-bottling__header h3 { font: 400 clamp(2.8rem, 5vw, 5.5rem)/1.08 var(--font-serif); color: #123c69; margin-top: 18px; }
-.history-bottling__story { display: grid; grid-template-columns: 1.3fr .7fr; align-items: center; gap: clamp(32px, 6vw, 100px); margin-bottom: clamp(54px, 7vw, 110px); }
+.history-bottling { padding-block: clamp(68px, 7vw, 104px); }
+.history-bottling__header { margin-bottom: clamp(32px, 4vw, 54px); }
+.history-bottling__header h3 { font: 400 clamp(2.6rem, 4vw, 4.4rem)/1.08 var(--font-serif); color: #123c69; margin-top: 18px; }
+.history-bottling__story { display: grid; grid-template-columns: minmax(0, 560px) minmax(0, 380px); justify-content: center; align-items: center; gap: clamp(28px, 4vw, 64px); margin-bottom: clamp(42px, 5vw, 72px); }
 .history-bottling__story:last-child { margin-bottom: 0; }
-.history-bottling__story--reverse { grid-template-columns: .7fr 1.3fr; }
+.history-bottling__story--reverse { grid-template-columns: minmax(0, 380px) minmax(0, 560px); }
 .history-bottling__story--reverse .history-bottling__image { order: 2; }
 .history-bottling__image { margin: 0; min-width: 0; overflow: hidden; }
-.history-bottling__image img { display: block; width: 100%; aspect-ratio: 1.6; object-fit: cover; transition: transform .8s var(--ease-out-expo); }
+.history-bottling__image img { display: block; width: 100%; aspect-ratio: 1.85; object-fit: cover; transition: transform .8s var(--ease-out-expo); }
 .history-bottling__image:hover img { transform: scale(1.035); }
 .history-bottling__story--reverse .history-bottling__image img { aspect-ratio: 1.8; object-position: center 65%; }
 .history-bottling__story-copy { max-width: 390px; }
@@ -3611,9 +3611,10 @@ h3,
   .history-story__year { font-size: clamp(5rem, 22vw, 8rem); margin: 12px 0; }
   .history-story__production-copy p { font-size: 1.08rem; max-width: 300px; }
   .history-story__factory { left: 24px; right: 24px; top: 42%; width: calc(100% - 48px); height: 42%; }
-  .history-bottling { padding-block: 72px; }
-  .history-bottling__header h3 { font-size: 2.7rem; }
-  .history-bottling__story, .history-bottling__story--reverse { grid-template-columns: 1fr; gap: 22px; margin-bottom: 58px; }
+  .history-bottling { padding-block: 60px; }
+  .history-bottling__header h3 { font-size: 2.5rem; }
+  .history-bottling__story, .history-bottling__story--reverse { grid-template-columns: minmax(0, 1fr); gap: 18px; margin-bottom: 46px; }
+  .history-bottling__image img, .history-bottling__story--reverse .history-bottling__image img { aspect-ratio: 1.9; max-height: 290px; }
   .history-bottling__story--reverse .history-bottling__image { order: 0; }
   .history-bottling__story-copy h4 { font-size: 2.2rem; margin-bottom: 12px; }
   .history-bottling__number { margin-bottom: 12px; }
