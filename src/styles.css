@@ -1009,15 +1009,40 @@ h3,
 .depth-bubble {
   position: absolute;
   border-radius: 50%;
-  background: radial-gradient(circle at 35% 35%, #ffffff 0%, rgba(200, 235, 255, 0.6) 55%, rgba(255, 255, 255, 0.1) 100%);
-  box-shadow: 0 0 8px rgba(255, 255, 255, 0.4);
+  border: 1px solid rgba(238, 250, 255, 0.76);
+  background: radial-gradient(circle at 32% 28%, rgba(255,255,255,.96) 0 7%, rgba(207,241,255,.58) 22%, rgba(142,214,246,.16) 58%, rgba(255,255,255,.04) 74%);
+  box-shadow: inset -2px -3px 6px rgba(205, 241, 255, 0.25), 0 0 12px rgba(174, 231, 255, 0.38);
+  opacity: 0;
+  animation: depth-bubble-rise var(--bubble-duration, 7s) ease-in infinite;
+  animation-delay: var(--bubble-delay, 0s);
+  will-change: transform, opacity;
 }
 
-.depth-bubble--1 { width: 9px; height: 9px; left: 24%; top: 68%; }
-.depth-bubble--2 { width: 6px; height: 6px; left: 42%; top: 76%; }
-.depth-bubble--3 { width: 12px; height: 12px; left: 63%; top: 58%; }
-.depth-bubble--4 { width: 8px; height: 8px; left: 78%; top: 72%; }
-.depth-bubble--5 { width: 5px; height: 5px; left: 52%; top: 82%; }
+.depth-bubble--1 { --bubble-size: 8px; --bubble-duration: 7.2s; --bubble-delay: -5s; left: 8%; top: 100%; }
+.depth-bubble--2 { --bubble-size: 13px; --bubble-duration: 9s; --bubble-delay: -2s; left: 16%; top: 108%; }
+.depth-bubble--3 { --bubble-size: 6px; --bubble-duration: 6.8s; --bubble-delay: -4s; left: 25%; top: 102%; }
+.depth-bubble--4 { --bubble-size: 10px; --bubble-duration: 8.5s; --bubble-delay: -7s; left: 34%; top: 110%; }
+.depth-bubble--5 { --bubble-size: 5px; --bubble-duration: 6s; --bubble-delay: -1s; left: 43%; top: 104%; }
+.depth-bubble--6 { --bubble-size: 11px; --bubble-duration: 8s; --bubble-delay: -6s; left: 53%; top: 112%; }
+.depth-bubble--7 { --bubble-size: 7px; --bubble-duration: 7s; --bubble-delay: -3s; left: 62%; top: 100%; }
+.depth-bubble--8 { --bubble-size: 14px; --bubble-duration: 9.5s; --bubble-delay: -8s; left: 71%; top: 108%; }
+.depth-bubble--9 { --bubble-size: 6px; --bubble-duration: 6.4s; --bubble-delay: -2.5s; left: 82%; top: 103%; }
+.depth-bubble--10 { --bubble-size: 9px; --bubble-duration: 8.2s; --bubble-delay: -5.5s; left: 92%; top: 111%; }
+
+.depth-bubble { width: var(--bubble-size); height: var(--bubble-size); }
+
+@keyframes depth-bubble-rise {
+  0% { opacity: 0; transform: translate3d(0, 0, 0) scale(.72); }
+  12% { opacity: .82; }
+  72% { opacity: .62; }
+  100% { opacity: 0; transform: translate3d(var(--bubble-drift, 18px), -115vh, 0) scale(1.16); }
+}
+
+.depth-bubble:nth-child(even) { --bubble-drift: -22px; }
+
+@media (prefers-reduced-motion: reduce) {
+  .depth-bubble { animation: none; opacity: .38; }
+}
 
 /* 2. Editorial Intro Scene */
 .depth-intro {

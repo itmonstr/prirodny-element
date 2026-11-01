@@ -330,10 +330,10 @@ export function DepthToLightTransition({ onDarkSceneChange }: DepthToLightTransi
         <div ref={waterWrapRef} className="depth-water-scene" aria-hidden="true">
           <img
             ref={waterImgRef}
-            src={assetUrl('assets/surface-sunlight.webp')}
+            src={assetUrl('assets/surface-sunlight-hd.png')}
             alt=""
-            width={1024}
-            height={682}
+            width={1672}
+            height={940}
             loading="eager"
             decoding="async"
             className="depth-water-img"
@@ -352,11 +352,9 @@ export function DepthToLightTransition({ onDarkSceneChange }: DepthToLightTransi
 
           {/* Ambient Micro-Bubbles Floating Upwards */}
           <div ref={bubblesRef} className="depth-water-bubbles">
-            <span className="depth-bubble depth-bubble--1" />
-            <span className="depth-bubble depth-bubble--2" />
-            <span className="depth-bubble depth-bubble--3" />
-            <span className="depth-bubble depth-bubble--4" />
-            <span className="depth-bubble depth-bubble--5" />
+            {Array.from({ length: 20 }, (_, index) => (
+              <span key={index} className={`depth-bubble depth-bubble--${(index % 10) + 1}`} />
+            ))}
           </div>
 
           {/* Deep Navy Gradient Vignette for 100% seamless joint with 80m aquifer */}
