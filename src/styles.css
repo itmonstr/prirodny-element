@@ -890,7 +890,7 @@ h3,
 
 .depth-to-light-section {
   position: relative;
-  height: 230svh;
+  height: 250svh;
   background-color: #0c2b4d;
   overflow: visible;
 }
@@ -2978,7 +2978,7 @@ h3,
 
   /* Cinematic Transition on Tablet & Mobile */
   .depth-to-light-section {
-    height: 205svh;
+    height: 220svh;
   }
 
   .depth-bottles-vitrine {

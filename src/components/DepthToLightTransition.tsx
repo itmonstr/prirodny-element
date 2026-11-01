@@ -249,7 +249,7 @@ export function DepthToLightTransition({ onDarkSceneChange }: DepthToLightTransi
               ease: 'power2.in',
               duration: 0.22,
             },
-            0.88
+            1.12
           );
 
         // 2. PHASE TWO (0.30 -> 0.62): Breaking the surface — Sunlight flood & Caustics bloom
@@ -261,7 +261,7 @@ export function DepthToLightTransition({ onDarkSceneChange }: DepthToLightTransi
             ease: 'power2.inOut',
             duration: 0.28,
           },
-          0.96
+          1.20
         )
           .to(
             daylightBgRef.current,
@@ -270,7 +270,7 @@ export function DepthToLightTransition({ onDarkSceneChange }: DepthToLightTransi
               ease: 'power2.out',
               duration: 0.32,
             },
-          1.04
+          1.28
           )
           .to(
             bloomRef.current,
@@ -280,7 +280,7 @@ export function DepthToLightTransition({ onDarkSceneChange }: DepthToLightTransi
               ease: 'sine.out',
               duration: 0.22,
             },
-            1.2
+            1.44
           );
 
         // 3. PHASE THREE (0.46 -> 0.88): The 3 Authentic Bottles Materialize from the Light
@@ -292,7 +292,7 @@ export function DepthToLightTransition({ onDarkSceneChange }: DepthToLightTransi
             ease: 'power2.out',
             duration: 0.26,
           },
-          1.12
+          1.40
         );
 
         // Center 1.0L Bottle leads the arrival
@@ -307,7 +307,7 @@ export function DepthToLightTransition({ onDarkSceneChange }: DepthToLightTransi
               ease: 'power3.out',
               duration: 0.34,
             },
-            1.17
+            1.47
           );
         }
 
@@ -323,7 +323,7 @@ export function DepthToLightTransition({ onDarkSceneChange }: DepthToLightTransi
               ease: 'power3.out',
               duration: 0.34,
             },
-            1.21
+            1.51
           );
         }
 
@@ -339,7 +339,7 @@ export function DepthToLightTransition({ onDarkSceneChange }: DepthToLightTransi
               ease: 'power3.out',
               duration: 0.34,
             },
-            1.24
+            1.54
           );
         }
 
@@ -352,7 +352,7 @@ export function DepthToLightTransition({ onDarkSceneChange }: DepthToLightTransi
             ease: 'power2.out',
             duration: 0.18,
           },
-          1.48
+          1.78
         );
       },
       section
