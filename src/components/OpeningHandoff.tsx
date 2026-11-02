@@ -35,11 +35,36 @@ export function OpeningHandoff() {
     if (mobile) gsap.set(water, { opacity: 0 });
     const fade = gsap.quickTo(water, 'opacity', { duration: 0.35, ease: 'sine.out' });
     const hide = () => { host.style.opacity = '0'; host.style.visibility = 'hidden'; };
+    let advancing = false;
+    let advance: gsap.core.Tween | null = null;
+    let entranceFade: gsap.core.Tween | null = null;
+    const advanceOnce = () => {
+      captureOutgoing();
+      const section = document.querySelector<HTMLElement>('.depth-to-light-section');
+      if (!section) return;
+      advancing = true;
+      fade.tween.pause();
+      host.style.visibility = 'visible';
+      host.style.opacity = '1';
+      gsap.set(water, { opacity: 0 });
+      entranceFade?.kill();
+      entranceFade = gsap.to(water, { opacity: 1, duration: 0.45, ease: 'sine.inOut' });
+      const position = { y: window.scrollY };
+      const destination = section.getBoundingClientRect().top + window.scrollY
+        + Math.max(0, section.offsetHeight - window.innerHeight) * 0.15;
+      advance?.kill();
+      advance = gsap.to(position, {
+        y: destination, duration: 0.55, ease: 'sine.inOut',
+        onUpdate: () => window.scrollTo({ top: position.y, behavior: 'instant' }),
+        onComplete: () => { advancing = false; hide(); },
+      });
+    };
     const trigger = ScrollTrigger.create({
       trigger: '.depth-to-light-section',
       start: 'top bottom',
       end: 'top top',
       onUpdate: (self) => {
+        if (advancing) return;
         if (!self.isActive) { hide(); return; }
         const progress = Math.min(1, self.progress / (mobile ? 0.4 : 0.85));
         if (!outgoing) captureOutgoing();
@@ -48,12 +73,12 @@ export function OpeningHandoff() {
         if (mobile) fade(progress * progress * (3 - 2 * progress));
         else water.style.opacity = String(progress * progress * (3 - 2 * progress));
       },
-      onEnter: captureOutgoing,
+      onEnter: advanceOnce,
       onEnterBack: captureOutgoing,
       onLeave: hide,
       onLeaveBack: hide,
     });
-    return () => { trigger.kill(); fade.tween.kill(); water.remove(); outgoing?.remove(); };
+    return () => { trigger.kill(); advance?.kill(); entranceFade?.kill(); fade.tween.kill(); water.remove(); outgoing?.remove(); };
   }, []);
   return <div ref={overlay} className="opening-handoff" aria-hidden="true" />;
 }
