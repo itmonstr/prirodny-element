@@ -4247,3 +4247,16 @@ html[data-performance='lite'] .depth-water-img { filter: none; }
   .source-panel--left .source-panel__text { font-size: .8rem; line-height: 1.45; margin-block: 6px 12px; }
   .source-panel--left .source-origin-coords { padding-top: 10px; }
 }
+
+.opening-handoff__mobile-base { position: absolute; inset: 0; background: linear-gradient(#17497d, #123c69 52%, #0c2b4d); }
+@media (max-width: 1023px) {
+  .water-light-canvas, .hero-bottle-stage__sheen, .hero-bottle-stage__glow,
+  .hero-depth-stage__deep-bg .aquifer-rays, .aquifer-strata,
+  .depth-bottle-card__sheen, .depth-bottle-card__aura, .depth-daylight-caustic-drift,
+  .depth-light-bloom { display: none !important; }
+  .hero-bottle-stage__img, .depth-bottle-card__img { filter: none; }
+  .hero-depth-stage, .depth-to-light-stage { transform: none; -webkit-transform: none; }
+  .depth-water-img { filter: none; }
+  .depth-bubble { box-shadow: none; }
+  .opening-handoff__water { will-change: opacity; }
+}

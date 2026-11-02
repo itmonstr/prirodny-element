@@ -146,6 +146,26 @@ export function DepthToLightTransition({
           });
         });
 
+        // Give mobile copy a consistent duration, even after a fast swipe.
+        const introTarget = isDesktop ? introRef.current : {};
+        if (!isDesktop) {
+          let wasVisible = false;
+          ScrollTrigger.create({
+            trigger: section, start: 'top top', end: 'bottom bottom',
+            onUpdate: (self) => {
+              const visible = self.progress > 0 && self.progress < 0.50;
+              if (visible === wasVisible) return;
+              wasVisible = visible;
+              context.add(() => {
+                gsap.to(introRef.current, {
+                  opacity: visible ? 1 : 0, y: visible ? 0 : 12,
+                  duration: 0.55, ease: 'sine.inOut', overwrite: 'auto',
+                });
+              });
+            },
+          });
+        }
+
         // Master cinematic scroll timeline: «Из глубины к свету»
         const tl = gsap.timeline({
           scrollTrigger: {
@@ -198,12 +218,12 @@ export function DepthToLightTransition({
             0
           )
           .to(
-            introRef.current,
+            introTarget,
             { opacity: 1, y: 0, ease: 'sine.out', duration: 0.22 },
             0
           )
           .to(
-            introRef.current,
+            introTarget,
             {
               opacity: 0,
               y: -28,

@@ -16,6 +16,7 @@ export function WaterLightCanvas({ depthProgressRef }: WaterLightCanvasProps) {
   useEffect(() => {
     const canvas = canvasRef.current;
     if (!canvas) return;
+    if (window.matchMedia('(max-width: 1023px)').matches) return;
     const ctx = canvas.getContext('2d');
     if (!ctx) return;
 

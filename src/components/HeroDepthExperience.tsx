@@ -312,25 +312,35 @@ export function HeroDepthExperience({
                 0.72
               );
           } else {
-            // Compact mobile beats: bottle clears first, then each complete text group.
+            // Mobile motion uses scroll for position and time for legible text dissolves.
             gsap.set(mineralItems, { opacity: 1, y: 0 });
             tl.to(heroCopyRef.current, { opacity: 0, y: -12, duration: 0.18, ease: 'sine.inOut' }, 0)
               .to(heroMobileActionsRef.current, { opacity: 0, duration: 0.14 }, 0)
-              .to(deepBgRef.current, { opacity: 1, duration: 0.24, ease: 'sine.inOut' }, 0)
+              .to(deepBgRef.current, { opacity: 1, duration: 0.28, ease: 'sine.inOut' }, 0)
               .to(bottleWrapRef.current, {
                 y: () => -window.innerHeight * 1.2,
-                duration: 0.28, ease: 'sine.inOut',
+                duration: 0.32, ease: 'sine.inOut',
               }, 0.02)
-              .to(sourceLeftRef.current, {
-                opacity: 1, y: 0, pointerEvents: 'auto', duration: 0.22, ease: 'sine.inOut',
-              }, 0.30)
-              .to(sourceLeftRef.current, {
-                opacity: 0, y: -12, pointerEvents: 'none', duration: 0.18, ease: 'sine.inOut',
-              }, 0.72)
-              .to(sourceRightRef.current, {
-                opacity: 1, y: 0, pointerEvents: 'auto', duration: 0.22, ease: 'sine.inOut',
-              }, 0.92)
-              .to({}, { duration: 0.20 }, 1.14);
+              .to({}, { duration: 0.86 }, 0.34);
+            let activeBeat = -1;
+            ScrollTrigger.create({
+              trigger: root, start: 'top top', end: 'bottom bottom',
+              onUpdate: (self) => {
+                const beat = self.progress < 0.30 ? 0 : self.progress < 0.68 ? 1 : 2;
+                if (beat === activeBeat) return;
+                activeBeat = beat;
+                context.add(() => {
+                  [sourceLeftRef.current, sourceRightRef.current].forEach((target, index) => {
+                    const shown = beat === index + 1;
+                    gsap.to(target, {
+                      opacity: shown ? 1 : 0, y: shown ? 0 : 12,
+                      pointerEvents: shown ? 'auto' : 'none',
+                      duration: 0.55, ease: 'sine.inOut', overwrite: 'auto',
+                    });
+                  });
+                });
+              },
+            });
           }
           if (isDesktop) {
             tl.to([depthScaleRef.current, sourceLeftRef.current, sourceRightRef.current],
