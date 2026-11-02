@@ -1,3 +1,4 @@
+import { MOTION_DURATION } from '../utils/motion';
 import { useEffect, useState, type ReactNode } from 'react';
 import { assetUrl } from '../utils/assetUrl';
 
@@ -43,7 +44,7 @@ export function SiteLoader({ children }: { children: ReactNode }) {
 
   useEffect(() => {
     if (ready) {
-      const timeout = window.setTimeout(() => setVisible(false), 300);
+      const timeout = window.setTimeout(() => setVisible(false), MOTION_DURATION * 1000);
       return () => window.clearTimeout(timeout);
     }
     const previous = document.body.style.overflow;

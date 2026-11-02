@@ -1,3 +1,4 @@
+import { MOTION_DURATION } from '../utils/motion';
 import { useLayoutEffect, useRef } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
@@ -28,8 +29,8 @@ export function WhereToBuySection({
         {
           opacity: 1,
           y: 0,
-          duration: 0.85,
-          stagger: 0.12,
+          duration: MOTION_DURATION,
+          stagger: 0,
           ease: 'power2.out',
           scrollTrigger: {
             trigger: section,
@@ -46,8 +47,8 @@ export function WhereToBuySection({
           opacity: 1,
           y: 0,
           scale: 1,
-          duration: 0.95,
-          stagger: 0.14,
+          duration: MOTION_DURATION,
+          stagger: 0,
           ease: 'power2.out',
           scrollTrigger: {
             trigger: section,

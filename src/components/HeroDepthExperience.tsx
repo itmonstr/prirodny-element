@@ -1,3 +1,4 @@
+import { MOTION_DURATION } from '../utils/motion';
 import { useLayoutEffect, useRef } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
@@ -86,7 +87,7 @@ export function HeroDepthExperience({
 
         // Initial gentle materialization of the Hero Bottle & Headline
         if (!reduceMotion && bottleImgRef.current) {
-          const initDur = isDesktop ? 1.3 : 0.6;
+          const initDur = MOTION_DURATION;
           gsap.fromTo(
             bottleImgRef.current,
             { opacity: 0, scale: 0.95, y: 24 },
@@ -96,7 +97,7 @@ export function HeroDepthExperience({
             gsap.fromTo(
               bottleSheenRef.current,
               { xPercent: -95, opacity: 0 },
-              { xPercent: 95, opacity: 0.72, duration: isDesktop ? 2.0 : 1.0, delay: isDesktop ? 0.22 : 0.08, ease: 'sine.inOut' }
+              { xPercent: 95, opacity: 0.72, duration: MOTION_DURATION, delay: 0, ease: 'sine.inOut' }
             );
           }
           if (heroCopyRef.current) {
@@ -106,9 +107,9 @@ export function HeroDepthExperience({
               {
                 opacity: 1,
                 y: 0,
-                duration: isDesktop ? 1.0 : 0.5,
-                stagger: isDesktop ? 0.09 : 0.04,
-                delay: isDesktop ? 0.14 : 0.04,
+                duration: MOTION_DURATION,
+                stagger: 0,
+                delay: 0,
                 ease: 'sine.out',
               }
             );
@@ -175,7 +176,7 @@ export function HeroDepthExperience({
               trigger: root,
               start: 'top top',
               end: 'bottom bottom',
-              scrub: isDesktop ? 0.65 : 0.35,
+              scrub: MOTION_DURATION,
               invalidateOnRefresh: true,
               onUpdate: (self) => {
                 const p = self.progress;

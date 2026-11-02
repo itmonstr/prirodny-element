@@ -1,3 +1,4 @@
+import { MOTION_DURATION } from '../utils/motion';
 import { useLayoutEffect, useRef } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
@@ -74,76 +75,44 @@ export function HistorySection({ onDarkSceneChange }: HistorySectionProps = {}) 
           return;
         }
 
-        // Scene 1 & 2: Coast -> Factory 2026
-        gsap.set([production.current, year.current], { autoAlpha: 0 });
-        gsap.set(year.current, { y: 32 });
-        gsap.set(factory.current, { opacity: 0 });
-
-        gsap.timeline({
-          scrollTrigger: {
-            trigger: journey.current,
-            start: 'top top',
-            end: 'bottom bottom',
-            scrub: 0.75,
-            invalidateOnRefresh: true,
-          },
+        // Each scroll threshold starts one transition with a shared duration.
+        gsap.set([production.current, year.current, factory.current], { autoAlpha: 0 });
+        gsap.set(year.current, { y: 16 });
+        const story = gsap.timeline({
+          paused: true, defaults: { duration: MOTION_DURATION, ease: 'sine.inOut' },
+          onUpdate: updateHeader,
         })
-          .to(production.current, { autoAlpha: 1, duration: 0.22 }, 0.34)
-          .to(coast.current, { autoAlpha: 0, duration: 0.22 }, 0.34)
-          .to(factory.current, { opacity: 1, duration: 0.36, ease: 'sine.inOut' }, 0.36)
-          .to(year.current, { autoAlpha: 1, y: 0, duration: 0.22, ease: 'power1.out' }, 0.46);
+          .to(coast.current, { autoAlpha: 0 }, 0)
+          .to([production.current, year.current, factory.current], { autoAlpha: 1, y: 0 }, 0);
+        let productionShown = false;
+        ScrollTrigger.create({
+          trigger: journey.current, start: 'top top', end: 'bottom bottom',
+          onUpdate: (self) => {
+            const shown = self.progress >= 0.4;
+            if (shown === productionShown) return;
+            productionShown = shown;
+            if (shown) story.play(); else story.reverse();
+          },
+        });
+        gsap.set([conveyorImg.current, factoryImg.current], { clearProps: 'transform' });
+        gsap.set(factoryLayer.current, { opacity: 0 });
+        gsap.set(title1.current, { opacity: 1, y: 0 });
+        gsap.set(title2.current, { opacity: 0, y: 12 });
+        const bottling = gsap.timeline({ paused: true, defaults: { duration: MOTION_DURATION, ease: 'sine.inOut' } })
+          .to(title1.current, { opacity: 0, y: -12 }, 0)
+          .to(factoryLayer.current, { opacity: 1 }, 0)
+          .to(title2.current, { opacity: 1, y: 0 }, 0);
+        let readyShown = false;
+        ScrollTrigger.create({
+          trigger: bottlingCinema.current, start: 'top top', end: 'bottom bottom',
+          onUpdate: (self) => {
+            const shown = self.progress >= 0.4;
+            if (shown === readyShown) return;
+            readyShown = shown;
+            if (shown) bottling.play(); else bottling.reverse();
+          },
+        });
 
-        // ==================== CINEMATIC BOTTLING SCENE (BAIKAL430 LEVEL) ====================
-        if (bottlingCinema.current) {
-          gsap.set(conveyorImg.current, { clearProps: 'transform' });
-          gsap.set(factoryLayer.current, { opacity: 0 });
-          gsap.set(factoryImg.current, { clearProps: 'transform' });
-          gsap.set(title1.current, { opacity: 1, y: 0 });
-          gsap.set(title2.current, { opacity: 0, y: 30 });
-
-          const tlBottling = gsap.timeline({
-            scrollTrigger: {
-              trigger: bottlingCinema.current,
-              start: 'top top',
-              end: 'bottom bottom',
-              scrub: 0.75,
-              invalidateOnRefresh: true,
-            },
-          });
-
-          // Title 1 fades out as the ready-to-ship phase approaches
-          tlBottling.to(
-            title1.current,
-            {
-              opacity: 0,
-              y: -30,
-              ease: 'power1.in',
-              duration: 0.22,
-            },
-            0.24
-          );
-
-          // Phase 2: Smooth cinematic cross-fade to finished product with shining bottle
-          tlBottling.to(
-            factoryLayer.current,
-            {
-              opacity: 1,
-              ease: 'power1.inOut',
-              duration: 0.38,
-            },
-            0.30
-          )
-            .to(
-              title2.current,
-              {
-                opacity: 1,
-                y: 0,
-                ease: 'power1.out',
-                duration: 0.30,
-              },
-              0.46
-            );
-        }
       },
       section
     );

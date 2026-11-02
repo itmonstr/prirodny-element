@@ -1,3 +1,4 @@
+import { MOTION_DURATION } from '../utils/motion';
 import { useLayoutEffect, useRef, useState } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
@@ -148,7 +149,7 @@ export function DepthToLightTransition({
 
         // A single gesture starts the complete formats reveal; no extra scrub phases.
         const formats = [bottlesHeaderRef.current, ...bottleCardsRef.current, outroCueRef.current];
-        const reveal = gsap.timeline({ paused: true, defaults: { duration: 0.45, ease: 'sine.inOut' } })
+        const reveal = gsap.timeline({ paused: true, defaults: { duration: MOTION_DURATION, ease: 'sine.inOut' } })
           .fromTo(introRef.current, { opacity: 1, y: 0 }, { opacity: 0, y: -12, immediateRender: false }, 0)
           .fromTo(daylightBgRef.current, { opacity: 0 }, { opacity: 1, immediateRender: false }, 0)
           .fromTo(formats, { opacity: 0, y: 16, scale: 1 }, {
@@ -158,7 +159,7 @@ export function DepthToLightTransition({
         const tl = gsap.timeline({
           scrollTrigger: {
             trigger: section, start: 'top top', end: 'bottom bottom',
-            scrub: isDesktop ? 0.65 : 0.35,
+            scrub: MOTION_DURATION,
             invalidateOnRefresh: true,
             onUpdate: (self) => {
               const shown = self.progress >= (isDesktop ? 0.35 : 0.28);

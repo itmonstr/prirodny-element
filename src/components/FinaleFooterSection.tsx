@@ -1,3 +1,4 @@
+import { MOTION_DURATION } from '../utils/motion';
 import { useLayoutEffect, useRef } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
@@ -59,8 +60,8 @@ export function FinaleFooterSection({
             {
               opacity: 1,
               y: 0,
-              duration: 1.0,
-              stagger: 0.12,
+              duration: MOTION_DURATION,
+              stagger: 0,
               ease: 'power2.out',
               scrollTrigger: {
                 trigger: wrapper,
