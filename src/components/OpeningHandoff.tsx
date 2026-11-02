@@ -73,7 +73,7 @@ export function OpeningHandoff() {
         if (mobile) fade(progress * progress * (3 - 2 * progress));
         else water.style.opacity = String(progress * progress * (3 - 2 * progress));
       },
-      onEnter: advanceOnce,
+      onEnter: () => { if (mobile) captureOutgoing(); else advanceOnce(); },
       onEnterBack: captureOutgoing,
       onLeave: hide,
       onLeaveBack: hide,

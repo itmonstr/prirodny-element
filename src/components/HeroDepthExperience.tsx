@@ -51,6 +51,7 @@ export function HeroDepthExperience({
   const bottleWrapRef = useRef<HTMLDivElement | null>(null);
   const bottleImgRef = useRef<HTMLImageElement | null>(null);
   const bottleSheenRef = useRef<HTMLDivElement | null>(null);
+  const sourceSceneRef = useRef<HTMLDivElement | null>(null);
   const sourceLeftRef = useRef<HTMLDivElement | null>(null);
   const sourceRightRef = useRef<HTMLDivElement | null>(null);
   const strataRef = useRef<HTMLDivElement | null>(null);
@@ -139,7 +140,10 @@ export function HeroDepthExperience({
             y: 30,
             pointerEvents: 'none',
           });
-          if (!isDesktop) gsap.set([sourceLeftRef.current, sourceRightRef.current], { yPercent: -50 });
+          if (!isDesktop) {
+            gsap.set([sourceLeftRef.current, sourceRightRef.current], { opacity: 1, y: 0, pointerEvents: 'auto' });
+            gsap.set(sourceSceneRef.current, { opacity: 0, yPercent: -50, y: 12, pointerEvents: 'none' });
+          }
           gsap.set(deepBgRef.current, { opacity: 0 });
           gsap.set(aquiferRaysRef.current, { opacity: 0, xPercent: -4 });
           gsap.set(strataRef.current, { opacity: 0, y: 32 });
@@ -327,17 +331,15 @@ export function HeroDepthExperience({
             ScrollTrigger.create({
               trigger: root, start: 'top top', end: 'bottom bottom',
               onUpdate: (self) => {
-                const beat = self.progress < 0.30 ? 0 : self.progress < 0.68 ? 1 : 2;
+                const beat = self.progress < 0.30 ? 0 : 1;
                 if (beat === activeBeat) return;
                 activeBeat = beat;
                 context.add(() => {
-                  [sourceLeftRef.current, sourceRightRef.current].forEach((target, index) => {
-                    const shown = beat === index + 1;
-                    gsap.to(target, {
-                      opacity: shown ? 1 : 0, y: shown ? 0 : 12,
-                      pointerEvents: shown ? 'auto' : 'none',
-                      duration: 0.55, ease: 'sine.inOut', overwrite: 'auto',
-                    });
+                  const shown = beat === 1;
+                  gsap.to(sourceSceneRef.current, {
+                    opacity: shown ? 1 : 0, y: shown ? 0 : 12,
+                    pointerEvents: shown ? 'auto' : 'none',
+                    duration: 0.55, ease: 'sine.inOut', overwrite: 'auto',
                   });
                 });
               },
@@ -492,6 +494,7 @@ export function HeroDepthExperience({
             </div>
           </div>
 
+          <div ref={sourceSceneRef} className="source-scene">
           {/* SCENE 2: «Источник глубиной 80 метров» */}
           <div ref={sourceLeftRef} className="source-panel source-panel--left">
             <div className="source-depth-figure" aria-label="Глубина скважины 80 метров">
@@ -525,6 +528,7 @@ export function HeroDepthExperience({
               Точные числовые значения публикуются на основании протокола лабораторного анализа
               скважины.
             </p>
+          </div>
           </div>
         </div>
       </div>
