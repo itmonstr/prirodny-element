@@ -152,7 +152,7 @@ export function DepthToLightTransition({
             trigger: section,
             start: 'top top',
             end: 'bottom bottom',
-            scrub: isDesktop ? 0.65 : 0.25,
+            scrub: isDesktop ? 0.65 : 0.65,
             invalidateOnRefresh: true,
           },
         });
@@ -259,21 +259,27 @@ export function DepthToLightTransition({
             1.08
           );
         } else {
-          // Mobile: Snappy 1-swipe progression from water text into daylight & bottle formats
+          // Mobile: Silky 1-swipe dissolve into daylight & formats vitrine
           gsap.set(introRef.current, { opacity: 1, y: 0 });
-          tl.to(waterRaysRef.current, { opacity: 0.85, scale: 1.1, ease: 'sine.out', duration: 0.22 }, 0)
-            .to(causticsRef.current, { opacity: 0.75, duration: 0.22, ease: 'sine.inOut' }, 0)
-            .to(bubblesRef.current, { y: -50, opacity: 0.7, duration: 0.26, ease: 'power1.out' }, 0)
-            .to(introRef.current, { opacity: 0, y: -20, ease: 'power2.in', duration: 0.22 }, 0.08)
-            .to(daylightBgRef.current, { opacity: 1, ease: 'sine.out', duration: 0.22 }, 0.20)
-            .to(bottlesHeaderRef.current, { opacity: 1, y: 0, ease: 'sine.out', duration: 0.22 }, 0.32);
+          tl.to(waterRaysRef.current, { opacity: 0.85, scale: 1.12, ease: 'sine.out', duration: 0.35 }, 0)
+            .to(causticsRef.current, { opacity: 0.75, duration: 0.35, ease: 'sine.inOut' }, 0)
+            .to(bubblesRef.current, { y: -65, opacity: 0.75, duration: 0.40, ease: 'power1.out' }, 0)
+            .to(introRef.current, { opacity: 0, y: -26, ease: 'power1.inOut', duration: 0.32 }, 0.12)
+            .to(daylightBgRef.current, { opacity: 1, ease: 'sine.inOut', duration: 0.35 }, 0.28)
+            .to(bottlesHeaderRef.current, { opacity: 1, y: 0, ease: 'power2.out', duration: 0.32 }, 0.44);
 
-          bottleCardsRef.current.forEach((card) => {
+          bottleCardsRef.current.forEach((card, idx) => {
             if (!card) return;
-            tl.to(card, { opacity: 1, y: 0, scale: 1, ease: 'sine.out', duration: 0.22 }, 0.32);
+            tl.to(card, {
+              opacity: 1,
+              y: 0,
+              scale: 1,
+              ease: 'power2.out',
+              duration: 0.35,
+            }, 0.44 + idx * 0.07);
           });
 
-          tl.to(outroCueRef.current, { opacity: 1, y: 0, ease: 'sine.out', duration: 0.16 }, 0.52);
+          tl.to(outroCueRef.current, { opacity: 1, y: 0, ease: 'sine.out', duration: 0.20 }, 0.70);
         }
       },
       section
