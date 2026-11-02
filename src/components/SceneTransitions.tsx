@@ -31,6 +31,7 @@ export function SceneTransitions() {
       });
     });
     media.add('(max-width: 1023px) and (prefers-reduced-motion: no-preference)', () => {
+      // On mobile, perform lightweight one-shot reveals instead of continuous scrub repainting on massive DOM subtrees
       const scenes = [
         ['.history-story__coast', '.history-story__coast'],
         ['.history-story__production', '.history-story__production'],
@@ -40,10 +41,17 @@ export function SceneTransitions() {
         ['.finale-footer-wrap', '.finale-section'],
       ];
       scenes.forEach(([trigger, target]) => {
-        gsap.fromTo(target, { opacity: 0.35 }, {
-          opacity: 1, ease: 'sine.inOut',
-          scrollTrigger: { trigger, start: 'top bottom', end: 'top 52%', scrub: 0.35 },
-        });
+        gsap.fromTo(
+          target,
+          { opacity: 0.85, y: 14 },
+          {
+            opacity: 1,
+            y: 0,
+            duration: 0.6,
+            ease: 'power2.out',
+            scrollTrigger: { trigger, start: 'top 90%', once: true },
+          }
+        );
       });
     });
     return () => media.revert();

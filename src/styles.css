@@ -3403,8 +3403,8 @@ h3,
   }
 
   .hero-depth-journey {
-    height: 240vh;
-    height: 240dvh;
+    height: 270svh;
+    height: 270dvh;
   }
 
   .hero-copy,
@@ -4117,10 +4117,44 @@ h3,
   .depth-outro-cue { margin-top: 8px; }
 }
 @media (max-width: 1023px) and (prefers-reduced-motion: no-preference) {
-  .hero-depth-journey { height: 210svh; }
-  .hero-depth-stage { height: 100svh; }
-  .depth-to-light-section { height: 195svh; margin-top: -24svh; }
-  .depth-water-vignette { background: linear-gradient(180deg, #0c2b4d 0%, rgba(12,43,77,.72) 12%, rgba(12,43,77,.12) 38%, rgba(12,43,77,.35) 78%, #0c2b4d 100%); }
+  .hero-depth-journey {
+    height: 270svh;
+    height: 270dvh;
+  }
+  .hero-depth-stage {
+    height: 100svh;
+    height: 100dvh;
+    transform: translate3d(0, 0, 0);
+    -webkit-transform: translate3d(0, 0, 0);
+    backface-visibility: hidden;
+  }
+  .depth-to-light-section {
+    height: 260svh;
+    height: 260dvh;
+    margin-top: 0;
+  }
+  .depth-to-light-stage {
+    height: 100svh;
+    height: 100dvh;
+    transform: translate3d(0, 0, 0);
+    -webkit-transform: translate3d(0, 0, 0);
+    backface-visibility: hidden;
+  }
+  .bottle-turbulence,
+  .depth-water-bubbles {
+    display: none !important;
+  }
+  .depth-water-rays {
+    filter: none !important;
+    -webkit-filter: none !important;
+  }
+  .bottle-water-light::after {
+    mix-blend-mode: normal !important;
+    opacity: 0.55 !important;
+  }
+  .depth-water-vignette {
+    background: linear-gradient(180deg, #0c2b4d 0%, rgba(12,43,77,.72) 12%, rgba(12,43,77,.12) 38%, rgba(12,43,77,.35) 78%, #0c2b4d 100%);
+  }
   .history-story__production { padding-block: 28px 32px; gap: 20px; }
   .bottling-cinema__layer { min-height: 66svh; }
   .buy-section { padding-block: 48px; }

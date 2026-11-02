@@ -168,7 +168,7 @@ export function HeroDepthExperience({
               trigger: root,
               start: 'top top',
               end: 'bottom bottom',
-              scrub: 0.6,
+              scrub: isDesktop ? 0.6 : 0.2,
               invalidateOnRefresh: true,
               onUpdate: (self) => {
                 const p = self.progress;
@@ -381,62 +381,63 @@ export function HeroDepthExperience({
                 opacity: 1,
                 y: 0,
                 pointerEvents: 'auto',
-                duration: 0.18,
+                duration: 0.22,
                 ease: 'power2.out',
               },
               0.16
             )
-              // Hold the source story while the bottle rises, then change to the composition.
+              // Smooth, graceful transition: source story softly fades out as the bottle ascends
               .to(
                 sourceLeftRef.current,
                 {
                   opacity: 0,
-                  y: -16,
+                  y: -18,
                   pointerEvents: 'none',
-                  duration: 0.08,
-                  ease: 'power2.in',
+                  duration: 0.20,
+                  ease: 'power1.inOut',
                 },
-                0.81
+                0.52
               )
-              // The composition appears only after the bottle has cleared the top edge.
-              .to(
-                sourceRightRef.current,
-                {
-                  opacity: 1,
-                  y: 0,
-                  pointerEvents: 'auto',
-                  duration: 0.14,
-                  ease: 'power2.out',
-                },
-                0.91
-              )
-              .to(
-                mineralItems,
-                {
-                  opacity: 1,
-                  y: 0,
-                  duration: 0.12,
-                  stagger: 0.015,
-                  ease: 'power2.out',
-                },
-                0.92
-              )
-              // Final hold and ambient drift before transition into the sunlit glass interlude
-              .to(
-                aquiferRaysRef.current,
-                { xPercent: 6, duration: 0.16, ease: 'none' },
-                0.84
-              )
+              // Bottle smoothly ascends towards the surface
               .to(
                 bottleWrapRef.current,
                 {
                   y: () => -window.innerHeight * 1.2,
                   scale: () => endScale(),
                   opacity: 1,
-                  duration: 0.22,
-                  ease: 'sine.inOut',
+                  duration: 0.32,
+                  ease: 'power1.inOut',
                 },
-                0.58
+                0.50
+              )
+              // The mineral composition fades in softly as the bottle exits
+              .to(
+                sourceRightRef.current,
+                {
+                  opacity: 1,
+                  y: 0,
+                  pointerEvents: 'auto',
+                  duration: 0.24,
+                  ease: 'power2.out',
+                },
+                0.74
+              )
+              .to(
+                mineralItems,
+                {
+                  opacity: 1,
+                  y: 0,
+                  duration: 0.18,
+                  stagger: 0.035,
+                  ease: 'power2.out',
+                },
+                0.76
+              )
+              // Ambient drift before transition into the sunlit glass interlude
+              .to(
+                aquiferRaysRef.current,
+                { xPercent: 6, duration: 0.24, ease: 'none' },
+                0.76
               );
           }
           if (isDesktop) {

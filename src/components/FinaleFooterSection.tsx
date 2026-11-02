@@ -31,10 +31,15 @@ export function FinaleFooterSection({
 
     mm.add(
       {
+        isDesktop: '(min-width: 1024px)',
         reduceMotion: '(prefers-reduced-motion: reduce)',
       },
       (context) => {
-        const { reduceMotion } = context.conditions as { reduceMotion: boolean };
+        const { isDesktop, reduceMotion } = context.conditions as {
+          isDesktop: boolean;
+          reduceMotion: boolean;
+        };
+        const scrubVal = isDesktop ? 0.85 : 0.25;
 
         ScrollTrigger.create({
           trigger: wrapper,
@@ -77,7 +82,7 @@ export function FinaleFooterSection({
                   trigger: wrapper,
                   start: 'top 82%',
                   end: 'center 54%',
-                  scrub: 0.85,
+                  scrub: scrubVal,
                 },
               }
             );
@@ -95,7 +100,7 @@ export function FinaleFooterSection({
                   trigger: wrapper,
                   start: 'top 75%',
                   end: 'bottom bottom',
-                  scrub: 0.85,
+                  scrub: scrubVal,
                 },
               }
             );
@@ -113,7 +118,7 @@ export function FinaleFooterSection({
                   trigger: wrapper,
                   start: 'top 78%',
                   end: 'center center',
-                  scrub: 0.85,
+                  scrub: scrubVal,
                 },
               }
             );

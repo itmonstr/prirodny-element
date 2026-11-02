@@ -161,9 +161,9 @@ export function DepthToLightTransition({
         const tl = gsap.timeline({
           scrollTrigger: {
             trigger: section,
-            start: isDesktop ? 'top top' : 'top 40%',
+            start: 'top top',
             end: 'bottom bottom',
-            scrub: 0.6,
+            scrub: isDesktop ? 0.6 : 0.2,
             invalidateOnRefresh: true,
           },
         });
@@ -178,7 +178,7 @@ export function DepthToLightTransition({
           .to(turbulenceRef.current, { opacity: 0, duration: 0.09 }, 0.3)
           .to(
             risingBottleRef.current,
-            { y: () => -window.innerHeight * 1.2, ease: 'power1.in', duration: isDesktop ? 0.34 : 0.22 },
+            { y: () => -window.innerHeight * 1.2, ease: 'power1.inOut', duration: isDesktop ? 0.34 : 0.30 },
             0.05
           )
           .to(
