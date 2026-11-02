@@ -30,12 +30,20 @@ export function HistorySection({ onDarkSceneChange }: HistorySectionProps = {}) 
     if (!section.current) return;
     const mm = gsap.matchMedia();
 
-    ScrollTrigger.create({
+    const updateHeader = () => {
+      const atBottling = (bottlingCinema.current?.getBoundingClientRect().top ?? Infinity) <= 72;
+      const mobile = window.matchMedia('(max-width: 1023px)').matches;
+      const bounds = production.current?.getBoundingClientRect();
+      const onLightScene = mobile
+        ? !!bounds && bounds.top <= 72 && bounds.bottom > 72
+        : Number(production.current?.style.opacity ?? 0) > 0.5 && !atBottling;
+      onDarkSceneChange?.(!onLightScene);
+    };
+    const themeTrigger = ScrollTrigger.create({
       trigger: section.current,
-      start: 'top 35%',
-      end: 'bottom 35%',
-      onEnter: () => onDarkSceneChange?.(true),
-      onEnterBack: () => onDarkSceneChange?.(true),
+      start: 'top 72px', end: 'bottom 72px',
+      onUpdate: (self) => { if (self.isActive) updateHeader(); },
+      onEnter: updateHeader, onEnterBack: updateHeader,
       onLeave: () => onDarkSceneChange?.(false),
       onLeaveBack: () => onDarkSceneChange?.(false),
     });
@@ -140,7 +148,7 @@ export function HistorySection({ onDarkSceneChange }: HistorySectionProps = {}) 
       section
     );
 
-    return () => mm.revert();
+    return () => { themeTrigger.kill(); mm.revert(); };
   }, []);
 
   return (
