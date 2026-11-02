@@ -4212,3 +4212,11 @@ html[data-performance='lite'] .depth-water-img { filter: none; }
 /* The underwater scene contains only water, bubbles and copy. */
 .depth-to-light-section .depth-rising-bottle { display: none !important; }
 .depth-water-img { max-width: none; }
+.opening-handoff__outgoing {
+  position: absolute !important;
+  inset: 0 !important;
+  width: 100% !important;
+  height: 100% !important;
+  transform: none !important;
+}
+.opening-handoff__water { z-index: 10; }
