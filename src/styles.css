@@ -4317,3 +4317,9 @@ html[data-performance='lite'] .depth-water-img { filter: none; }
   .history-story__coast { display: flex; flex-direction: column; justify-content: flex-end; }
   .history-story__coast-copy .section-title { font-size: clamp(2.3rem, 9vw, 4rem); }
 }
+
+/* A short sticky beat preserves the underwater scene before formats appear. */
+@media (max-width: 1023px) and (prefers-reduced-motion: no-preference) {
+  .depth-to-light-section { min-height: calc(100svh + 220px); }
+  .depth-to-light-stage { position: sticky; top: 0; }
+}

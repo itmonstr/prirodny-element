@@ -67,8 +67,18 @@ export function HistorySection({ onDarkSceneChange }: HistorySectionProps = {}) 
           if (!reduceMotion) {
             // Animate content in place. Never detach a scene from document flow.
             const copy = section.current?.querySelectorAll(
-              '.history-story__coast-copy, .history-story__production-copy, .bottling-cinema__mobile-copy'
+              '.history-story__coast-copy, .bottling-cinema__mobile-copy'
             );
+            gsap.fromTo(production.current, { opacity: 0, y: 16 }, {
+              opacity: 1, y: 0, duration: MOTION_DURATION, ease: 'sine.out',
+              scrollTrigger: { trigger: production.current, start: 'top 85%', once: true },
+            });
+            section.current?.querySelectorAll('.bottling-cinema__layer').forEach((item) => {
+              gsap.fromTo(item, { opacity: 0 }, {
+                opacity: 1, duration: MOTION_DURATION, ease: 'sine.inOut',
+                scrollTrigger: { trigger: item, start: 'top 90%', once: true },
+              });
+            });
             copy?.forEach((item) => {
               gsap.fromTo(item, { opacity: 0, y: 12 }, {
                 opacity: 1, y: 0, duration: MOTION_DURATION, ease: 'sine.out',
