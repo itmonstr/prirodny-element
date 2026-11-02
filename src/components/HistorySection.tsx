@@ -37,6 +37,20 @@ export function HistorySection() {
           reduceMotion: boolean;
         };
 
+        if (context.conditions?.isMobile) {
+          gsap.set([production.current, year.current, factory.current, factoryLayer.current], { autoAlpha: 1 });
+          gsap.set(coast.current, { autoAlpha: 1 });
+          if (!reduceMotion) {
+            section.current?.querySelectorAll('.history-story__production-copy, .history-story__factory, .bottling-cinema__mobile-copy').forEach((target) => {
+              gsap.fromTo(target, { y: 16, opacity: 0 }, {
+                y: 0, opacity: 1, duration: 0.7, ease: 'power1.out',
+                scrollTrigger: { trigger: target, start: 'top 92%', once: true },
+              });
+            });
+          }
+          return;
+        }
+
         if (reduceMotion) {
           if (production.current) gsap.set(production.current, { autoAlpha: 1 });
           if (year.current) gsap.set(year.current, { autoAlpha: 1, y: 0 });
@@ -202,6 +216,10 @@ export function HistorySection() {
               className="bottling-cinema__bg-img"
             />
             <div className="bottling-cinema__scrim bottling-cinema__scrim--deep" aria-hidden="true" />
+            <div className="bottling-cinema__mobile-copy">
+              <h3 className="bottling-cinema__heading">От источника —<br />к каждой бутылке</h3>
+              <p className="bottling-cinema__sub">Бережный розлив на собственном производстве в Крыму.</p>
+            </div>
           </div>
 
           {/* Layer 2: Готовая продукция (production-room.webp) */}
@@ -217,6 +235,11 @@ export function HistorySection() {
               className="bottling-cinema__bg-img"
             />
             <div className="bottling-cinema__scrim bottling-cinema__scrim--ambient" aria-hidden="true" />
+            <div className="bottling-cinema__mobile-copy">
+              <h3 className="bottling-cinema__heading">Готова отправиться<br />к вам</h3>
+              <p className="bottling-cinema__sub">От производства — к вашему дому.</p>
+              <a href="#where-to-buy" className="bottling-cinema__btn">Где купить ↓</a>
+            </div>
           </div>
 
           {/* Foreground Cinematic Typography & Real Bottle Handoff */}

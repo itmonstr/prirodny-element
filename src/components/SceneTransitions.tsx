@@ -7,7 +7,7 @@ gsap.registerPlugin(ScrollTrigger);
 export function SceneTransitions() {
   useLayoutEffect(() => {
     const media = gsap.matchMedia();
-    media.add('(prefers-reduced-motion: no-preference)', () => {
+    media.add('(min-width: 1024px) and (prefers-reduced-motion: no-preference)', () => {
       const scenes = [
         ['.history-story__journey', '.history-story__stage'],
         ['.bottling-cinema', '.bottling-cinema__stage'],
