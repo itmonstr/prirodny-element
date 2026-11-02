@@ -12,6 +12,7 @@ import type { ModalKind, OrderSelection } from './types';
 export function App() {
   const [darkFromSource, setDarkFromSource] = useState(false);
   const [darkFromTransition, setDarkFromTransition] = useState(false);
+  const [darkFromHistory, setDarkFromHistory] = useState(false);
   const [darkFromFinale, setDarkFromFinale] = useState(false);
   const [activeModal, setActiveModal] = useState<ModalKind>(null);
   const [orderSelection, setOrderSelection] = useState<OrderSelection>({
@@ -25,6 +26,10 @@ export function App() {
 
   const handleTransitionDark = useCallback((isDark: boolean) => {
     setDarkFromTransition(isDark);
+  }, []);
+
+  const handleHistoryDark = useCallback((isDark: boolean) => {
+    setDarkFromHistory(isDark);
   }, []);
 
   const handleFinaleDark = useCallback((isDark: boolean) => {
@@ -44,7 +49,7 @@ export function App() {
       </a>
 
       <Header
-        isDarkScene={darkFromSource || darkFromTransition || darkFromFinale}
+        isDarkScene={darkFromSource || darkFromTransition || darkFromHistory || darkFromFinale}
         onOrderClick={() => openOrderModal()}
       />
 
@@ -62,7 +67,7 @@ export function App() {
         />
 
         {/* Block 4: «Как всё начиналось» (Western Crimea Coast -> Frunze Plant) */}
-        <HistorySection />
+        <HistorySection onDarkSceneChange={handleHistoryDark} />
 
         {/* Block 5: «Где купить» (Direct Delivery & Planned Retail Still-Life) */}
         <WhereToBuySection

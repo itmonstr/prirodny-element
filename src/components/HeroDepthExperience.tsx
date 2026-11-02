@@ -134,6 +134,7 @@ export function HeroDepthExperience({
             y: startOffsetY(),
             scale: 1,
             opacity: 1,
+            pointerEvents: 'auto',
           });
           gsap.set([sourceLeftRef.current, sourceRightRef.current], {
             opacity: 0,
@@ -174,7 +175,7 @@ export function HeroDepthExperience({
               trigger: root,
               start: 'top top',
               end: 'bottom bottom',
-              scrub: isDesktop ? 0.65 : 0.65,
+              scrub: isDesktop ? 0.65 : 0.35,
               invalidateOnRefresh: true,
               onUpdate: (self) => {
                 const p = self.progress;
@@ -319,15 +320,23 @@ export function HeroDepthExperience({
           } else {
             // Mobile: smooth, liquid 1-swipe progression with inertial scrub
             gsap.set(mineralItems, { opacity: 1, y: 0 });
-            gsap.set(sourceSceneRef.current, { opacity: 0, yPercent: -50, y: 22, pointerEvents: 'none' });
+            gsap.set(sourceSceneRef.current, { opacity: 0, yPercent: -50, y: 16, pointerEvents: 'none' });
 
             tl.to(heroCopyRef.current, { opacity: 0, y: -20, duration: 0.28, ease: 'power1.out' }, 0)
               .to(heroMobileActionsRef.current, { opacity: 0, duration: 0.22, ease: 'power1.out' }, 0)
               .to(deepBgRef.current, { opacity: 1, duration: 0.45, ease: 'sine.inOut' }, 0.04)
               .to(bottleWrapRef.current, {
-                y: () => -window.innerHeight * 1.15,
-                duration: 0.52,
-                ease: 'sine.inOut',
+                opacity: 0,
+                y: () => (isCompactLandscape ? -25 : 68),
+                scale: 0.95,
+                duration: 0.32,
+                ease: 'power2.out',
+                onStart: () => {
+                  if (bottleWrapRef.current) bottleWrapRef.current.style.pointerEvents = 'none';
+                },
+                onReverseComplete: () => {
+                  if (bottleWrapRef.current) bottleWrapRef.current.style.pointerEvents = 'auto';
+                },
               }, 0.04)
               .to(sourceSceneRef.current, {
                 opacity: 1,
@@ -340,7 +349,7 @@ export function HeroDepthExperience({
                 onReverseComplete: () => {
                   if (sourceSceneRef.current) sourceSceneRef.current.style.pointerEvents = 'none';
                 },
-              }, 0.28);
+              }, 0.26);
           }
           if (isDesktop) {
             tl.to([depthScaleRef.current, sourceLeftRef.current, sourceRightRef.current],

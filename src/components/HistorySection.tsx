@@ -5,7 +5,11 @@ import { assetUrl } from '../utils/assetUrl';
 
 gsap.registerPlugin(ScrollTrigger);
 
-export function HistorySection() {
+interface HistorySectionProps {
+  onDarkSceneChange?: (isDark: boolean) => void;
+}
+
+export function HistorySection({ onDarkSceneChange }: HistorySectionProps = {}) {
   const section = useRef<HTMLElement>(null);
   const journey = useRef<HTMLDivElement>(null);
   const coast = useRef<HTMLDivElement>(null);
@@ -25,6 +29,16 @@ export function HistorySection() {
   useLayoutEffect(() => {
     if (!section.current) return;
     const mm = gsap.matchMedia();
+
+    ScrollTrigger.create({
+      trigger: section.current,
+      start: 'top 35%',
+      end: 'bottom 35%',
+      onEnter: () => onDarkSceneChange?.(true),
+      onEnterBack: () => onDarkSceneChange?.(true),
+      onLeave: () => onDarkSceneChange?.(false),
+      onLeaveBack: () => onDarkSceneChange?.(false),
+    });
 
     mm.add(
       {
