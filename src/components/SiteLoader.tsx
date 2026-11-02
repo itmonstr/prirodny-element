@@ -18,7 +18,7 @@ export function SiteLoader({ children }: { children: ReactNode }) {
     let active = true;
     let completed = 0;
     const finish = () => { if (active) setReady(true); };
-    const timeout = window.setTimeout(finish, 15_000);
+    const timeout = window.setTimeout(finish, 60_000);
     const minimum = new Promise<void>((resolve) => window.setTimeout(resolve, 900));
     const tasks: Promise<unknown>[] = ASSETS.map((name) => new Promise<void>((resolve) => {
       const image = new Image();
