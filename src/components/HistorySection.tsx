@@ -55,9 +55,7 @@ export function HistorySection() {
             trigger: journey.current,
             start: 'top top',
             end: 'bottom bottom',
-            scrub: 0.85,
-            fastScrollEnd: true,
-            preventOverlaps: true,
+            scrub: 0.6,
             invalidateOnRefresh: true,
           },
         })
@@ -80,9 +78,7 @@ export function HistorySection() {
               trigger: bottlingCinema.current,
               start: 'top top',
               end: 'bottom bottom',
-              scrub: 0.85,
-              fastScrollEnd: true,
-              preventOverlaps: true,
+              scrub: 0.6,
               invalidateOnRefresh: true,
             },
           });

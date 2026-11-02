@@ -4071,58 +4071,7 @@ h3,
   .history-story__factory { position: absolute; }
 }
 
-/* GPU Composite & Smooth Render Boost for Sticky Stages */
-.hero-depth-exp__stage,
-.depth-to-light-stage,
-.history-story__stage,
-.bottling-cinema__stage {
-  transform: translate3d(0, 0, 0);
-  -webkit-backface-visibility: hidden;
-  backface-visibility: hidden;
-  will-change: transform;
-}
-
-/* Colour-matched section joins. These overlays scroll with the boundaries,
-   so pinned scenes retain their original colour away from the joins. */
-.history-story__journey {
-  position: relative;
-}
-.history-story__journey::before,
-.bottling-cinema::before,
-.bottling-cinema::after,
-.finale-footer-wrap::before {
-  content: '';
-  position: absolute;
-  left: 0;
-  right: 0;
-  height: clamp(96px, 15svh, 180px);
-  z-index: 8;
-  pointer-events: none;
-}
-.history-story__journey::before {
-  top: 0;
-  background: linear-gradient(to bottom, #eaf4fb 0%, rgba(234,244,251,.88) 16%, rgba(234,244,251,.42) 48%, rgba(234,244,251,0) 100%);
-}
-.bottling-cinema::before {
-  top: 0;
-  background: linear-gradient(to bottom, #f4f8fb 0%, rgba(244,248,251,.85) 14%, rgba(244,248,251,.32) 52%, rgba(244,248,251,0) 100%);
-}
-.bottling-cinema::after {
-  bottom: 0;
-  background: linear-gradient(to top, #f3f8fc 0%, rgba(243,248,252,.85) 14%, rgba(243,248,252,.32) 52%, rgba(243,248,252,0) 100%);
-}
-.buy-section {
-  border-top: 0;
-}
-.finale-footer-wrap::before {
-  top: 0;
-  background: linear-gradient(to bottom, #f3f8fc 0%, rgba(243,248,252,.86) 14%, rgba(243,248,252,.28) 54%, rgba(243,248,252,0) 100%);
-}
-@media (max-width: 680px) {
-  .history-story__journey::before,
-  .bottling-cinema::before,
-  .bottling-cinema::after,
-  .finale-footer-wrap::before {
-    height: clamp(72px, 12svh, 112px);
-  }
-}
+/* Whole-scene dissolves are driven by scroll; no bright edge overlays. */
+.history-story__journey { background: #eaf4fb; }
+.bottling-cinema { background: #f3f8fc; }
+.buy-section { border-top: 0; }

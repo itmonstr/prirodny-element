@@ -26,7 +26,7 @@ export function WaterLightCanvas({ depthProgressRef }: WaterLightCanvasProps) {
     let isVisible = true;
 
     const resize = () => {
-      const dpr = Math.min(window.devicePixelRatio || 1, 1.5);
+      const dpr = Math.min(window.devicePixelRatio || 1, 1);
       width = canvas.clientWidth;
       height = canvas.clientHeight;
       canvas.width = Math.max(1, Math.floor(width * dpr));
@@ -45,8 +45,10 @@ export function WaterLightCanvas({ depthProgressRef }: WaterLightCanvasProps) {
     );
     observer.observe(canvas);
 
+    let lastFrame = 0;
     const drawFrame = (timeMs: number) => {
-      if (isVisible) {
+      if (isVisible && !document.hidden && timeMs - lastFrame >= 32) {
+        lastFrame = timeMs;
         const t = reducedMotion ? 1.2 : timeMs * 0.00032;
         const depth = Math.max(0, Math.min(1, depthProgressRef.current));
 
