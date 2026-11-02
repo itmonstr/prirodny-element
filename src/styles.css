@@ -4133,3 +4133,12 @@ h3,
     pointer-events: none;
   }
 }
+
+.site-loader { position: fixed; inset: 0; z-index: 10000; background: #f5fafd; color: #123c69; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 24px; opacity: 1; transition: opacity .3s ease; }
+.site-loader--done { opacity: 0; pointer-events: none; }
+.site-loader__brand { font: 500 clamp(2.7rem, 10vw, 4rem)/.9 var(--font-serif); text-align: center; }
+.site-loader__caption { margin-top: 32px; font: 400 .85rem var(--font-sans); }
+.site-loader__track { width: min(220px, 70vw); height: 2px; margin-top: 20px; background: #d9e8f1; overflow: hidden; }
+.site-loader__track span { display: block; height: 100%; background: #123c69; transform-origin: left; transition: transform .25s ease; }
+.site-loader__progress { margin-top: 12px; font: 400 .75rem var(--font-sans); }
+@media (prefers-reduced-motion: reduce) { .site-loader, .site-loader__track span { transition: none; } }
