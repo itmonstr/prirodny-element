@@ -150,7 +150,7 @@ export function DepthToLightTransition({
         const tl = gsap.timeline({
           scrollTrigger: {
             trigger: section,
-            start: isDesktop ? 'top 25%' : 'top 45%',
+            start: 'top top',
             end: 'bottom bottom',
             scrub: isDesktop ? 0.65 : 0.4,
             invalidateOnRefresh: true,

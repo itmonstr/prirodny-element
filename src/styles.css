@@ -4198,3 +4198,17 @@ html[data-performance='lite'] .hero-bottle-stage__sheen,
 html[data-performance='lite'] .finale-bottle-stage__sheen-beam { display: none !important; }
 html[data-performance='lite'] .depth-bubble:nth-child(n+7) { display: none; }
 html[data-performance='lite'] .depth-water-img { filter: none; }
+
+.opening-handoff {
+  position: fixed;
+  inset: 0;
+  z-index: 50;
+  overflow: hidden;
+  background: #0c2b4d;
+  pointer-events: none;
+  opacity: 0;
+  visibility: hidden;
+}
+/* The underwater scene contains only water, bubbles and copy. */
+.depth-to-light-section .depth-rising-bottle { display: none !important; }
+.depth-water-img { max-width: none; }
