@@ -85,16 +85,17 @@ export function HeroDepthExperience({
 
         // Initial gentle materialization of the Hero Bottle & Headline
         if (!reduceMotion && bottleImgRef.current) {
+          const initDur = isDesktop ? 1.3 : 0.6;
           gsap.fromTo(
             bottleImgRef.current,
             { opacity: 0, scale: 0.95, y: 24 },
-            { opacity: 1, scale: 1, y: 0, duration: 1.3, ease: 'power3.out' }
+            { opacity: 1, scale: 1, y: 0, duration: initDur, ease: 'power3.out' }
           );
           if (bottleSheenRef.current) {
             gsap.fromTo(
               bottleSheenRef.current,
               { xPercent: -95, opacity: 0 },
-              { xPercent: 95, opacity: 0.72, duration: 2.0, delay: 0.22, ease: 'power2.inOut' }
+              { xPercent: 95, opacity: 0.72, duration: isDesktop ? 2.0 : 1.0, delay: isDesktop ? 0.22 : 0.08, ease: 'power2.inOut' }
             );
           }
           if (heroCopyRef.current) {
@@ -104,9 +105,9 @@ export function HeroDepthExperience({
               {
                 opacity: 1,
                 y: 0,
-                duration: 1.0,
-                stagger: 0.09,
-                delay: 0.14,
+                duration: isDesktop ? 1.0 : 0.5,
+                stagger: isDesktop ? 0.09 : 0.04,
+                delay: isDesktop ? 0.14 : 0.04,
                 ease: 'power3.out',
               }
             );
@@ -168,14 +169,14 @@ export function HeroDepthExperience({
               trigger: root,
               start: 'top top',
               end: 'bottom bottom',
-              scrub: isDesktop ? 0.6 : 0.2,
+              scrub: isDesktop ? 0.6 : true,
               invalidateOnRefresh: true,
               onUpdate: (self) => {
                 const p = self.progress;
                 // On desktop: 0..0.54 maps to 0..80 meters
                 // On mobile: 0..0.38 maps to 0..80 meters so gauge completes right as 80m title arrives
                 const depthRange = isDesktop ? 0.54 : 0.38;
-                const normDepth = gsap.utils.clamp(0, 1, (p - 0.03) / depthRange);
+                const normDepth = gsap.utils.clamp(0, 1, p / depthRange);
                 depthProgressRef.current = normDepth;
                 const meters = Math.round(normDepth * 80);
                 if (depthLiveRef.current) {
@@ -312,41 +313,41 @@ export function HeroDepthExperience({
               );
           } else {
             // ==================== MOBILE & TABLET SEQUENTIAL CHOREOGRAPHY ====================
-            // Step 1 (0 -> 0.38): Hero fades out, depth meter fills, aquifer background activates, bottle settles
+            // Step 1: Immediate response on first pixel of scroll — hero text dissolves, depth fills, aquifer deepens
             tl.to(
               heroCopyRef.current,
-              { opacity: 0, y: -24, duration: 0.14, ease: 'power2.inOut' },
-              0.01
+              { opacity: 0, y: -24, duration: 0.16, ease: 'power2.inOut' },
+              0
             )
               .to(
                 heroMobileActionsRef.current,
-                { opacity: 0, y: 12, duration: 0.10, ease: 'power2.out' },
-                0.01
+                { opacity: 0, y: 12, duration: 0.12, ease: 'power2.out' },
+                0
               )
               .to(
                 deepBgRef.current,
-                { opacity: 1, duration: 0.28, ease: 'sine.inOut' },
-                0.03
+                { opacity: 1, duration: 0.24, ease: 'sine.inOut' },
+                0.01
               )
               .to(
                 aquiferRaysRef.current,
-                { opacity: 1, xPercent: 3, duration: 0.40, ease: 'sine.out' },
-                0.05
+                { opacity: 1, xPercent: 3, duration: 0.30, ease: 'sine.out' },
+                0.02
               )
               .to(
                 depthScaleRef.current,
-                { opacity: 1, duration: 0.16, ease: 'sine.out' },
-                0.04
+                { opacity: 1, duration: 0.14, ease: 'sine.out' },
+                0.01
               )
               .to(
                 depthFillRef.current,
-                { scaleY: 1, duration: 0.36, ease: 'none' },
-                0.03
+                { scaleY: 1, duration: 0.28, ease: 'none' },
+                0.01
               )
               .to(
                 strataRef.current,
-                { opacity: 1, y: 0, duration: 0.32, ease: 'power2.out' },
-                0.06
+                { opacity: 1, y: 0, duration: 0.24, ease: 'power2.out' },
+                0.02
               )
               .fromTo(
                 bottleWrapRef.current,
@@ -359,44 +360,44 @@ export function HeroDepthExperience({
                   x: 0,
                   y: () => endOffsetY(),
                   scale: () => endScale(),
-                  duration: 0.32,
+                  duration: 0.28,
                   ease: 'power2.inOut',
                 },
-                0.02
+                0.01
               );
 
             if (bottleSheenRef.current) {
               tl.fromTo(
                 bottleSheenRef.current,
                 { xPercent: -85, opacity: 0.18 },
-                { xPercent: 85, opacity: 0.58, duration: 0.38, ease: 'sine.inOut' },
-                0.05
+                { xPercent: 85, opacity: 0.58, duration: 0.32, ease: 'sine.inOut' },
+                0.03
               );
             }
 
-            // The source copy frames a centered bottle; the mineral table follows its exit.
+            // Step 2: Source story appears gracefully
             tl.to(
               sourceLeftRef.current,
               {
                 opacity: 1,
                 y: 0,
                 pointerEvents: 'auto',
-                duration: 0.22,
+                duration: 0.18,
                 ease: 'power2.out',
               },
-              0.16
+              0.12
             )
-              // Smooth, graceful transition: source story softly fades out as the bottle ascends
+              // Step 3: Source story dissolves as bottle ascends
               .to(
                 sourceLeftRef.current,
                 {
                   opacity: 0,
                   y: -18,
                   pointerEvents: 'none',
-                  duration: 0.20,
+                  duration: 0.18,
                   ease: 'power1.inOut',
                 },
-                0.52
+                0.40
               )
               // Bottle smoothly ascends towards the surface
               .to(
@@ -405,47 +406,43 @@ export function HeroDepthExperience({
                   y: () => -window.innerHeight * 1.2,
                   scale: () => endScale(),
                   opacity: 1,
-                  duration: 0.32,
+                  duration: 0.28,
                   ease: 'power1.inOut',
                 },
-                0.50
+                0.38
               )
-              // The mineral composition fades in softly as the bottle exits
+              // Step 4: Mineral composition presents cleanly
               .to(
                 sourceRightRef.current,
                 {
                   opacity: 1,
                   y: 0,
                   pointerEvents: 'auto',
-                  duration: 0.24,
+                  duration: 0.22,
                   ease: 'power2.out',
                 },
-                0.74
+                0.58
               )
               .to(
                 mineralItems,
                 {
                   opacity: 1,
                   y: 0,
-                  duration: 0.18,
-                  stagger: 0.035,
+                  duration: 0.16,
+                  stagger: 0.025,
                   ease: 'power2.out',
                 },
-                0.76
+                0.60
               )
-              // Ambient drift before transition into the sunlit glass interlude
               .to(
                 aquiferRaysRef.current,
-                { xPercent: 6, duration: 0.24, ease: 'none' },
-                0.76
+                { xPercent: 6, duration: 0.20, ease: 'none' },
+                0.60
               );
           }
           if (isDesktop) {
             tl.to([depthScaleRef.current, sourceLeftRef.current, sourceRightRef.current],
               { opacity: 0, duration: 0.08, ease: 'power1.inOut' }, 1.02);
-          } else {
-            // Keep useful content on screen throughout the handoff.
-            tl.to({}, { duration: 0.25 }, 1.1);
           }
         } else {
           // Reduced motion fallback

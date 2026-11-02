@@ -163,7 +163,7 @@ export function DepthToLightTransition({
             trigger: section,
             start: 'top top',
             end: 'bottom bottom',
-            scrub: isDesktop ? 0.6 : 0.2,
+            scrub: isDesktop ? 0.6 : true,
             invalidateOnRefresh: true,
           },
         });
