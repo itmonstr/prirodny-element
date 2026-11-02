@@ -65,38 +65,15 @@ export function HistorySection({ onDarkSceneChange }: HistorySectionProps = {}) 
           gsap.set([production.current, year.current, factory.current, factoryLayer.current], { autoAlpha: 1 });
           gsap.set(coast.current, { autoAlpha: 1 });
           if (!reduceMotion) {
-            let direction = 0;
-            let fade: gsap.core.Tween | null = null;
-            const restore = () => {
-              fade?.kill(); direction = 0;
-              gsap.set(coast.current, { clearProps: 'position,top,left,width,height,zIndex,opacity' });
-            };
-            const enter = (forward: boolean) => context.add(() => {
-              direction = forward ? 1 : -1;
-              fade?.kill();
-              gsap.set(coast.current, {
-                position: 'fixed', top: 0, left: 0, width: '100%', height: '100svh',
-                zIndex: 25, opacity: forward ? 0 : 1,
+            // Animate content in place. Never detach a scene from document flow.
+            const copy = section.current?.querySelectorAll(
+              '.history-story__coast-copy, .history-story__production-copy, .bottling-cinema__mobile-copy'
+            );
+            copy?.forEach((item) => {
+              gsap.fromTo(item, { opacity: 0, y: 12 }, {
+                opacity: 1, y: 0, duration: MOTION_DURATION, ease: 'sine.out',
+                scrollTrigger: { trigger: item, start: 'top 95%', once: true },
               });
-              fade = gsap.to(coast.current, {
-                opacity: forward ? 1 : 0, duration: MOTION_DURATION, ease: 'sine.inOut',
-              });
-            });
-            ScrollTrigger.create({
-              trigger: journey.current, start: 'top bottom', end: 'top top',
-              onEnter: () => enter(true), onEnterBack: () => enter(false),
-              onUpdate: (self) => {
-                if (!self.isActive || direction === self.direction) return;
-                direction = self.direction;
-                context.add(() => {
-                  fade?.kill();
-                  fade = gsap.to(coast.current, {
-                    opacity: self.direction > 0 ? 1 : 0,
-                    duration: MOTION_DURATION, ease: 'sine.inOut',
-                  });
-                });
-              },
-              onLeave: () => context.add(restore), onLeaveBack: () => context.add(restore),
             });
           }
           return;
@@ -160,7 +137,6 @@ export function HistorySection({ onDarkSceneChange }: HistorySectionProps = {}) 
       {/* Coast -> Factory 2026 Journey */}
       <div ref={journey} className="history-story__journey">
         <div className="history-story__stage">
-          <div className="history-story__coast-shell">
           <div ref={coast} className="history-story__scene history-story__coast">
             <img
               ref={coastImg}
@@ -175,7 +151,6 @@ export function HistorySection({ onDarkSceneChange }: HistorySectionProps = {}) 
               <h2 id="history-title" className="section-title">Как всё начиналось</h2>
               <p>В начале 2000-х наша семья нашла источник близ озера Богайлы. Здесь начался наш путь к собственной питьевой воде.</p>
             </div>
-          </div>
           </div>
           <div ref={production} className="history-story__scene history-story__production">
             <div className="history-story__production-copy">

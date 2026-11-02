@@ -152,53 +152,55 @@ export function DepthToLightTransition({
           });
         });
 
-        // Use the real incoming stage for the dissolve: no duplicate backgrounds.
-        let entrance: gsap.core.Tween | null = null;
-        let entranceDirection = 0;
-        const fixStage = (opacity: number) => {
-          gsap.set(stageRef.current, {
-            position: 'fixed', top: 0, left: 0, width: '100%', zIndex: 20, opacity,
-          });
-        };
-        const restoreStage = () => {
-          entrance?.kill();
-          entranceDirection = 0;
-          gsap.set(stageRef.current, {
-            clearProps: 'position,left,width,zIndex,opacity',
-          });
-        };
-        ScrollTrigger.create({
-          trigger: section, start: 'top bottom', end: 'top top',
-          onUpdate: (self) => {
-            if (!self.isActive || self.direction === entranceDirection) return;
-            entranceDirection = self.direction;
-            context.add(() => {
-              entrance?.kill();
-              entrance = gsap.to(stageRef.current, {
-                opacity: self.direction > 0 ? 1 : 0,
-                duration: MOTION_DURATION, ease: 'sine.inOut',
+        if (isDesktop) {
+          // Use the real incoming stage for the dissolve: no duplicate backgrounds.
+          let entrance: gsap.core.Tween | null = null;
+          let entranceDirection = 0;
+          const fixStage = (opacity: number) => {
+            gsap.set(stageRef.current, {
+              position: 'fixed', top: 0, left: 0, width: '100%', zIndex: 20, opacity,
+            });
+          };
+          const restoreStage = () => {
+            entrance?.kill();
+            entranceDirection = 0;
+            gsap.set(stageRef.current, {
+              clearProps: 'position,left,width,zIndex,opacity',
+            });
+          };
+          ScrollTrigger.create({
+            trigger: section, start: 'top bottom', end: 'top top',
+            onUpdate: (self) => {
+              if (!self.isActive || self.direction === entranceDirection) return;
+              entranceDirection = self.direction;
+              context.add(() => {
+                entrance?.kill();
+                entrance = gsap.to(stageRef.current, {
+                  opacity: self.direction > 0 ? 1 : 0,
+                  duration: MOTION_DURATION, ease: 'sine.inOut',
+                });
               });
-            });
-          },
-          onEnter: () => context.add(() => {
-            entrance?.kill();
-            entranceDirection = 1;
-            fixStage(0);
-            entrance = gsap.to(stageRef.current, {
-              opacity: 1, duration: MOTION_DURATION, ease: 'sine.inOut',
-            });
-          }),
-          onEnterBack: () => context.add(() => {
-            entrance?.kill();
-            entranceDirection = -1;
-            fixStage(1);
-            entrance = gsap.to(stageRef.current, {
-              opacity: 0, duration: MOTION_DURATION, ease: 'sine.inOut',
-            });
-          }),
-          onLeave: () => context.add(restoreStage),
-          onLeaveBack: () => context.add(restoreStage),
-        });
+            },
+            onEnter: () => context.add(() => {
+              entrance?.kill();
+              entranceDirection = 1;
+              fixStage(0);
+              entrance = gsap.to(stageRef.current, {
+                opacity: 1, duration: MOTION_DURATION, ease: 'sine.inOut',
+              });
+            }),
+            onEnterBack: () => context.add(() => {
+              entrance?.kill();
+              entranceDirection = -1;
+              fixStage(1);
+              entrance = gsap.to(stageRef.current, {
+                opacity: 0, duration: MOTION_DURATION, ease: 'sine.inOut',
+              });
+            }),
+            onLeave: () => context.add(restoreStage),
+            onLeaveBack: () => context.add(restoreStage),
+          });
+        }
         gsap.set(introRef.current, { opacity: 1, y: 0 });
 
         // A single gesture starts the complete formats reveal; no extra scrub phases.
