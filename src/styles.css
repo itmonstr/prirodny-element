@@ -3837,9 +3837,9 @@ h3,
 
 .bottling-cinema__bg-img {
   position: absolute;
-  inset: -6% -4%;
-  width: 108%;
-  height: 112%;
+  inset: -2% -2%;
+  width: 104%;
+  height: 104%;
   object-fit: cover;
   object-position: center center;
   will-change: transform;

@@ -71,7 +71,7 @@ export function HistorySection() {
         if (bottlingCinema.current) {
           gsap.set(conveyorImg.current, { scale: 1.0 });
           gsap.set(factoryLayer.current, { opacity: 0 });
-          gsap.set(factoryImg.current, { scale: 1.08, yPercent: 0 });
+          gsap.set(factoryImg.current, { scale: 1.025, yPercent: 0 });
           gsap.set(title1.current, { opacity: 1, y: 0 });
           gsap.set(title2.current, { opacity: 0, y: 30 });
 
@@ -123,7 +123,7 @@ export function HistorySection() {
             .to(
               factoryImg.current,
               {
-                scale: 1.04,
+                scale: 1,
                 ease: 'none',
                 duration: 0.52,
               },
@@ -214,8 +214,8 @@ export function HistorySection() {
               ref={factoryImg}
               src={assetUrl('assets/factory-ready.webp')}
               alt="Готовая продукция воды «Природный Элемент» к отправке"
-              width={2560}
-              height={1440}
+              width={1672}
+              height={941}
               loading="lazy"
               decoding="async"
               className="bottling-cinema__bg-img"
