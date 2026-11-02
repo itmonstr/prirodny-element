@@ -1,3 +1,5 @@
+import { OpeningHandoff } from './components/OpeningHandoff';
+import { SceneTransitions } from './components/SceneTransitions';
 import { useCallback, useState } from 'react';
 import { Header } from './components/Header';
 import { HeroDepthExperience } from './components/HeroDepthExperience';
@@ -37,6 +39,8 @@ export function App() {
 
   return (
     <div className="site-shell">
+      <SceneTransitions />
+      <OpeningHandoff />
       <a href="#formats" className="skip-to-content">
         Перейти к содержанию
       </a>

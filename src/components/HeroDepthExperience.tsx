@@ -51,6 +51,7 @@ export function HeroDepthExperience({
   const bottleWrapRef = useRef<HTMLDivElement | null>(null);
   const bottleImgRef = useRef<HTMLImageElement | null>(null);
   const bottleSheenRef = useRef<HTMLDivElement | null>(null);
+  const sourceSceneRef = useRef<HTMLDivElement | null>(null);
   const sourceLeftRef = useRef<HTMLDivElement | null>(null);
   const sourceRightRef = useRef<HTMLDivElement | null>(null);
   const strataRef = useRef<HTMLDivElement | null>(null);
@@ -89,13 +90,13 @@ export function HeroDepthExperience({
           gsap.fromTo(
             bottleImgRef.current,
             { opacity: 0, scale: 0.95, y: 24 },
-            { opacity: 1, scale: 1, y: 0, duration: initDur, ease: 'power3.out' }
+            { opacity: 1, scale: 1, y: 0, duration: initDur, ease: 'sine.out' }
           );
           if (bottleSheenRef.current) {
             gsap.fromTo(
               bottleSheenRef.current,
               { xPercent: -95, opacity: 0 },
-              { xPercent: 95, opacity: 0.72, duration: isDesktop ? 2.0 : 1.0, delay: isDesktop ? 0.22 : 0.08, ease: 'power2.inOut' }
+              { xPercent: 95, opacity: 0.72, duration: isDesktop ? 2.0 : 1.0, delay: isDesktop ? 0.22 : 0.08, ease: 'sine.inOut' }
             );
           }
           if (heroCopyRef.current) {
@@ -108,7 +109,7 @@ export function HeroDepthExperience({
                 duration: isDesktop ? 1.0 : 0.5,
                 stagger: isDesktop ? 0.09 : 0.04,
                 delay: isDesktop ? 0.14 : 0.04,
-                ease: 'power3.out',
+                ease: 'sine.out',
               }
             );
           }
@@ -139,6 +140,10 @@ export function HeroDepthExperience({
             y: 30,
             pointerEvents: 'none',
           });
+          if (!isDesktop) {
+            gsap.set([sourceLeftRef.current, sourceRightRef.current], { opacity: 1, y: 0, pointerEvents: 'auto' });
+            gsap.set(sourceSceneRef.current, { opacity: 0, yPercent: -50, y: 12, pointerEvents: 'none' });
+          }
           gsap.set(deepBgRef.current, { opacity: 0 });
           gsap.set(aquiferRaysRef.current, { opacity: 0, xPercent: -4 });
           gsap.set(strataRef.current, { opacity: 0, y: 32 });
@@ -169,7 +174,7 @@ export function HeroDepthExperience({
               trigger: root,
               start: 'top top',
               end: 'bottom bottom',
-              scrub: isDesktop ? 0.6 : true,
+              scrub: isDesktop ? 0.65 : 0.4,
               invalidateOnRefresh: true,
               onUpdate: (self) => {
                 const p = self.progress;
@@ -209,7 +214,7 @@ export function HeroDepthExperience({
             // ==================== DESKTOP CHOREOGRAPHY ====================
             tl.to(
               heroCopyRef.current,
-              { opacity: 0, y: -46, duration: 0.28, ease: 'power2.inOut' },
+              { opacity: 0, y: -46, duration: 0.28, ease: 'sine.inOut' },
               0.01
             )
               .to(
@@ -249,7 +254,7 @@ export function HeroDepthExperience({
                   y: () => endOffsetY(),
                   scale: () => endScale(),
                   duration: 0.46,
-                  ease: 'power2.inOut',
+                  ease: 'sine.inOut',
                 },
                 0.04
               );
@@ -312,133 +317,33 @@ export function HeroDepthExperience({
                 0.72
               );
           } else {
-            // ==================== MOBILE & TABLET SEQUENTIAL CHOREOGRAPHY ====================
-            // Step 1: Immediate response on first pixel of scroll — hero text dissolves, depth fills, aquifer deepens
-            tl.to(
-              heroCopyRef.current,
-              { opacity: 0, y: -24, duration: 0.16, ease: 'power2.inOut' },
-              0
-            )
-              .to(
-                heroMobileActionsRef.current,
-                { opacity: 0, y: 12, duration: 0.12, ease: 'power2.out' },
-                0
-              )
-              .to(
-                deepBgRef.current,
-                { opacity: 1, duration: 0.24, ease: 'sine.inOut' },
-                0.01
-              )
-              .to(
-                aquiferRaysRef.current,
-                { opacity: 1, xPercent: 3, duration: 0.30, ease: 'sine.out' },
-                0.02
-              )
-              .to(
-                depthScaleRef.current,
-                { opacity: 1, duration: 0.14, ease: 'sine.out' },
-                0.01
-              )
-              .to(
-                depthFillRef.current,
-                { scaleY: 1, duration: 0.28, ease: 'none' },
-                0.01
-              )
-              .to(
-                strataRef.current,
-                { opacity: 1, y: 0, duration: 0.24, ease: 'power2.out' },
-                0.02
-              )
-              .fromTo(
-                bottleWrapRef.current,
-                {
-                  x: 0,
-                  y: () => startOffsetY(),
-                  scale: 1,
-                },
-                {
-                  x: 0,
-                  y: () => endOffsetY(),
-                  scale: () => endScale(),
-                  duration: 0.28,
-                  ease: 'power2.inOut',
-                },
-                0.01
-              );
-
-            if (bottleSheenRef.current) {
-              tl.fromTo(
-                bottleSheenRef.current,
-                { xPercent: -85, opacity: 0.18 },
-                { xPercent: 85, opacity: 0.58, duration: 0.32, ease: 'sine.inOut' },
-                0.03
-              );
-            }
-
-            // Step 2: Source story appears gracefully
-            tl.to(
-              sourceLeftRef.current,
-              {
-                opacity: 1,
-                y: 0,
-                pointerEvents: 'auto',
-                duration: 0.18,
-                ease: 'power2.out',
+            // Mobile motion uses scroll for position and time for legible text dissolves.
+            gsap.set(mineralItems, { opacity: 1, y: 0 });
+            tl.to(heroCopyRef.current, { opacity: 0, y: -12, duration: 0.18, ease: 'sine.inOut' }, 0)
+              .to(heroMobileActionsRef.current, { opacity: 0, duration: 0.14 }, 0)
+              .to(deepBgRef.current, { opacity: 1, duration: 0.28, ease: 'sine.inOut' }, 0)
+              .to(bottleWrapRef.current, {
+                y: () => -window.innerHeight * 1.2,
+                duration: 0.32, ease: 'sine.inOut',
+              }, 0.02)
+              .to({}, { duration: 0.86 }, 0.34);
+            let activeBeat = -1;
+            ScrollTrigger.create({
+              trigger: root, start: 'top top', end: 'bottom bottom',
+              onUpdate: (self) => {
+                const beat = self.progress < 0.30 ? 0 : 1;
+                if (beat === activeBeat) return;
+                activeBeat = beat;
+                context.add(() => {
+                  const shown = beat === 1;
+                  gsap.to(sourceSceneRef.current, {
+                    opacity: shown ? 1 : 0, y: shown ? 0 : 12,
+                    pointerEvents: shown ? 'auto' : 'none',
+                    duration: 0.55, ease: 'sine.inOut', overwrite: 'auto',
+                  });
+                });
               },
-              0.12
-            )
-              // Step 3: Source story dissolves as bottle ascends
-              .to(
-                sourceLeftRef.current,
-                {
-                  opacity: 0,
-                  y: -18,
-                  pointerEvents: 'none',
-                  duration: 0.18,
-                  ease: 'power1.inOut',
-                },
-                0.40
-              )
-              // Bottle smoothly ascends towards the surface
-              .to(
-                bottleWrapRef.current,
-                {
-                  y: () => -window.innerHeight * 1.2,
-                  scale: () => endScale(),
-                  opacity: 1,
-                  duration: 0.28,
-                  ease: 'power1.inOut',
-                },
-                0.38
-              )
-              // Step 4: Mineral composition presents cleanly
-              .to(
-                sourceRightRef.current,
-                {
-                  opacity: 1,
-                  y: 0,
-                  pointerEvents: 'auto',
-                  duration: 0.22,
-                  ease: 'power2.out',
-                },
-                0.58
-              )
-              .to(
-                mineralItems,
-                {
-                  opacity: 1,
-                  y: 0,
-                  duration: 0.16,
-                  stagger: 0.025,
-                  ease: 'power2.out',
-                },
-                0.60
-              )
-              .to(
-                aquiferRaysRef.current,
-                { xPercent: 6, duration: 0.20, ease: 'none' },
-                0.60
-              );
+            });
           }
           if (isDesktop) {
             tl.to([depthScaleRef.current, sourceLeftRef.current, sourceRightRef.current],
@@ -589,6 +494,7 @@ export function HeroDepthExperience({
             </div>
           </div>
 
+          <div ref={sourceSceneRef} className="source-scene">
           {/* SCENE 2: «Источник глубиной 80 метров» */}
           <div ref={sourceLeftRef} className="source-panel source-panel--left">
             <div className="source-depth-figure" aria-label="Глубина скважины 80 метров">
@@ -622,6 +528,7 @@ export function HeroDepthExperience({
               Точные числовые значения публикуются на основании протокола лабораторного анализа
               скважины.
             </p>
+          </div>
           </div>
         </div>
       </div>
