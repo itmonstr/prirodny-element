@@ -1481,17 +1481,6 @@ h3,
 
 /* 5. Seamless Outro Action Cue */
 
-.depth-to-light-section::after {
-  content: '';
-  position: absolute;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  height: 24svh;
-  background: linear-gradient(to bottom, rgba(12, 43, 77, 0) 0%, #0c2b4d 100%);
-  pointer-events: none;
-  z-index: 5;
-}
 
 .depth-outro-cue {
   margin-top: clamp(12px, 2vw, 24px);
@@ -4314,4 +4303,12 @@ html[data-performance='lite'] .depth-water-img { filter: none; }
     -webkit-transform: translate3d(0, 0, 0);
     backface-visibility: hidden;
   }
+}
+
+.history-story__coast-shell { display: contents; }
+@media (max-width: 1023px) and (prefers-reduced-motion: no-preference) {
+  .depth-to-light-section { height: 100svh; }
+  .history-story__coast-shell { display: block; min-height: 100svh; }
+  .history-story__coast { min-height: 100svh; }
+  .history-story__stage, .history-story__scene { transform: none; -webkit-transform: none; }
 }
