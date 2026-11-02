@@ -89,13 +89,13 @@ export function HeroDepthExperience({
           gsap.fromTo(
             bottleImgRef.current,
             { opacity: 0, scale: 0.95, y: 24 },
-            { opacity: 1, scale: 1, y: 0, duration: initDur, ease: 'power3.out' }
+            { opacity: 1, scale: 1, y: 0, duration: initDur, ease: 'sine.out' }
           );
           if (bottleSheenRef.current) {
             gsap.fromTo(
               bottleSheenRef.current,
               { xPercent: -95, opacity: 0 },
-              { xPercent: 95, opacity: 0.72, duration: isDesktop ? 2.0 : 1.0, delay: isDesktop ? 0.22 : 0.08, ease: 'power2.inOut' }
+              { xPercent: 95, opacity: 0.72, duration: isDesktop ? 2.0 : 1.0, delay: isDesktop ? 0.22 : 0.08, ease: 'sine.inOut' }
             );
           }
           if (heroCopyRef.current) {
@@ -108,7 +108,7 @@ export function HeroDepthExperience({
                 duration: isDesktop ? 1.0 : 0.5,
                 stagger: isDesktop ? 0.09 : 0.04,
                 delay: isDesktop ? 0.14 : 0.04,
-                ease: 'power3.out',
+                ease: 'sine.out',
               }
             );
           }
@@ -169,7 +169,7 @@ export function HeroDepthExperience({
               trigger: root,
               start: 'top top',
               end: 'bottom bottom',
-              scrub: isDesktop ? 0.6 : true,
+              scrub: isDesktop ? 0.65 : 0.4,
               invalidateOnRefresh: true,
               onUpdate: (self) => {
                 const p = self.progress;
@@ -209,7 +209,7 @@ export function HeroDepthExperience({
             // ==================== DESKTOP CHOREOGRAPHY ====================
             tl.to(
               heroCopyRef.current,
-              { opacity: 0, y: -46, duration: 0.28, ease: 'power2.inOut' },
+              { opacity: 0, y: -46, duration: 0.28, ease: 'sine.inOut' },
               0.01
             )
               .to(
@@ -249,7 +249,7 @@ export function HeroDepthExperience({
                   y: () => endOffsetY(),
                   scale: () => endScale(),
                   duration: 0.46,
-                  ease: 'power2.inOut',
+                  ease: 'sine.inOut',
                 },
                 0.04
               );
@@ -316,7 +316,7 @@ export function HeroDepthExperience({
             // Step 1: Immediate response on first pixel of scroll — hero text dissolves, depth fills, aquifer deepens
             tl.to(
               heroCopyRef.current,
-              { opacity: 0, y: -24, duration: 0.16, ease: 'power2.inOut' },
+              { opacity: 0, y: -24, duration: 0.16, ease: 'sine.inOut' },
               0
             )
               .to(
@@ -361,7 +361,7 @@ export function HeroDepthExperience({
                   y: () => endOffsetY(),
                   scale: () => endScale(),
                   duration: 0.28,
-                  ease: 'power2.inOut',
+                  ease: 'sine.inOut',
                 },
                 0.01
               );

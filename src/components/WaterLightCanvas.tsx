@@ -19,7 +19,7 @@ export function WaterLightCanvas({ depthProgressRef }: WaterLightCanvasProps) {
     const ctx = canvas.getContext('2d');
     if (!ctx) return;
 
-    const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches || document.documentElement.dataset.performance === 'lite';
     let width = 0;
     let height = 0;
     let rafId = 0;

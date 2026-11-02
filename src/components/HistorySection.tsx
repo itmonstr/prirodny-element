@@ -165,7 +165,7 @@ export function HistorySection() {
           <div ref={coast} className="history-story__scene history-story__coast">
             <img
               ref={coastImg}
-              src={assetUrl('assets/crimea-west-hd.png')}
+              src={assetUrl('assets/crimea-west-hd.webp')}
               alt="Образ побережья западного Крыма"
               width={1679}
               height={937}

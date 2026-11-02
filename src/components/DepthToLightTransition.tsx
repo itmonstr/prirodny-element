@@ -58,8 +58,6 @@ export function DepthToLightTransition({
   const sectionRef = useRef<HTMLElement | null>(null);
   const stageRef = useRef<HTMLDivElement | null>(null);
   const waterWrapRef = useRef<HTMLDivElement | null>(null);
-  const risingBottleRef = useRef<HTMLDivElement | null>(null);
-  const turbulenceRef = useRef<HTMLDivElement | null>(null);
   const waterImgRef = useRef<HTMLImageElement | null>(null);
   const waterRaysRef = useRef<HTMLDivElement | null>(null);
   const causticsRef = useRef<HTMLDivElement | null>(null);
@@ -131,15 +129,6 @@ export function DepthToLightTransition({
         gsap.set(waterRaysRef.current, { opacity: 0.55, scale: 1 });
         gsap.set(causticsRef.current, { opacity: 0.35 });
         gsap.set(bubblesRef.current, { opacity: 0.45, y: 0 });
-        gsap.set(turbulenceRef.current, { opacity: 0 });
-        gsap.set(risingBottleRef.current, {
-          xPercent: -50,
-          yPercent: -50,
-          x: 0,
-          y: 0,
-          scale: isDesktop ? 0.87 : 0.84,
-          opacity: 0,
-        });
         gsap.set(introRef.current, { opacity: 0, y: 12 });
         gsap.set(introLinesRef.current, { opacity: 0, y: 32 });
         gsap.set(introLeadRef.current, { opacity: 0, y: 16 });
@@ -161,31 +150,19 @@ export function DepthToLightTransition({
         const tl = gsap.timeline({
           scrollTrigger: {
             trigger: section,
-            start: 'top top',
+            start: isDesktop ? 'top 25%' : 'top 45%',
             end: 'bottom bottom',
-            scrub: isDesktop ? 0.6 : true,
+            scrub: isDesktop ? 0.65 : 0.4,
             invalidateOnRefresh: true,
           },
         });
 
-        // Reveal the bottle only after the new background reaches the viewport.
+        // The water scene opens directly with bubbles and copy.
         tl.to(
-          risingBottleRef.current,
-          { opacity: 1, ease: 'power1.out', duration: 0.06 },
-          0
-        )
-          .to(turbulenceRef.current, { opacity: 1, duration: 0.045, ease: 'power1.out' }, 0.045)
-          .to(turbulenceRef.current, { opacity: 0, duration: 0.09 }, 0.3)
-          .to(
-            risingBottleRef.current,
-            { y: () => -window.innerHeight * 1.2, ease: 'power1.inOut', duration: isDesktop ? 0.34 : 0.30 },
-            0.05
-          )
-          .to(
             waterImgRef.current,
             {
-              scale: 1.22,
-              yPercent: isDesktop ? -10 : -8,
+              scale: 1.12,
+              yPercent: isDesktop ? -4 : -2,
               ease: 'none',
               duration: 0.4,
             },
@@ -222,23 +199,23 @@ export function DepthToLightTransition({
           )
           .to(
             introRef.current,
-            { opacity: 1, y: 0, ease: 'power2.out', duration: 0.12 },
-            isDesktop ? 0.42 : 0.30
+            { opacity: 1, y: 0, ease: 'sine.out', duration: 0.12 },
+            0
           )
           .to(
             introLinesRef.current[0],
-            { opacity: 1, y: 0, ease: 'power2.out', duration: 0.13 },
-            isDesktop ? 0.45 : 0.32
+            { opacity: 1, y: 0, ease: 'sine.out', duration: 0.13 },
+            0.04
           )
           .to(
             introLinesRef.current[1],
-            { opacity: 1, y: 0, ease: 'power2.out', duration: 0.13 },
-            isDesktop ? 0.57 : 0.43
+            { opacity: 1, y: 0, ease: 'sine.out', duration: 0.13 },
+            0.15
           )
           .to(
             introLeadRef.current,
-            { opacity: 1, y: 0, ease: 'power2.out', duration: 0.1 },
-            isDesktop ? 0.69 : 0.54
+            { opacity: 1, y: 0, ease: 'sine.out', duration: 0.1 },
+            0.26
           )
           .to(
             introRef.current,
@@ -248,38 +225,38 @@ export function DepthToLightTransition({
               ease: 'power2.in',
               duration: 0.22,
             },
-            1.12
+            0.72
           );
 
         // 2. PHASE TWO (0.30 -> 0.62): Breaking the surface — Sunlight flood & Caustics bloom
         tl.to(
           bloomRef.current,
           {
-            opacity: 1,
-            scale: 1.15,
+            opacity: 0.18,
+            scale: 1.05,
             ease: 'power2.inOut',
             duration: 0.28,
           },
-          1.2
+          0.8
         )
           .to(
             daylightBgRef.current,
             {
               opacity: 1,
-              ease: 'power2.out',
+              ease: 'sine.out',
               duration: 0.32,
             },
-            1.28
+            0.88
           )
           .to(
             bloomRef.current,
             {
-              opacity: 0.24,
+              opacity: 0,
               scale: 1.25,
               ease: 'sine.out',
               duration: 0.22,
             },
-            1.44
+            1.04
           );
 
         // 3. PHASE THREE: The 2 Authentic Bottles Materialize from the Light (0.5L and 1.5L)
@@ -288,10 +265,10 @@ export function DepthToLightTransition({
           {
             opacity: 1,
             y: 0,
-            ease: 'power2.out',
+            ease: 'sine.out',
             duration: 0.26,
           },
-          1.4
+          1.0
         );
 
         // Both bottle cards reveal gracefully with slight natural stagger
@@ -303,10 +280,10 @@ export function DepthToLightTransition({
               opacity: 1,
               y: 0,
               scale: 1,
-              ease: 'power2.out',
+              ease: 'sine.out',
               duration: 0.36,
             },
-            1.46 + idx * 0.08
+            1.06 + idx * 0.08
           );
         });
 
@@ -316,10 +293,10 @@ export function DepthToLightTransition({
           {
             opacity: 1,
             y: 0,
-            ease: 'power2.out',
+            ease: 'sine.out',
             duration: 0.18,
           },
-          1.78
+          1.38
         );
       },
       section
@@ -340,7 +317,7 @@ export function DepthToLightTransition({
         <div ref={waterWrapRef} className="depth-water-scene" aria-hidden="true">
           <img
             ref={waterImgRef}
-            src={assetUrl('assets/surface-sunlight-hd.png')}
+            src={assetUrl('assets/surface-sunlight-hd.webp')}
             alt=""
             width={1672}
             height={940}
@@ -369,42 +346,6 @@ export function DepthToLightTransition({
 
           {/* Deep Navy Gradient Vignette for 100% seamless joint with 80m aquifer */}
           <div className="depth-water-vignette" />
-        </div>
-
-        <div ref={risingBottleRef} className="hero-bottle-stage depth-rising-bottle" aria-hidden="true">
-          <div ref={turbulenceRef} className="bottle-turbulence">
-            {Array.from({ length: 42 }, (_, i) => (
-              <span
-                key={i}
-                className={`bottle-turbulence__bubble bottle-turbulence__bubble--${i % 3}`}
-                style={{
-                  left: `${8 + ((i * 37) % 84)}%`,
-                  top: `${20 + ((i * 23) % 90)}%`,
-                  width: `${3 + ((i * 7) % 14)}px`,
-                  height: `${3 + ((i * 7) % 14)}px`,
-                  animationDuration: `${0.85 + (i % 7) * 0.16}s`,
-                  animationDelay: `${-(i * 0.17)}s`,
-                }}
-              />
-            ))}
-          </div>
-          <div className="hero-bottle-stage__figure">
-            <img
-              className="hero-bottle-stage__img"
-              src={assetUrl('assets/bottle-hero.webp')}
-              alt=""
-              width={500}
-              height={1850}
-              decoding="async"
-            />
-            <div
-              className="bottle-water-light"
-              style={{
-                maskImage: `url(${assetUrl('assets/bottle-hero.webp')})`,
-                WebkitMaskImage: `url(${assetUrl('assets/bottle-hero.webp')})`,
-              }}
-            />
-          </div>
         </div>
 
         {/* ================= 2. INTRO EDITORIAL BEAT («Из глубины к свету») ================= */}

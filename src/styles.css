@@ -4177,3 +4177,24 @@ h3,
 .site-loader__track span { display: block; height: 100%; background: #123c69; transform-origin: left; transition: transform .25s ease; }
 .site-loader__progress { margin-top: 12px; font: 400 .75rem var(--font-sans); }
 @media (prefers-reduced-motion: reduce) { .site-loader, .site-loader__track span { transition: none; } }
+
+/* Shorter opening journey; the incoming water already carries its text. */
+@media (prefers-reduced-motion: no-preference) {
+  .hero-depth-journey { height: 195svh; }
+  .depth-to-light-section { height: 195svh; margin-top: -24svh; }
+}
+@media (max-width: 1023px) and (prefers-reduced-motion: no-preference) {
+  .hero-depth-journey { height: 170svh; }
+  .hero-depth-stage, .depth-to-light-stage { height: 100svh; }
+  .depth-to-light-section { height: 165svh; margin-top: -24svh; }
+  .depth-water-bubbles { display: block !important; }
+  .depth-bubble:nth-child(n+11) { display: none; }
+  .depth-water-caustics, .depth-water-rays { display: none; }
+  .depth-water-img { filter: brightness(.94) saturate(1.05); }
+}
+html[data-performance='lite'] .depth-water-caustics,
+html[data-performance='lite'] .depth-water-rays,
+html[data-performance='lite'] .hero-bottle-stage__sheen,
+html[data-performance='lite'] .finale-bottle-stage__sheen-beam { display: none !important; }
+html[data-performance='lite'] .depth-bubble:nth-child(n+7) { display: none; }
+html[data-performance='lite'] .depth-water-img { filter: none; }

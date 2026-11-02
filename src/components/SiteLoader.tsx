@@ -2,10 +2,10 @@ import { useEffect, useState, type ReactNode } from 'react';
 import { assetUrl } from '../utils/assetUrl';
 
 const ASSETS = [
-  'logo-dark.webp', 'bottle-hero.webp', 'surface-sunlight-hd.png',
+  'logo-dark.webp', 'bottle-hero.webp', 'surface-sunlight-hd.webp',
   'bottle-05-sparkling.webp', 'bottle-05-still.webp',
   'bottle-15-sparkling.webp', 'bottle-15-still.webp',
-  'crimea-west-hd.png', 'factory-exterior-01.webp', 'conveyor.webp',
+  'crimea-west-hd.webp', 'factory-exterior-01.webp', 'conveyor.webp',
   'factory-ready.webp', 'finale-water-stage.webp',
 ];
 
@@ -15,6 +15,8 @@ export function SiteLoader({ children }: { children: ReactNode }) {
   const [progress, setProgress] = useState(0);
 
   useEffect(() => {
+    const connection = (navigator as Navigator & { connection?: { saveData?: boolean; effectiveType?: string } }).connection;
+    document.documentElement.dataset.performance = connection?.saveData || /(^|-)2g$/.test(connection?.effectiveType ?? '') ? 'lite' : 'normal';
     let active = true;
     let completed = 0;
     const finish = () => { if (active) setReady(true); };
