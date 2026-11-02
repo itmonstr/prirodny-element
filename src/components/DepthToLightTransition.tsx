@@ -113,7 +113,7 @@ export function DepthToLightTransition({
           start: 'top top',
           end: 'bottom bottom',
           onUpdate: (self) => {
-            const isDarkPart = self.progress < (isDesktop ? 0.65 : 0.30);
+            const isDarkPart = self.progress < (isDesktop ? 0.35 : 0.28);
             onDarkSceneChange?.(self.isActive && isDarkPart);
           },
           onLeave: () => onDarkSceneChange?.(false),
@@ -146,141 +146,37 @@ export function DepthToLightTransition({
           });
         });
 
-        // Master cinematic scroll timeline: «Из глубины к свету»
+        // A single gesture starts the complete formats reveal; no extra scrub phases.
+        const formats = [bottlesHeaderRef.current, ...bottleCardsRef.current, outroCueRef.current];
+        const reveal = gsap.timeline({ paused: true, defaults: { duration: 0.45, ease: 'sine.inOut' } })
+          .fromTo(introRef.current, { opacity: 1, y: 0 }, { opacity: 0, y: -12, immediateRender: false }, 0)
+          .fromTo(daylightBgRef.current, { opacity: 0 }, { opacity: 1, immediateRender: false }, 0)
+          .fromTo(formats, { opacity: 0, y: 16, scale: 1 }, {
+            opacity: 1, y: 0, scale: 1, immediateRender: false,
+          }, 0);
+        let showingFormats = false;
         const tl = gsap.timeline({
           scrollTrigger: {
-            trigger: section,
-            start: 'top top',
-            end: 'bottom bottom',
+            trigger: section, start: 'top top', end: 'bottom bottom',
             scrub: isDesktop ? 0.65 : 0.35,
             invalidateOnRefresh: true,
+            onUpdate: (self) => {
+              const shown = self.progress >= (isDesktop ? 0.35 : 0.28);
+              if (shown === showingFormats) return;
+              showingFormats = shown;
+              if (shown) reveal.play(); else reveal.reverse();
+            },
           },
         });
-
+        gsap.set(bottleCardsRef.current, { scale: 1 });
         if (isDesktop) {
-          // Desktop: layered cinematic water ascent & materialization
-          tl.to(
-              waterImgRef.current,
-              {
-                scale: 1.08,
-                yPercent: 6,
-                ease: 'none',
-                duration: 0.4,
-              },
-              0
-            )
-            .to(
-              waterRaysRef.current,
-              {
-                opacity: 0.95,
-                scale: 1.15,
-                ease: 'sine.out',
-                duration: 0.38,
-              },
-              0
-            )
-            .to(
-              causticsRef.current,
-              {
-                opacity: 0.8,
-                duration: 0.35,
-                ease: 'sine.inOut',
-              },
-              0.05
-            )
-            .to(
-              bubblesRef.current,
-              {
-                y: -80,
-                opacity: 0.85,
-                duration: 0.4,
-                ease: 'power1.out',
-              },
-              0
-            )
-            .to(
-              introRef.current,
-              { opacity: 1, y: 0, ease: 'sine.out', duration: 0.22 },
-              0
-            )
-            .to(
-              introRef.current,
-              {
-                opacity: 0,
-                y: -28,
-                ease: 'power2.in',
-                duration: 0.22,
-              },
-              0.56
-            )
-            .to(
-              daylightBgRef.current,
-              {
-                opacity: 1,
-                ease: 'sine.out',
-                duration: 0.16,
-              },
-              0.72
-            )
-            .to(
-              bottlesHeaderRef.current,
-              {
-                opacity: 1,
-                y: 0,
-                ease: 'sine.out',
-                duration: 0.18,
-              },
-              0.88
-            );
-
-          bottleCardsRef.current.forEach((card) => {
-            if (!card) return;
-            tl.to(
-              card,
-              {
-                opacity: 1,
-                y: 0,
-                scale: 1,
-                ease: 'sine.out',
-                duration: 0.20,
-              },
-              0.88
-            );
-          });
-
-          tl.to(
-            outroCueRef.current,
-            {
-              opacity: 1,
-              y: 0,
-              ease: 'sine.out',
-              duration: 0.18,
-            },
-            1.08
-          );
+          tl.to(introRef.current, { opacity: 1, y: 0, duration: 0.22, ease: 'sine.out' }, 0);
         } else {
-          // Mobile: Silky progression into daylight & formats vitrine
           gsap.set(introRef.current, { opacity: 1, y: 0 });
-          tl.to(waterRaysRef.current, { opacity: 0.85, scale: 1.12, ease: 'sine.out', duration: 0.35 }, 0)
-            .to(causticsRef.current, { opacity: 0.75, duration: 0.35, ease: 'sine.inOut' }, 0)
-            .to(bubblesRef.current, { y: -65, opacity: 0.75, duration: 0.40, ease: 'power1.out' }, 0)
-            .to(introRef.current, { opacity: 0, y: -20, ease: 'power1.inOut', duration: 0.25 }, 0.25)
-            .to(daylightBgRef.current, { opacity: 1, ease: 'sine.inOut', duration: 0.30 }, 0.35)
-            .to(bottlesHeaderRef.current, { opacity: 1, y: 0, ease: 'power2.out', duration: 0.26 }, 0.50);
-
-          bottleCardsRef.current.forEach((card, idx) => {
-            if (!card) return;
-            tl.to(card, {
-              opacity: 1,
-              y: 0,
-              scale: 1,
-              ease: 'power2.out',
-              duration: 0.28,
-            }, 0.52 + idx * 0.06);
-          });
-
-          tl.to(outroCueRef.current, { opacity: 1, y: 0, ease: 'sine.out', duration: 0.18 }, 0.78);
         }
+        tl.to(bubblesRef.current, { y: -65, opacity: 0.75, duration: 0.4, ease: 'sine.out' }, 0)
+          .to({}, { duration: 0.6 }, 0.4);
+
       },
       section
     );
