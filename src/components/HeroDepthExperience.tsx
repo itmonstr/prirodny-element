@@ -423,7 +423,7 @@ export function HeroDepthExperience({
                 },
                 0.92
               )
-              // Fade the composition before leaving the pinned scene.
+              // Keep the composition visible until the next scene enters.
               .to(
                 sourceRightRef.current,
                 {
@@ -433,7 +433,7 @@ export function HeroDepthExperience({
                   duration: 0.08,
                   ease: 'power2.in',
                 },
-                1.25
+                1.36
               )
               // Final hold and ambient drift before transition into the sunlit glass interlude
               .to(
@@ -456,7 +456,7 @@ export function HeroDepthExperience({
           tl.to(
             [depthScaleRef.current, sourceLeftRef.current, sourceRightRef.current],
             { opacity: 0, duration: 0.08, ease: 'power1.inOut' },
-            isDesktop ? 1.02 : 1.37
+            isDesktop ? 1.02 : 1.44
           );
         } else {
           // Reduced motion fallback
