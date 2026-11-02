@@ -7,7 +7,7 @@ interface WaterLightCanvasProps {
 
 /**
  * Subtle, organic water-light refraction canvas.
- * Renders soft caustic light ribbons at 60fps when visible, automatically
+ * Renders soft caustic light ribbons at 24fps when visible, automatically
  * pausing offscreen or when prefers-reduced-motion is enabled.
  */
 export function WaterLightCanvas({ depthProgressRef }: WaterLightCanvasProps) {
@@ -24,12 +24,12 @@ export function WaterLightCanvas({ depthProgressRef }: WaterLightCanvasProps) {
     let width = 0;
     let height = 0;
     let rafId = 0;
-    let isVisible = true;
+    let isVisible = false;
 
     const resize = () => {
       const dpr = Math.min(window.devicePixelRatio || 1, 1);
-      width = canvas.clientWidth;
-      height = canvas.clientHeight;
+      width = Math.ceil(canvas.clientWidth * 0.65);
+      height = Math.ceil(canvas.clientHeight * 0.65);
       canvas.width = Math.max(1, Math.floor(width * dpr));
       canvas.height = Math.max(1, Math.floor(height * dpr));
       ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
@@ -40,7 +40,8 @@ export function WaterLightCanvas({ depthProgressRef }: WaterLightCanvasProps) {
 
     const observer = new IntersectionObserver(
       (entries) => {
-        isVisible = entries[0]?.isIntersecting ?? true;
+        isVisible = entries[0]?.isIntersecting ?? false;
+        schedule();
       },
       { threshold: 0.01 }
     );
@@ -48,7 +49,7 @@ export function WaterLightCanvas({ depthProgressRef }: WaterLightCanvasProps) {
 
     let lastFrame = 0;
     const drawFrame = (timeMs: number) => {
-      if (isVisible && !document.hidden && timeMs - lastFrame >= 32) {
+      if (isVisible && !document.hidden && timeMs - lastFrame >= 40) {
         lastFrame = timeMs;
         const t = reducedMotion ? 1.2 : timeMs * 0.00032;
         const depth = Math.max(0, Math.min(1, depthProgressRef.current));
@@ -103,14 +104,19 @@ export function WaterLightCanvas({ depthProgressRef }: WaterLightCanvasProps) {
         }
       }
 
-      if (!reducedMotion) {
-        rafId = window.requestAnimationFrame(drawFrame);
-      }
+      rafId = 0;
+      if (!reducedMotion && isVisible && !document.hidden) rafId = window.requestAnimationFrame(drawFrame);
     };
 
-    rafId = window.requestAnimationFrame(drawFrame);
+    const schedule = () => {
+      window.cancelAnimationFrame(rafId);
+      rafId = 0;
+      if (isVisible && !document.hidden) rafId = window.requestAnimationFrame(drawFrame);
+    };
+    document.addEventListener('visibilitychange', schedule);
 
     return () => {
+      document.removeEventListener('visibilitychange', schedule);
       window.cancelAnimationFrame(rafId);
       window.removeEventListener('resize', resize);
       observer.disconnect();

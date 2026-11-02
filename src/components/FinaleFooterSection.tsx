@@ -140,15 +140,16 @@ export function FinaleFooterSection({
       <section className="finale-section" aria-labelledby="finale-slogan">
         {/* Blended studio water & volumetric light backdrop */}
         <div className="finale-section__backdrop" aria-hidden="true">
-          <img
+          <picture className="responsive-photo"><source media="(max-width: 1023px)" srcSet={assetUrl('assets/finale-water-stage-mobile.webp')} /><img
             src={assetUrl('assets/finale-water-stage.webp')}
+
             alt=""
             width={1600}
             height={1000}
             loading="lazy"
             decoding="async"
             className="finale-section__backdrop-img"
-          />
+          /></picture>
         </div>
 
         <div className="container finale-section__inner">

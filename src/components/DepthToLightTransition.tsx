@@ -273,16 +273,17 @@ export function DepthToLightTransition({
       <div ref={stageRef} className="depth-to-light-stage">
         {/* ================= 1. DEEP WATER & ASCENT BACKGROUND ================= */}
         <div ref={waterWrapRef} className="depth-water-scene" aria-hidden="true">
-          <img
+          <picture className="responsive-photo"><source media="(max-width: 1023px)" srcSet={assetUrl('assets/surface-sunlight-hd-mobile.webp')} /><img
             ref={waterImgRef}
             src={assetUrl('assets/surface-sunlight-hd.webp')}
+
             alt=""
             width={1672}
             height={940}
             loading="eager"
             decoding="async"
             className="depth-water-img"
-          />
+          /></picture>
 
           {/* Dynamic Sunbeam God-Rays */}
           <div ref={waterRaysRef} className="depth-water-rays">

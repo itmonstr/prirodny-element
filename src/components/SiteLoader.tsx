@@ -2,13 +2,7 @@ import { MOTION_DURATION } from '../utils/motion';
 import { useEffect, useState, type ReactNode } from 'react';
 import { assetUrl } from '../utils/assetUrl';
 
-const ASSETS = [
-  'logo-dark.webp', 'bottle-hero.webp', 'surface-sunlight-hd.webp',
-  'bottle-05-sparkling.webp', 'bottle-05-still.webp',
-  'bottle-15-sparkling.webp', 'bottle-15-still.webp',
-  'crimea-west-hd.webp', 'factory-exterior-01.webp', 'conveyor.webp',
-  'factory-ready.webp', 'finale-water-stage.webp',
-];
+const ASSETS = ['logo-dark.webp', 'bottle-hero.webp'];
 
 export function SiteLoader({ children }: { children: ReactNode }) {
   const [ready, setReady] = useState(false);
@@ -17,13 +11,15 @@ export function SiteLoader({ children }: { children: ReactNode }) {
 
   useEffect(() => {
     const connection = (navigator as Navigator & { connection?: { saveData?: boolean; effectiveType?: string } }).connection;
-    document.documentElement.dataset.performance = connection?.saveData || /(^|-)2g$/.test(connection?.effectiveType ?? '') ? 'lite' : 'normal';
+    document.documentElement.dataset.performance = connection?.saveData || (navigator.hardwareConcurrency > 0 && navigator.hardwareConcurrency <= 4) || /(^|-)2g$/.test(connection?.effectiveType ?? '') ? 'lite' : 'normal';
     let active = true;
     let completed = 0;
     const finish = () => { if (active) setReady(true); };
     const timeout = window.setTimeout(finish, 60_000);
     const minimum = new Promise<void>((resolve) => window.setTimeout(resolve, 900));
-    const tasks: Promise<unknown>[] = ASSETS.map((name) => new Promise<void>((resolve) => {
+    const mobile = window.matchMedia('(max-width: 1023px)').matches;
+    const assets = [...ASSETS, mobile ? 'surface-sunlight-hd-mobile.webp' : 'surface-sunlight-hd.webp'];
+    const tasks: Promise<unknown>[] = assets.map((name) => new Promise<void>((resolve) => {
       const image = new Image();
       image.onload = () => { image.decode().catch(() => {}).finally(resolve); };
       image.onerror = () => resolve();

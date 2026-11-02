@@ -1,3 +1,4 @@
+import { useAmbientVisibility } from './utils/useAmbientVisibility';
 import { SceneTransitions } from './components/SceneTransitions';
 import { useCallback, useState } from 'react';
 import { Header } from './components/Header';
@@ -10,6 +11,7 @@ import { Modals } from './components/Modals';
 import type { ModalKind, OrderSelection } from './types';
 
 export function App() {
+  useAmbientVisibility();
   const [darkFromSource, setDarkFromSource] = useState(false);
   const [darkFromTransition, setDarkFromTransition] = useState(false);
   const [darkFromHistory, setDarkFromHistory] = useState(false);

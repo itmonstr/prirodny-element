@@ -148,14 +148,15 @@ export function HistorySection({ onDarkSceneChange }: HistorySectionProps = {}) 
       <div ref={journey} className="history-story__journey">
         <div className="history-story__stage">
           <div ref={coast} className="history-story__scene history-story__coast">
-            <img
+            <picture className="responsive-photo"><source media="(max-width: 1023px)" srcSet={assetUrl('assets/crimea-west-hd-mobile.webp')} /><img
               ref={coastImg}
               src={assetUrl('assets/crimea-west-hd.webp')}
+
               alt="Образ побережья западного Крыма"
               width={1679}
               height={937}
               loading="lazy"
-            />
+            /></picture>
             <div className="history-story__coast-copy container">
               <span className="history-story__eyebrow">Западный Крым · озеро Богайлы</span>
               <h2 id="history-title" className="section-title">Как всё начиналось</h2>
@@ -168,15 +169,16 @@ export function HistorySection({ onDarkSceneChange }: HistorySectionProps = {}) 
               <span ref={year} className="history-story__year">2026</span>
               <p>Семейный проект вырос в производство воды «Природный Элемент».</p>
             </div>
-            <img
+            <picture className="responsive-photo"><source media="(max-width: 1023px)" srcSet={assetUrl('assets/factory-exterior-01-mobile.webp')} /><img
               ref={factory}
               className="history-story__factory"
               src={assetUrl('assets/factory-exterior-01.webp')}
+
               alt="Завод питьевой воды «Природный Элемент»"
               width={3200}
               height={2133}
               loading="lazy"
-            />
+            /></picture>
           </div>
         </div>
       </div>
@@ -190,16 +192,17 @@ export function HistorySection({ onDarkSceneChange }: HistorySectionProps = {}) 
         <div className="bottling-cinema__stage">
           {/* Layer 1: Линия розлива (conveyor.webp) */}
           <div className="bottling-cinema__layer bottling-cinema__layer--conveyor">
-            <img
+            <picture className="responsive-photo"><source media="(max-width: 1023px)" srcSet={assetUrl('assets/conveyor-mobile.webp')} /><img
               ref={conveyorImg}
               src={assetUrl('assets/conveyor.webp')}
+
               alt="Линия розлива воды «Природный Элемент»"
               width={1833}
               height={858}
               loading="lazy"
               decoding="async"
               className="bottling-cinema__bg-img"
-            />
+            /></picture>
             <div className="bottling-cinema__scrim bottling-cinema__scrim--deep" aria-hidden="true" />
             <div className="bottling-cinema__mobile-copy">
               <h3 className="bottling-cinema__heading">От источника —<br />к каждой бутылке</h3>
@@ -209,16 +212,17 @@ export function HistorySection({ onDarkSceneChange }: HistorySectionProps = {}) 
 
           {/* Layer 2: Готовая продукция (production-room.webp) */}
           <div ref={factoryLayer} className="bottling-cinema__layer bottling-cinema__layer--factory">
-            <img
+            <picture className="responsive-photo"><source media="(max-width: 1023px)" srcSet={assetUrl('assets/factory-ready-mobile.webp')} /><img
               ref={factoryImg}
               src={assetUrl('assets/factory-ready.webp')}
+
               alt="Готовая продукция воды «Природный Элемент» к отправке"
               width={1672}
               height={941}
               loading="lazy"
               decoding="async"
               className="bottling-cinema__bg-img"
-            />
+            /></picture>
             <div className="bottling-cinema__scrim bottling-cinema__scrim--ambient" aria-hidden="true" />
             <div className="bottling-cinema__mobile-copy">
               <h3 className="bottling-cinema__heading">Готова отправиться<br />к вам</h3>
