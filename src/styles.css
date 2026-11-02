@@ -4330,3 +4330,7 @@ html[data-performance='lite'] .depth-water-img { filter: none; }
 @media (max-width: 1023px) and (prefers-reduced-motion: reduce) {
   .depth-water-scene { display: none; }
 }
+
+@media (max-width: 1023px) {
+  .depth-water-scene { background: #0c2b4d; }
+}

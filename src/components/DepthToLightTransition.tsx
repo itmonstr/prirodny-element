@@ -155,7 +155,19 @@ export function DepthToLightTransition({
         if (!isDesktop) {
           // Separate mobile water and formats in normal flow: no pin spacer can
           // expose the dark section background below the light catalogue.
-          gsap.set(introRef.current, { opacity: 1, y: 0 });
+          const lightDevice = document.documentElement.dataset.performance === 'lite';
+          const entrance = gsap.timeline({
+            scrollTrigger: {
+              trigger: section, start: 'top bottom', end: 'top 15%',
+              scrub: MOTION_DURATION, invalidateOnRefresh: true,
+            },
+          });
+          entrance.fromTo(waterImgRef.current,
+            { opacity: 0, filter: lightDevice ? 'none' : 'blur(3px)' },
+            { opacity: 1, filter: lightDevice ? 'none' : 'blur(0px)', duration: 1, ease: 'sine.inOut' }, 0)
+            .fromTo(bubblesRef.current, { opacity: 0 }, { opacity: 0.65, duration: 0.65 }, 0.25)
+            .fromTo(introRef.current, { opacity: 0, y: 10 },
+              { opacity: 1, y: 0, duration: 0.55, ease: 'sine.out' }, 0.45);
           gsap.set(daylightBgRef.current, { opacity: 0 });
           const formats = [bottlesHeaderRef.current, ...bottleCardsRef.current, outroCueRef.current];
           gsap.fromTo(formats, { opacity: 0, y: 12, scale: 1 }, {
