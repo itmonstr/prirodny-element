@@ -38,16 +38,9 @@ export function HistorySection() {
         };
 
         if (context.conditions?.isMobile) {
+          // On mobile, keep layout solid, stable and rock-solid without jarring 16px jumps or opacity blinking
           gsap.set([production.current, year.current, factory.current, factoryLayer.current], { autoAlpha: 1 });
           gsap.set(coast.current, { autoAlpha: 1 });
-          if (!reduceMotion) {
-            section.current?.querySelectorAll('.history-story__production-copy, .history-story__factory, .bottling-cinema__mobile-copy').forEach((target) => {
-              gsap.fromTo(target, { y: 16, opacity: 0 }, {
-                y: 0, opacity: 1, duration: 0.7, ease: 'power1.out',
-                scrollTrigger: { trigger: target, start: 'top 92%', once: true },
-              });
-            });
-          }
           return;
         }
 
@@ -62,27 +55,28 @@ export function HistorySection() {
         // Scene 1 & 2: Coast -> Factory 2026
         gsap.set([production.current, year.current], { autoAlpha: 0 });
         gsap.set(year.current, { y: 32 });
-        gsap.set(factory.current, { opacity: 0 });
+        gsap.set(factory.current, { scale: 1.08, opacity: 0 });
 
         gsap.timeline({
           scrollTrigger: {
             trigger: journey.current,
             start: 'top top',
             end: 'bottom bottom',
-            scrub: 0.75,
+            scrub: 0.6,
             invalidateOnRefresh: true,
           },
         })
+          .to(coastImg.current, { scale: 1.12, ease: 'none', duration: 0.42 }, 0)
           .to(production.current, { autoAlpha: 1, duration: 0.22 }, 0.34)
           .to(coast.current, { autoAlpha: 0, duration: 0.22 }, 0.34)
-          .to(factory.current, { opacity: 1, duration: 0.36, ease: 'sine.inOut' }, 0.36)
+          .to(factory.current, { opacity: 1, scale: 1, duration: 0.36, ease: 'power1.out' }, 0.36)
           .to(year.current, { autoAlpha: 1, y: 0, duration: 0.22, ease: 'power1.out' }, 0.46);
 
         // ==================== CINEMATIC BOTTLING SCENE (BAIKAL430 LEVEL) ====================
         if (bottlingCinema.current) {
-          gsap.set(conveyorImg.current, { clearProps: 'transform' });
+          gsap.set(conveyorImg.current, { scale: 1.0 });
           gsap.set(factoryLayer.current, { opacity: 0 });
-          gsap.set(factoryImg.current, { clearProps: 'transform' });
+          gsap.set(factoryImg.current, { scale: 1.025, yPercent: 0 });
           gsap.set(title1.current, { opacity: 1, y: 0 });
           gsap.set(title2.current, { opacity: 0, y: 30 });
 
@@ -91,10 +85,21 @@ export function HistorySection() {
               trigger: bottlingCinema.current,
               start: 'top top',
               end: 'bottom bottom',
-              scrub: 0.75,
+              scrub: 0.6,
               invalidateOnRefresh: true,
             },
           });
+
+          // Phase 1: Camera zooms into conveyor bottling line
+          tlBottling.to(
+            conveyorImg.current,
+            {
+              scale: 1.10,
+              ease: 'none',
+              duration: 0.45,
+            },
+            0
+          );
 
           // Title 1 fades out as the ready-to-ship phase approaches
           tlBottling.to(
@@ -118,6 +123,15 @@ export function HistorySection() {
             },
             0.30
           )
+            .to(
+              factoryImg.current,
+              {
+                scale: 1,
+                ease: 'none',
+                duration: 0.52,
+              },
+              0.32
+            )
             .to(
               title2.current,
               {

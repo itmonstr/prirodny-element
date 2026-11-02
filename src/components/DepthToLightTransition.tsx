@@ -58,6 +58,8 @@ export function DepthToLightTransition({
   const sectionRef = useRef<HTMLElement | null>(null);
   const stageRef = useRef<HTMLDivElement | null>(null);
   const waterWrapRef = useRef<HTMLDivElement | null>(null);
+  const risingBottleRef = useRef<HTMLDivElement | null>(null);
+  const turbulenceRef = useRef<HTMLDivElement | null>(null);
   const waterImgRef = useRef<HTMLImageElement | null>(null);
   const waterRaysRef = useRef<HTMLDivElement | null>(null);
   const causticsRef = useRef<HTMLDivElement | null>(null);
@@ -129,9 +131,18 @@ export function DepthToLightTransition({
         gsap.set(waterRaysRef.current, { opacity: 0.55, scale: 1 });
         gsap.set(causticsRef.current, { opacity: 0.35 });
         gsap.set(bubblesRef.current, { opacity: 0.45, y: 0 });
+        gsap.set(turbulenceRef.current, { opacity: 0 });
+        gsap.set(risingBottleRef.current, {
+          xPercent: -50,
+          yPercent: -50,
+          x: 0,
+          y: 0,
+          scale: isDesktop ? 0.87 : 0.84,
+          opacity: 0,
+        });
         gsap.set(introRef.current, { opacity: 0, y: 12 });
-        gsap.set(introLinesRef.current, { opacity: 1, y: 0 });
-        gsap.set(introLeadRef.current, { opacity: 1, y: 0 });
+        gsap.set(introLinesRef.current, { opacity: 0, y: 32 });
+        gsap.set(introLeadRef.current, { opacity: 0, y: 16 });
         gsap.set(bloomRef.current, { opacity: 0, scale: 0.92 });
         gsap.set(daylightBgRef.current, { opacity: 0 });
         gsap.set(bottlesHeaderRef.current, { opacity: 0, y: 24 });
@@ -146,44 +157,35 @@ export function DepthToLightTransition({
           });
         });
 
-        // Give mobile copy a consistent duration, even after a fast swipe.
-        const introTarget = isDesktop ? introRef.current : {};
-        if (!isDesktop) {
-          let wasVisible = false;
-          ScrollTrigger.create({
-            trigger: section, start: 'top bottom', end: 'bottom bottom',
-            onUpdate: (self) => {
-              const textEnd = (window.innerHeight + Math.max(0, section.offsetHeight - window.innerHeight) * 0.5) / section.offsetHeight;
-              const visible = self.progress > 0 && self.progress < textEnd;
-              if (visible === wasVisible) return;
-              wasVisible = visible;
-              context.add(() => {
-                gsap.to(introRef.current, {
-                  opacity: visible ? 1 : 0, y: visible ? 0 : 12,
-                  duration: 0.55, ease: 'sine.inOut', overwrite: 'auto',
-                });
-              });
-            },
-          });
-        }
-
         // Master cinematic scroll timeline: «Из глубины к свету»
         const tl = gsap.timeline({
           scrollTrigger: {
             trigger: section,
             start: 'top top',
             end: 'bottom bottom',
-            scrub: isDesktop ? 0.65 : 0.4,
+            scrub: isDesktop ? 0.6 : true,
             invalidateOnRefresh: true,
           },
         });
 
-        // The water scene opens directly with bubbles and copy.
+        // Reveal the bottle only after the new background reaches the viewport.
         tl.to(
+          risingBottleRef.current,
+          { opacity: 1, ease: 'power1.out', duration: 0.06 },
+          0
+        )
+          .to(turbulenceRef.current, { opacity: 1, duration: 0.045, ease: 'power1.out' }, 0.045)
+          .to(turbulenceRef.current, { opacity: 0, duration: 0.09 }, 0.3)
+          .to(
+            risingBottleRef.current,
+            { y: () => -window.innerHeight * 1.2, ease: 'power1.inOut', duration: isDesktop ? 0.34 : 0.30 },
+            0.05
+          )
+          .to(
             waterImgRef.current,
             {
-              scale: 1.08,
-              yPercent: isDesktop ? 6 : 4,
+              scale: 1.22,
+              yPercent: isDesktop ? -10 : -8,
               ease: 'none',
               duration: 0.4,
             },
@@ -219,50 +221,65 @@ export function DepthToLightTransition({
             0
           )
           .to(
-            introTarget,
-            { opacity: 1, y: 0, ease: 'sine.out', duration: 0.22 },
-            0
+            introRef.current,
+            { opacity: 1, y: 0, ease: 'power2.out', duration: 0.12 },
+            isDesktop ? 0.42 : 0.30
           )
           .to(
-            introTarget,
+            introLinesRef.current[0],
+            { opacity: 1, y: 0, ease: 'power2.out', duration: 0.13 },
+            isDesktop ? 0.45 : 0.32
+          )
+          .to(
+            introLinesRef.current[1],
+            { opacity: 1, y: 0, ease: 'power2.out', duration: 0.13 },
+            isDesktop ? 0.57 : 0.43
+          )
+          .to(
+            introLeadRef.current,
+            { opacity: 1, y: 0, ease: 'power2.out', duration: 0.1 },
+            isDesktop ? 0.69 : 0.54
+          )
+          .to(
+            introRef.current,
             {
               opacity: 0,
               y: -28,
               ease: 'power2.in',
               duration: 0.22,
             },
-            0.62
+            1.12
           );
 
         // 2. PHASE TWO (0.30 -> 0.62): Breaking the surface — Sunlight flood & Caustics bloom
         tl.to(
           bloomRef.current,
           {
-            opacity: 0,
-            scale: 1.05,
+            opacity: 1,
+            scale: 1.15,
             ease: 'power2.inOut',
             duration: 0.28,
           },
-          0.8
+          1.2
         )
           .to(
             daylightBgRef.current,
             {
               opacity: 1,
-              ease: 'sine.out',
-              duration: 0.16,
+              ease: 'power2.out',
+              duration: 0.32,
             },
-            0.78
+            1.28
           )
           .to(
             bloomRef.current,
             {
-              opacity: 0,
+              opacity: 0.24,
               scale: 1.25,
               ease: 'sine.out',
               duration: 0.22,
             },
-            1.04
+            1.44
           );
 
         // 3. PHASE THREE: The 2 Authentic Bottles Materialize from the Light (0.5L and 1.5L)
@@ -271,14 +288,14 @@ export function DepthToLightTransition({
           {
             opacity: 1,
             y: 0,
-            ease: 'sine.out',
-            duration: 0.18,
+            ease: 'power2.out',
+            duration: 0.26,
           },
-          0.94
+          1.4
         );
 
         // Both bottle cards reveal gracefully with slight natural stagger
-        bottleCardsRef.current.forEach((card) => {
+        bottleCardsRef.current.forEach((card, idx) => {
           if (!card) return;
           tl.to(
             card,
@@ -286,10 +303,10 @@ export function DepthToLightTransition({
               opacity: 1,
               y: 0,
               scale: 1,
-              ease: 'sine.out',
-              duration: 0.20,
+              ease: 'power2.out',
+              duration: 0.36,
             },
-            0.94
+            1.46 + idx * 0.08
           );
         });
 
@@ -299,10 +316,10 @@ export function DepthToLightTransition({
           {
             opacity: 1,
             y: 0,
-            ease: 'sine.out',
+            ease: 'power2.out',
             duration: 0.18,
           },
-          1.16
+          1.78
         );
       },
       section
@@ -352,6 +369,42 @@ export function DepthToLightTransition({
 
           {/* Deep Navy Gradient Vignette for 100% seamless joint with 80m aquifer */}
           <div className="depth-water-vignette" />
+        </div>
+
+        <div ref={risingBottleRef} className="hero-bottle-stage depth-rising-bottle" aria-hidden="true">
+          <div ref={turbulenceRef} className="bottle-turbulence">
+            {Array.from({ length: 42 }, (_, i) => (
+              <span
+                key={i}
+                className={`bottle-turbulence__bubble bottle-turbulence__bubble--${i % 3}`}
+                style={{
+                  left: `${8 + ((i * 37) % 84)}%`,
+                  top: `${20 + ((i * 23) % 90)}%`,
+                  width: `${3 + ((i * 7) % 14)}px`,
+                  height: `${3 + ((i * 7) % 14)}px`,
+                  animationDuration: `${0.85 + (i % 7) * 0.16}s`,
+                  animationDelay: `${-(i * 0.17)}s`,
+                }}
+              />
+            ))}
+          </div>
+          <div className="hero-bottle-stage__figure">
+            <img
+              className="hero-bottle-stage__img"
+              src={assetUrl('assets/bottle-hero.webp')}
+              alt=""
+              width={500}
+              height={1850}
+              decoding="async"
+            />
+            <div
+              className="bottle-water-light"
+              style={{
+                maskImage: `url(${assetUrl('assets/bottle-hero.webp')})`,
+                WebkitMaskImage: `url(${assetUrl('assets/bottle-hero.webp')})`,
+              }}
+            />
+          </div>
         </div>
 
         {/* ================= 2. INTRO EDITORIAL BEAT («Из глубины к свету») ================= */}

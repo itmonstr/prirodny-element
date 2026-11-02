@@ -3,7 +3,6 @@ import { createRoot } from 'react-dom/client';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { App } from './App';
-import { SiteLoader } from './components/SiteLoader';
 import './styles.css';
 
 gsap.registerPlugin(ScrollTrigger);
@@ -16,6 +15,6 @@ ScrollTrigger.config({
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
-    <SiteLoader><App /></SiteLoader>
+    <App />
   </StrictMode>
 );
