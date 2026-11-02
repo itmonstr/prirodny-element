@@ -4303,3 +4303,11 @@ html[data-performance='lite'] .depth-water-img { filter: none; }
 @media (max-width: 1023px) and (max-height: 500px) and (orientation: landscape) and (prefers-reduced-motion: no-preference) {
   .source-scene { display: grid; grid-template-columns: 1fr 1fr; max-width: 820px; gap: 24px; align-items: center; }
 }
+
+.opening-handoff__intro { z-index: 20; }
+@media (min-width: 1024px) and (prefers-reduced-motion: no-preference) {
+  .depth-to-light-section { height: 180svh; }
+}
+@media (max-width: 1023px) and (prefers-reduced-motion: no-preference) {
+  .depth-to-light-section { height: 145svh; }
+}

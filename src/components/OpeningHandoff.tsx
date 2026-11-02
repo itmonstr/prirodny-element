@@ -32,8 +32,16 @@ export function OpeningHandoff() {
     };
     water.classList.add('opening-handoff__water');
     host.appendChild(water);
+    const introSource = document.querySelector('.depth-intro');
+    const intro = mobile && introSource ? introSource.cloneNode(true) as HTMLElement : null;
+    if (intro) {
+      intro.classList.add('opening-handoff__intro');
+      host.appendChild(intro);
+      gsap.set(intro, { opacity: 0, y: 0 });
+    }
     if (mobile) gsap.set(water, { opacity: 0 });
     const fade = gsap.quickTo(water, 'opacity', { duration: 0.35, ease: 'sine.out' });
+    const textFade = intro ? gsap.quickTo(intro, 'opacity', { duration: 0.3, ease: 'sine.out' }) : null;
     const hide = () => { host.style.opacity = '0'; host.style.visibility = 'hidden'; };
     let advancing = false;
     let advance: gsap.core.Tween | null = null;
@@ -70,15 +78,18 @@ export function OpeningHandoff() {
         if (!outgoing) captureOutgoing();
         host.style.visibility = 'visible';
         host.style.opacity = '1';
-        if (mobile) fade(progress * progress * (3 - 2 * progress));
+        if (mobile) {
+          fade(progress * progress * (3 - 2 * progress));
+          textFade?.(Math.max(0, Math.min(1, (self.progress - 0.1) / 0.25)));
+        }
         else water.style.opacity = String(progress * progress * (3 - 2 * progress));
       },
-      onEnter: () => { if (mobile) captureOutgoing(); else advanceOnce(); },
+      onEnter: (self) => { if (mobile || self.progress > 0.25) captureOutgoing(); else advanceOnce(); },
       onEnterBack: captureOutgoing,
       onLeave: hide,
       onLeaveBack: hide,
     });
-    return () => { trigger.kill(); advance?.kill(); entranceFade?.kill(); fade.tween.kill(); water.remove(); outgoing?.remove(); };
+    return () => { trigger.kill(); advance?.kill(); entranceFade?.kill(); fade.tween.kill(); textFade?.tween.kill(); intro?.remove(); water.remove(); outgoing?.remove(); };
   }, []);
   return <div ref={overlay} className="opening-handoff" aria-hidden="true" />;
 }

@@ -151,9 +151,10 @@ export function DepthToLightTransition({
         if (!isDesktop) {
           let wasVisible = false;
           ScrollTrigger.create({
-            trigger: section, start: 'top top', end: 'bottom bottom',
+            trigger: section, start: 'top bottom', end: 'bottom bottom',
             onUpdate: (self) => {
-              const visible = self.progress > 0 && self.progress < 0.50;
+              const textEnd = (window.innerHeight + Math.max(0, section.offsetHeight - window.innerHeight) * 0.5) / section.offsetHeight;
+              const visible = self.progress > 0 && self.progress < textEnd;
               if (visible === wasVisible) return;
               wasVisible = visible;
               context.add(() => {
@@ -230,14 +231,14 @@ export function DepthToLightTransition({
               ease: 'power2.in',
               duration: 0.22,
             },
-            0.72
+            0.62
           );
 
         // 2. PHASE TWO (0.30 -> 0.62): Breaking the surface — Sunlight flood & Caustics bloom
         tl.to(
           bloomRef.current,
           {
-            opacity: 0.18,
+            opacity: 0,
             scale: 1.05,
             ease: 'power2.inOut',
             duration: 0.28,
@@ -249,9 +250,9 @@ export function DepthToLightTransition({
             {
               opacity: 1,
               ease: 'sine.out',
-              duration: 0.32,
+              duration: 0.16,
             },
-            0.88
+            0.78
           )
           .to(
             bloomRef.current,
@@ -271,13 +272,13 @@ export function DepthToLightTransition({
             opacity: 1,
             y: 0,
             ease: 'sine.out',
-            duration: 0.26,
+            duration: 0.18,
           },
-          1.0
+          0.94
         );
 
         // Both bottle cards reveal gracefully with slight natural stagger
-        bottleCardsRef.current.forEach((card, idx) => {
+        bottleCardsRef.current.forEach((card) => {
           if (!card) return;
           tl.to(
             card,
@@ -286,9 +287,9 @@ export function DepthToLightTransition({
               y: 0,
               scale: 1,
               ease: 'sine.out',
-              duration: 0.36,
+              duration: 0.20,
             },
-            1.06 + idx * 0.08
+            0.94
           );
         });
 
@@ -301,7 +302,7 @@ export function DepthToLightTransition({
             ease: 'sine.out',
             duration: 0.18,
           },
-          1.38
+          1.16
         );
       },
       section
