@@ -4317,3 +4317,16 @@ html[data-performance='lite'] .depth-water-img { filter: none; }
   .history-story__coast { display: flex; flex-direction: column; justify-content: flex-end; }
   .history-story__coast-copy .section-title { font-size: clamp(2.3rem, 9vw, 4rem); }
 }
+
+/* Mobile water and catalogue are adjacent scenes without reserved pin space. */
+@media (max-width: 1023px) {
+  .depth-to-light-section { background: #eaf4fb; min-height: 0; }
+  .depth-to-light-stage { background: #eaf4fb; overflow: hidden; }
+  .depth-water-scene { bottom: auto; height: 100svh; }
+  .depth-intro { position: relative; inset: auto; height: 100svh; min-height: 100svh; }
+  .depth-daylight-bg { display: none; }
+  .depth-bottles-container { background: linear-gradient(180deg, #fff, #eaf4fb); }
+}
+@media (max-width: 1023px) and (prefers-reduced-motion: reduce) {
+  .depth-water-scene { display: none; }
+}

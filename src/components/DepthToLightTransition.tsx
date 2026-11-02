@@ -152,6 +152,21 @@ export function DepthToLightTransition({
           });
         });
 
+        if (!isDesktop) {
+          // Separate mobile water and formats in normal flow: no pin spacer can
+          // expose the dark section background below the light catalogue.
+          gsap.set(introRef.current, { opacity: 1, y: 0 });
+          gsap.set(daylightBgRef.current, { opacity: 0 });
+          const formats = [bottlesHeaderRef.current, ...bottleCardsRef.current, outroCueRef.current];
+          gsap.fromTo(formats, { opacity: 0, y: 12, scale: 1 }, {
+            opacity: 1, y: 0, scale: 1, duration: MOTION_DURATION, ease: 'sine.out',
+            scrollTrigger: {
+              trigger: bottlesHeaderRef.current, start: 'top 90%', once: true,
+            },
+          });
+          return;
+        }
+
         if (isDesktop) {
           // Use the real incoming stage for the dissolve: no duplicate backgrounds.
           let entrance: gsap.core.Tween | null = null;
@@ -215,8 +230,6 @@ export function DepthToLightTransition({
         const tl = gsap.timeline({
           scrollTrigger: {
             trigger: section, start: 'top top', end: isDesktop ? 'bottom bottom' : '+=220',
-            pin: isDesktop ? false : stageRef.current,
-            pinSpacing: true,
             scrub: MOTION_DURATION,
             invalidateOnRefresh: true,
             onUpdate: (self) => {
