@@ -117,7 +117,7 @@ export function DepthToLightTransition({
         ScrollTrigger.create({
           trigger: section,
           start: 'top top',
-          end: 'bottom bottom',
+          end: isDesktop ? 'bottom bottom' : '+=220',
           onUpdate: (self) => {
             const isDarkPart = self.progress < formatsThreshold();
             onDarkSceneChange?.(self.isActive && isDarkPart);
@@ -214,7 +214,9 @@ export function DepthToLightTransition({
         let showingFormats = false;
         const tl = gsap.timeline({
           scrollTrigger: {
-            trigger: section, start: 'top top', end: 'bottom bottom',
+            trigger: section, start: 'top top', end: isDesktop ? 'bottom bottom' : '+=220',
+            pin: isDesktop ? false : stageRef.current,
+            pinSpacing: true,
             scrub: MOTION_DURATION,
             invalidateOnRefresh: true,
             onUpdate: (self) => {
