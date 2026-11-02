@@ -130,8 +130,8 @@ export function DepthToLightTransition({
         gsap.set(causticsRef.current, { opacity: 0.35 });
         gsap.set(bubblesRef.current, { opacity: 0.45, y: 0 });
         gsap.set(introRef.current, { opacity: 0, y: 12 });
-        gsap.set(introLinesRef.current, { opacity: 0, y: 32 });
-        gsap.set(introLeadRef.current, { opacity: 0, y: 16 });
+        gsap.set(introLinesRef.current, { opacity: 1, y: 0 });
+        gsap.set(introLeadRef.current, { opacity: 1, y: 0 });
         gsap.set(bloomRef.current, { opacity: 0, scale: 0.92 });
         gsap.set(daylightBgRef.current, { opacity: 0 });
         gsap.set(bottlesHeaderRef.current, { opacity: 0, y: 24 });
@@ -199,23 +199,8 @@ export function DepthToLightTransition({
           )
           .to(
             introRef.current,
-            { opacity: 1, y: 0, ease: 'sine.out', duration: 0.12 },
+            { opacity: 1, y: 0, ease: 'sine.out', duration: 0.22 },
             0
-          )
-          .to(
-            introLinesRef.current[0],
-            { opacity: 1, y: 0, ease: 'sine.out', duration: 0.13 },
-            0.04
-          )
-          .to(
-            introLinesRef.current[1],
-            { opacity: 1, y: 0, ease: 'sine.out', duration: 0.13 },
-            0.15
-          )
-          .to(
-            introLeadRef.current,
-            { opacity: 1, y: 0, ease: 'sine.out', duration: 0.1 },
-            0.26
           )
           .to(
             introRef.current,
