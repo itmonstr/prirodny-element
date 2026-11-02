@@ -421,18 +421,6 @@ export function HeroDepthExperience({
                 },
                 0.92
               )
-              // Keep the composition visible until the next scene enters.
-              .to(
-                sourceRightRef.current,
-                {
-                  opacity: 0,
-                  y: -16,
-                  pointerEvents: 'none',
-                  duration: 0.08,
-                  ease: 'power2.in',
-                },
-                1.36
-              )
               // Final hold and ambient drift before transition into the sunlit glass interlude
               .to(
                 aquiferRaysRef.current,
@@ -451,11 +439,13 @@ export function HeroDepthExperience({
                 0.58
               );
           }
-          tl.to(
-            [depthScaleRef.current, sourceLeftRef.current, sourceRightRef.current],
-            { opacity: 0, duration: 0.08, ease: 'power1.inOut' },
-            isDesktop ? 1.02 : 1.44
-          );
+          if (isDesktop) {
+            tl.to([depthScaleRef.current, sourceLeftRef.current, sourceRightRef.current],
+              { opacity: 0, duration: 0.08, ease: 'power1.inOut' }, 1.02);
+          } else {
+            // Keep useful content on screen throughout the handoff.
+            tl.to({}, { duration: 0.25 }, 1.1);
+          }
         } else {
           // Reduced motion fallback
           if (depthLiveRef.current) depthLiveRef.current.textContent = '80 м';

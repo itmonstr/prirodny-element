@@ -4116,3 +4116,20 @@ h3,
   .depth-bottles-subtitle { display: none; }
   .depth-outro-cue { margin-top: 8px; }
 }
+@media (max-width: 1023px) and (prefers-reduced-motion: no-preference) {
+  .hero-depth-journey { height: 210svh; }
+  .hero-depth-stage { height: 100svh; }
+  .depth-to-light-section { height: 195svh; margin-top: -24svh; }
+  .depth-water-vignette { background: linear-gradient(180deg, #0c2b4d 0%, rgba(12,43,77,.72) 12%, rgba(12,43,77,.12) 38%, rgba(12,43,77,.35) 78%, #0c2b4d 100%); }
+  .history-story__production { padding-block: 28px 32px; gap: 20px; }
+  .bottling-cinema__layer { min-height: 66svh; }
+  .buy-section { padding-block: 48px; }
+  .finale-section { padding-top: 56px; }
+}
+@media (max-width: 1023px) and (prefers-reduced-motion: no-preference) {
+  .hero-depth-stage::after {
+    content: ''; position: absolute; inset: auto 0 0; height: 50%; z-index: 3;
+    background: linear-gradient(to bottom, rgba(12,43,77,0), #0c2b4d 45%, #0c2b4d);
+    pointer-events: none;
+  }
+}

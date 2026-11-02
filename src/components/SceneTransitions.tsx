@@ -30,6 +30,22 @@ export function SceneTransitions() {
         },
       });
     });
+    media.add('(max-width: 1023px) and (prefers-reduced-motion: no-preference)', () => {
+      const scenes = [
+        ['.history-story__coast', '.history-story__coast'],
+        ['.history-story__production', '.history-story__production'],
+        ['.bottling-cinema__layer--conveyor', '.bottling-cinema__layer--conveyor'],
+        ['.bottling-cinema__layer--factory', '.bottling-cinema__layer--factory'],
+        ['.buy-section', '.buy-section__inner'],
+        ['.finale-footer-wrap', '.finale-section'],
+      ];
+      scenes.forEach(([trigger, target]) => {
+        gsap.fromTo(target, { opacity: 0.35 }, {
+          opacity: 1, ease: 'sine.inOut',
+          scrollTrigger: { trigger, start: 'top bottom', end: 'top 52%', scrub: 0.35 },
+        });
+      });
+    });
     return () => media.revert();
   }, []);
   return null;
