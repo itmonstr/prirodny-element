@@ -3403,8 +3403,8 @@ h3,
   }
 
   .hero-depth-journey {
-    height: 185svh;
-    height: 185dvh;
+    height: 125svh;
+    height: 125dvh;
   }
 
   .hero-copy,
@@ -4118,8 +4118,8 @@ h3,
 }
 @media (max-width: 1023px) and (prefers-reduced-motion: no-preference) {
   .hero-depth-journey {
-    height: 185svh;
-    height: 185dvh;
+    height: 125svh;
+    height: 125dvh;
   }
   .hero-depth-stage {
     height: 100svh;
@@ -4184,9 +4184,9 @@ h3,
   .depth-to-light-section { height: 195svh; margin-top: -24svh; }
 }
 @media (max-width: 1023px) and (prefers-reduced-motion: no-preference) {
-  .hero-depth-journey { height: 170svh; }
+  .hero-depth-journey { height: 125svh; height: 125dvh; }
   .hero-depth-stage, .depth-to-light-stage { height: 100svh; }
-  .depth-to-light-section { height: 165svh; margin-top: -24svh; }
+  .depth-to-light-section { height: 130svh; height: 130dvh; margin-top: 0; }
   .depth-water-bubbles { display: block !important; }
   .depth-bubble:nth-child(n+11) { display: none; }
   .depth-water-caustics, .depth-water-rays { display: none; }
@@ -4199,27 +4199,12 @@ html[data-performance='lite'] .finale-bottle-stage__sheen-beam { display: none !
 html[data-performance='lite'] .depth-bubble:nth-child(n+7) { display: none; }
 html[data-performance='lite'] .depth-water-img { filter: none; }
 
-.opening-handoff {
-  position: fixed;
-  inset: 0;
-  z-index: 50;
-  overflow: hidden;
-  background: #0c2b4d;
-  pointer-events: none;
-  opacity: 0;
-  visibility: hidden;
-}
+
 /* The underwater scene contains only water, bubbles and copy. */
 .depth-to-light-section .depth-rising-bottle { display: none !important; }
 .depth-water-img { max-width: none; }
-.opening-handoff__outgoing {
-  position: absolute !important;
-  inset: 0 !important;
-  width: 100% !important;
-  height: 100% !important;
-  transform: none !important;
-}
-.opening-handoff__water { z-index: 10; }
+
+
 
 /* Mobile source copy is one compact group, independent of viewport height. */
 @media (max-width: 1023px) and (prefers-reduced-motion: no-preference) {
@@ -4248,7 +4233,7 @@ html[data-performance='lite'] .depth-water-img { filter: none; }
   .source-panel--left .source-origin-coords { padding-top: 10px; }
 }
 
-.opening-handoff__mobile-base { position: absolute; inset: 0; background: linear-gradient(#17497d, #123c69 52%, #0c2b4d); }
+
 @media (max-width: 1023px) {
   .water-light-canvas, .hero-bottle-stage__sheen, .hero-bottle-stage__glow,
   .hero-depth-stage__deep-bg .aquifer-rays, .aquifer-strata,
@@ -4258,7 +4243,7 @@ html[data-performance='lite'] .depth-water-img { filter: none; }
   .hero-depth-stage, .depth-to-light-stage { transform: none; -webkit-transform: none; }
   .depth-water-img { filter: none; }
   .depth-bubble { box-shadow: none; }
-  .opening-handoff__water { will-change: opacity; }
+  
 }
 
 @media (min-width: 1024px) and (prefers-reduced-motion: no-preference) {
@@ -4304,12 +4289,12 @@ html[data-performance='lite'] .depth-water-img { filter: none; }
   .source-scene { display: grid; grid-template-columns: 1fr 1fr; max-width: 820px; gap: 24px; align-items: center; }
 }
 
-.opening-handoff__intro { z-index: 20; }
+
 @media (min-width: 1024px) and (prefers-reduced-motion: no-preference) {
   .depth-to-light-section { height: 180svh; }
 }
 @media (max-width: 1023px) and (prefers-reduced-motion: no-preference) {
-  .depth-to-light-section { height: 175svh; margin-top: 0; }
+  .depth-to-light-section { height: 130svh; height: 130dvh; margin-top: 0; }
   .history-story__stage, .history-story__scene {
     transform: translate3d(0, 0, 0);
     -webkit-transform: translate3d(0, 0, 0);

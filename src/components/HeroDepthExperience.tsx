@@ -162,7 +162,7 @@ export function HeroDepthExperience({
             end: 'bottom bottom',
             invalidateOnRefresh: true,
             onUpdate: (self) => {
-              const isAquiferDark = self.progress >= (isDesktop ? 0.30 : 0.26);
+              const isAquiferDark = self.progress >= (isDesktop ? 0.30 : 0.20);
               onDarkSceneChange(self.isActive && isAquiferDark);
             },
             onLeave: () => onDarkSceneChange(false),
@@ -174,7 +174,7 @@ export function HeroDepthExperience({
               trigger: root,
               start: 'top top',
               end: 'bottom bottom',
-              scrub: isDesktop ? 0.65 : 0.4,
+              scrub: isDesktop ? 0.65 : 0.25,
               invalidateOnRefresh: true,
               onUpdate: (self) => {
                 const p = self.progress;
@@ -317,33 +317,30 @@ export function HeroDepthExperience({
                 0.72
               );
           } else {
-            // Mobile motion uses scroll for position and time for legible text dissolves.
+            // Mobile: snappy 1-swipe progression, scrubbed directly with touch
             gsap.set(mineralItems, { opacity: 1, y: 0 });
-            tl.to(heroCopyRef.current, { opacity: 0, y: -12, duration: 0.18, ease: 'sine.inOut' }, 0)
-              .to(heroMobileActionsRef.current, { opacity: 0, duration: 0.14 }, 0)
-              .to(deepBgRef.current, { opacity: 1, duration: 0.28, ease: 'sine.inOut' }, 0)
+            gsap.set(sourceSceneRef.current, { opacity: 0, yPercent: -50, y: 14, pointerEvents: 'none' });
+
+            tl.to(heroCopyRef.current, { opacity: 0, y: -16, duration: 0.20, ease: 'power1.in' }, 0)
+              .to(heroMobileActionsRef.current, { opacity: 0, duration: 0.16, ease: 'power1.in' }, 0)
+              .to(deepBgRef.current, { opacity: 1, duration: 0.30, ease: 'sine.inOut' }, 0.04)
               .to(bottleWrapRef.current, {
-                y: () => -window.innerHeight * 1.2,
-                duration: 0.32, ease: 'sine.inOut',
-              }, 0.02)
-              .to({}, { duration: 0.86 }, 0.34);
-            let activeBeat = -1;
-            ScrollTrigger.create({
-              trigger: root, start: 'top top', end: 'bottom bottom',
-              onUpdate: (self) => {
-                const beat = self.progress < 0.30 ? 0 : 1;
-                if (beat === activeBeat) return;
-                activeBeat = beat;
-                context.add(() => {
-                  const shown = beat === 1;
-                  gsap.to(sourceSceneRef.current, {
-                    opacity: shown ? 1 : 0, y: shown ? 0 : 12,
-                    pointerEvents: shown ? 'auto' : 'none',
-                    duration: 0.55, ease: 'sine.inOut', overwrite: 'auto',
-                  });
-                });
-              },
-            });
+                y: () => -window.innerHeight * 1.15,
+                duration: 0.38,
+                ease: 'sine.inOut',
+              }, 0.04)
+              .to(sourceSceneRef.current, {
+                opacity: 1,
+                y: 0,
+                duration: 0.32,
+                ease: 'power2.out',
+                onStart: () => {
+                  if (sourceSceneRef.current) sourceSceneRef.current.style.pointerEvents = 'auto';
+                },
+                onReverseComplete: () => {
+                  if (sourceSceneRef.current) sourceSceneRef.current.style.pointerEvents = 'none';
+                },
+              }, 0.25);
           }
           if (isDesktop) {
             tl.to([depthScaleRef.current, sourceLeftRef.current, sourceRightRef.current],
