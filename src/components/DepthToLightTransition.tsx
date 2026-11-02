@@ -181,8 +181,8 @@ export function DepthToLightTransition({
         tl.to(
             waterImgRef.current,
             {
-              scale: 1.12,
-              yPercent: isDesktop ? -4 : -2,
+              scale: 1.08,
+              yPercent: isDesktop ? 6 : 4,
               ease: 'none',
               duration: 0.4,
             },

@@ -41,7 +41,7 @@ export function OpeningHandoff() {
       end: 'top top',
       onUpdate: (self) => {
         if (!self.isActive) { hide(); return; }
-        const progress = Math.min(1, self.progress / 0.85);
+        const progress = Math.min(1, self.progress / (mobile ? 0.4 : 0.85));
         if (!outgoing) captureOutgoing();
         host.style.visibility = 'visible';
         host.style.opacity = '1';

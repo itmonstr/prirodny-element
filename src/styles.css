@@ -4260,3 +4260,15 @@ html[data-performance='lite'] .depth-water-img { filter: none; }
   .depth-bubble { box-shadow: none; }
   .opening-handoff__water { will-change: opacity; }
 }
+
+@media (min-width: 1024px) and (prefers-reduced-motion: no-preference) {
+  .history-story__journey { height: 160svh; }
+  .bottling-cinema { height: 140svh; }
+}
+.history-story__coast > img { transform: none; }
+@media (max-width: 1023px) and (prefers-reduced-motion: no-preference) {
+  .source-panel--left, .source-panel--right { translate: none; }
+  .source-panel--right { top: calc(50% + 12px); }
+  .source-panel--right .mineral-row { padding-block: 8px; }
+  .source-panel--right .mineral-footnote { margin-top: 10px; }
+}

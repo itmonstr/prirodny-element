@@ -139,6 +139,7 @@ export function HeroDepthExperience({
             y: 30,
             pointerEvents: 'none',
           });
+          if (!isDesktop) gsap.set([sourceLeftRef.current, sourceRightRef.current], { yPercent: -50 });
           gsap.set(deepBgRef.current, { opacity: 0 });
           gsap.set(aquiferRaysRef.current, { opacity: 0, xPercent: -4 });
           gsap.set(strataRef.current, { opacity: 0, y: 32 });
