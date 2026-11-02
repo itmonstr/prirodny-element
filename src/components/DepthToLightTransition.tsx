@@ -107,14 +107,19 @@ export function DepthToLightTransition({
           return;
         }
 
+        // On phones, count the reveal gesture from the first visible water frame.
+        const formatsThreshold = () => isDesktop
+          ? 0.35
+          : Math.min(240, window.innerHeight * 0.32) / section.offsetHeight;
+
         // Header theme observer: Dark header while camera is in deep water (< 40% scroll),
         // switches to clean light theme as daylight floods the screen.
         ScrollTrigger.create({
           trigger: section,
-          start: 'top top',
+          start: isDesktop ? 'top top' : 'top bottom',
           end: 'bottom bottom',
           onUpdate: (self) => {
-            const isDarkPart = self.progress < (isDesktop ? 0.35 : 0.28);
+            const isDarkPart = self.progress < formatsThreshold();
             onDarkSceneChange?.(self.isActive && isDarkPart);
           },
           onLeave: () => onDarkSceneChange?.(false),
@@ -207,11 +212,11 @@ export function DepthToLightTransition({
         let showingFormats = false;
         const tl = gsap.timeline({
           scrollTrigger: {
-            trigger: section, start: 'top top', end: 'bottom bottom',
+            trigger: section, start: isDesktop ? 'top top' : 'top bottom', end: 'bottom bottom',
             scrub: MOTION_DURATION,
             invalidateOnRefresh: true,
             onUpdate: (self) => {
-              const shown = self.progress >= (isDesktop ? 0.35 : 0.28);
+              const shown = self.progress >= formatsThreshold();
               if (shown === showingFormats) return;
               showingFormats = shown;
               if (shown) reveal.play(); else reveal.reverse();
