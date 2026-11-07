@@ -306,7 +306,7 @@ export function DepthToLightTransition({
         {/* ================= 2. INTRO EDITORIAL BEAT («Из глубины к свету») ================= */}
         <div ref={introRef} className="depth-intro">
           <div className="container depth-intro__inner">
-            <h2 className="depth-intro__title">Вода в своём ритме</h2>
+            <h2 className="depth-intro__title">Чистота в каждой капле</h2>
           </div>
         </div>
 
