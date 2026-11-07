@@ -158,9 +158,9 @@ export function HistorySection({ onDarkSceneChange }: HistorySectionProps = {}) 
               loading="lazy"
             /></picture>
             <div className="history-story__coast-copy container">
-              <span className="history-story__eyebrow">Западный Крым · озеро Богайлы</span>
+              <span className="history-story__eyebrow">Западный Крым</span>
               <h2 id="history-title" className="section-title">Как всё начиналось</h2>
-              <p>В начале 2000-х наша семья нашла источник близ озера Богайлы. Здесь начался наш путь к собственной питьевой воде.</p>
+              <p>В начале 2000-х наша семья нашла здесь артезианский источник. С этого началась история «Природного Элемента».</p>
             </div>
           </div>
           <div ref={production} className="history-story__scene history-story__production">

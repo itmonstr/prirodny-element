@@ -414,8 +414,7 @@ export function HeroDepthExperience({
               <br />в каждой капле
             </h1>
             <p className="hero-copy__lead">
-              Артезианская питьевая вода из собственного источника глубиной 80 метров, близ озера
-              Богайлы.
+              Артезианская питьевая вода из собственного источника в Крыму. Глубина — 80 метров.
             </p>
             <div className="hero-copy__actions">
               <button
@@ -510,12 +509,12 @@ export function HeroDepthExperience({
             </div>
             <h2 className="source-panel__title">Источник глубиной 80 метров</h2>
             <p className="source-panel__text">
-              Наш артезианский источник расположен в Сакском районе Крыма, близ озера Богайлы. Мы
-              бережно относимся к качеству воды на каждом этапе производства.
+              Наш источник расположен в Сакском районе Крыма. Мы бережно относимся к качеству
+              воды на каждом этапе производства.
             </p>
             <div className="source-origin-coords">
               <span className="source-origin-coords__line" aria-hidden="true" />
-              <span>Сакский район · оз. Богайлы · с. Фрунзе</span>
+              <span>Сакский район · озеро Богайлы · село Фрунзе</span>
             </div>
           </div>
 
