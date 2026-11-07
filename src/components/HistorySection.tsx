@@ -160,14 +160,14 @@ export function HistorySection({ onDarkSceneChange }: HistorySectionProps = {}) 
             <div className="history-story__coast-copy container">
               <span className="history-story__eyebrow">Западный Крым</span>
               <h2 id="history-title" className="section-title">Как всё начиналось</h2>
-              <p>В начале 2000-х наша семья нашла здесь артезианский источник. С этого началась история «Природного Элемента».</p>
+              <p>В начале 2000-х наша семья нашла здесь артезианский источник. Так началась история «Природного Элемента».</p>
             </div>
           </div>
           <div ref={production} className="history-story__scene history-story__production">
             <div className="history-story__production-copy">
-              <span className="history-story__eyebrow">От идеи к собственному производству</span>
+              <span className="history-story__eyebrow">От семейной идеи к своему заводу</span>
               <span ref={year} className="history-story__year">2026</span>
-              <p>Семейный проект вырос в производство воды «Природный Элемент».</p>
+              <p>Проект, который начинался в семье, вырос в собственное производство питьевой воды.</p>
             </div>
             <picture className="responsive-photo"><source media="(max-width: 1023px)" srcSet={assetUrl('assets/factory-exterior-01-mobile.webp')} /><img
               ref={factory}
@@ -205,8 +205,8 @@ export function HistorySection({ onDarkSceneChange }: HistorySectionProps = {}) 
             /></picture>
             <div className="bottling-cinema__scrim bottling-cinema__scrim--deep" aria-hidden="true" />
             <div className="bottling-cinema__mobile-copy">
-              <h3 className="bottling-cinema__heading">От источника —<br />к каждой бутылке</h3>
-              <p className="bottling-cinema__sub">Бережный розлив на собственном производстве в Крыму.</p>
+              <h3 className="bottling-cinema__heading">На линии розлива</h3>
+              <p className="bottling-cinema__sub">Здесь наполняют бутылки, закрывают их и готовят к упаковке.</p>
             </div>
           </div>
 
@@ -225,8 +225,8 @@ export function HistorySection({ onDarkSceneChange }: HistorySectionProps = {}) 
             /></picture>
             <div className="bottling-cinema__scrim bottling-cinema__scrim--ambient" aria-hidden="true" />
             <div className="bottling-cinema__mobile-copy">
-              <h3 className="bottling-cinema__heading">Готова отправиться<br />к вам</h3>
-              <p className="bottling-cinema__sub">От производства — к вашему дому.</p>
+              <h3 className="bottling-cinema__heading">Готово к отправке</h3>
+              <p className="bottling-cinema__sub">Упакованные партии ждут отгрузки.</p>
               <a href="#where-to-buy" className="bottling-cinema__btn">Где купить ↓</a>
             </div>
           </div>
@@ -237,20 +237,20 @@ export function HistorySection({ onDarkSceneChange }: HistorySectionProps = {}) 
               {/* Scene 1: От источника — к каждой бутылке */}
               <div ref={title1} className="bottling-cinema__title-pane bottling-cinema__title-pane--1">
                 <h3 className="bottling-cinema__heading">
-                  От источника —<br />к каждой бутылке
+                  На линии розлива
                 </h3>
                 <p className="bottling-cinema__sub">
-                  Бережный розлив на собственном производстве в Крыму.
+                  Здесь наполняют бутылки, закрывают их и готовят к упаковке.
                 </p>
               </div>
 
               {/* Scene 2: Готова отправиться к вам */}
               <div ref={title2} className="bottling-cinema__title-pane bottling-cinema__title-pane--2">
                 <h3 className="bottling-cinema__heading">
-                  Готова отправиться<br />к вам
+                  Готово к отправке
                 </h3>
                 <p className="bottling-cinema__sub">
-                  От производства — к вашему дому.
+                  Упакованные партии ждут отгрузки.
                 </p>
                 <div className="bottling-cinema__action">
                   <a href="#where-to-buy" className="bottling-cinema__btn">

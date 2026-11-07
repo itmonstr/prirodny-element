@@ -74,7 +74,6 @@ export function WhereToBuySection({
           <h2 id="buy-section-title" className="section-title buy-section__title">
             Где купить
           </h2>
-          <p className="section-lead buy-section__lead">Ближе к вам. Каждый день.</p>
         </header>
 
         <div className="buy-diptych">
@@ -83,10 +82,7 @@ export function WhereToBuySection({
             <div className="buy-card__top">
               <div className="buy-card__meta">
                 <span className="buy-card__num">01 / НАПРЯМУЮ</span>
-                <p className="buy-card__caption">
-                  От производства —<br />к вашему дому
-                </p>
-              </div>
+                </div>
 
               <div className="buy-card__scene" aria-hidden="true">
                 <svg
@@ -185,7 +181,7 @@ export function WhereToBuySection({
             <div className="buy-card__bottom">
               <h3 className="buy-card__title">Доставка</h3>
               <p className="buy-card__text">
-                Закажите воду напрямую<br />с доставкой.
+                Оставьте заявку, чтобы согласовать объём, адрес и время доставки.
               </p>
               <div className="buy-card__action">
                 <button
@@ -216,10 +212,7 @@ export function WhereToBuySection({
             <div className="buy-card__top">
               <div className="buy-card__meta">
                 <span className="buy-card__num">02 / РЯДОМ С ВАМИ</span>
-                <p className="buy-card__caption">
-                  Выход в розницу<br />планируется
-                </p>
-              </div>
+                </div>
 
               <div className="buy-card__scene" aria-hidden="true">
                 <svg
@@ -309,16 +302,16 @@ export function WhereToBuySection({
             <div className="buy-card__bottom">
               <h3 className="buy-card__title">В магазинах</h3>
               <p className="buy-card__text">
-                Готовимся стать ближе. Узнайте<br />о появлении воды в магазинах.
+                Выход в розницу планируется. Напишите нам, чтобы уточнить, где появится вода.
               </p>
               <div className="buy-card__action">
                 <button
                   type="button"
                   className="buy-card__btn buy-card__btn--outline"
                   onClick={onRetailClick}
-                  aria-label="Уточнить наличие воды в магазинах"
+                  aria-label="Спросить о магазинах"
                 >
-                  <span>Уточнить наличие</span>
+                  <span>Спросить о магазинах</span>
                   <span className="buy-card__btn-arrow" aria-hidden="true">
                     <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
                       <path

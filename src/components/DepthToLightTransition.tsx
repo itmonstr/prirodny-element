@@ -29,8 +29,8 @@ const BOTTLES: BottleFormatMeta[] = [
   {
     volumeKey: '0.5',
     volume: '0,5 л',
-    tagline: 'Всегда с собой',
-    detail: 'Для динамичного дня, тренировок, встреч и автомобиля',
+    tagline: 'Удобно взять с собой',
+    detail: 'На прогулку, тренировку или в дорогу.',
     sparklingSrc: assetUrl('assets/bottle-05-sparkling.webp'),
     stillSrc: assetUrl('assets/bottle-05-still.webp'),
     width: 233,
@@ -41,8 +41,8 @@ const BOTTLES: BottleFormatMeta[] = [
   {
     volumeKey: '1.5',
     volume: '1,5 л',
-    tagline: 'Для дома и отдыха',
-    detail: 'Семейный объём для дома, загородного отдыха и путешествий',
+    tagline: 'Для дома',
+    detail: 'К обеду или на общий стол.',
     sparklingSrc: assetUrl('assets/bottle-15-sparkling.webp'),
     stillSrc: assetUrl('assets/bottle-15-still.webp'),
     width: 302,
@@ -64,8 +64,6 @@ export function DepthToLightTransition({
   const causticsRef = useRef<HTMLDivElement | null>(null);
   const bubblesRef = useRef<HTMLDivElement | null>(null);
   const introRef = useRef<HTMLDivElement | null>(null);
-  const introLinesRef = useRef<(HTMLSpanElement | null)[]>([]);
-  const introLeadRef = useRef<HTMLParagraphElement | null>(null);
   const bloomRef = useRef<HTMLDivElement | null>(null);
   const daylightBgRef = useRef<HTMLDivElement | null>(null);
   const bottlesHeaderRef = useRef<HTMLDivElement | null>(null);
@@ -136,8 +134,6 @@ export function DepthToLightTransition({
         gsap.set(causticsRef.current, { opacity: 0.35 });
         gsap.set(bubblesRef.current, { opacity: 0.45, y: 0 });
         gsap.set(introRef.current, { opacity: 0, y: 12 });
-        gsap.set(introLinesRef.current, { opacity: 1, y: 0 });
-        gsap.set(introLeadRef.current, { opacity: 1, y: 0 });
         gsap.set(bloomRef.current, { opacity: 0, scale: 0.92 });
         gsap.set(daylightBgRef.current, { opacity: 0 });
         gsap.set(bottlesHeaderRef.current, { opacity: 0, y: 24 });
@@ -310,28 +306,7 @@ export function DepthToLightTransition({
         {/* ================= 2. INTRO EDITORIAL BEAT («Из глубины к свету») ================= */}
         <div ref={introRef} className="depth-intro">
           <div className="container depth-intro__inner">
-            <span className="depth-intro__badge">Из глубины к свету</span>
-            <h2 className="depth-intro__title">
-              <span
-                ref={(el) => {
-                  introLinesRef.current[0] = el;
-                }}
-                className="depth-intro__line"
-              >
-                Рождённая на глубине 80 метров,
-              </span>
-              <span
-                ref={(el) => {
-                  introLinesRef.current[1] = el;
-                }}
-                className="depth-intro__line"
-              >
-                вода поднимается навстречу солнцу
-              </span>
-            </h2>
-            <p ref={introLeadRef} className="depth-intro__lead">
-              Кристальная чистота крымского источника раскрывается в прозрачном утреннем свете.
-            </p>
+            <h2 className="depth-intro__title">Там, где вода встречает свет</h2>
           </div>
         </div>
 
@@ -344,10 +319,9 @@ export function DepthToLightTransition({
         {/* ================= 4. THE 2 REAL BOTTLES MATERIALIZATION (0.5L & 1.5L) ================= */}
         <div className="container depth-bottles-container">
           <div ref={bottlesHeaderRef} className="depth-bottles-header">
-            <span className="depth-bottles-subtitle">Природный Элемент</span>
-            <h3 className="depth-bottles-title">Два гармоничных формата</h3>
+            <h3 className="depth-bottles-title">На каждый день</h3>
             <p className="depth-bottles-lead">
-              Чистейшая артезианская вода в двух удобных объёмах — в наличии газированная и негазированная.
+              Выберите газированную или негазированную.
             </p>
 
             {/* Interactive Sparkling / Still Water Switcher */}

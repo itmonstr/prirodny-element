@@ -16,27 +16,22 @@ const MINERAL_ROWS = [
   {
     symbol: 'M',
     name: 'Общая минерализация',
-    unit: 'мг/л — по протоколу анализа',
   },
   {
     symbol: 'Ca',
     name: 'Кальций',
-    unit: 'мг/л — по анализу',
   },
   {
     symbol: 'Mg',
     name: 'Магний',
-    unit: 'мг/л — по анализу',
   },
   {
     symbol: 'Na',
     name: 'Натрий',
-    unit: 'мг/л — по анализу',
   },
   {
     symbol: 'pH',
-    name: 'Кислотно-щелочной баланс и HCO₃⁻',
-    unit: 'по паспорту скважины',
+    name: 'Кислотно-щелочной баланс и гидрокарбонаты',
   },
 ];
 
@@ -414,7 +409,7 @@ export function HeroDepthExperience({
               <br />в каждой капле
             </h1>
             <p className="hero-copy__lead">
-              Артезианская питьевая вода из собственного источника в Крыму. Глубина — 80 метров.
+              Артезианская питьевая вода «Природный Элемент».
             </p>
             <div className="hero-copy__actions">
               <button
@@ -501,17 +496,13 @@ export function HeroDepthExperience({
           </div>
 
           <div ref={sourceSceneRef} className="source-scene">
-          {/* SCENE 2: «Источник глубиной 80 метров» */}
+          {/* SCENE 2: «Наша скважина» */}
           <div ref={sourceLeftRef} className="source-panel source-panel--left">
             <div className="source-depth-figure" aria-label="Глубина скважины 80 метров">
               <span className="source-depth-figure__num">80</span>
               <span className="source-depth-figure__unit">метров</span>
             </div>
-            <h2 className="source-panel__title">Источник глубиной 80 метров</h2>
-            <p className="source-panel__text">
-              Наш источник расположен в Сакском районе Крыма. Мы бережно относимся к качеству
-              воды на каждом этапе производства.
-            </p>
+            <h2 className="source-panel__title">Наша скважина</h2>
             <div className="source-origin-coords">
               <span className="source-origin-coords__line" aria-hidden="true" />
               <span>Сакский район · озеро Богайлы · село Фрунзе</span>
@@ -519,20 +510,19 @@ export function HeroDepthExperience({
           </div>
 
           <div ref={sourceRightRef} className="source-panel source-panel--right">
-            <div className="mineral-table" role="region" aria-label="Показатели состава воды">
+            <div className="mineral-table" role="region" aria-labelledby="water-composition-title">
+              <h3 id="water-composition-title" className="source-panel__title">Состав воды</h3>
               {MINERAL_ROWS.map((row) => (
                 <div key={row.symbol} className="mineral-row">
                   <div className="mineral-row__symbol">{row.symbol}</div>
                   <div className="mineral-row__meta">
                     <span className="mineral-row__name">{row.name}</span>
-                    <span className="mineral-row__value">{row.unit}</span>
                   </div>
                 </div>
               ))}
             </div>
             <p className="mineral-footnote">
-              Точные числовые значения публикуются на основании протокола лабораторного анализа
-              скважины.
+              Точные значения приводятся по результатам лабораторного анализа.
             </p>
           </div>
           </div>

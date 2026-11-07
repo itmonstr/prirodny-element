@@ -155,21 +155,15 @@ export function FinaleFooterSection({
         <div className="container finale-section__inner">
           <div className="finale-copy">
             <h2 id="finale-slogan" className="finale-copy__slogan finale-reveal">
-              Вкус качества.
-              <br />
-              Любовь в каждой капле
+              Остаёмся на связи
             </h2>
             <p className="finale-copy__sub finale-reveal">
-              Частица природы Крыма в вашем ежедневном ритме.
+              Поможем с заказом и ответим на вопросы о продукции.
             </p>
             <div className="finale-copy__cta finale-reveal">
-              <button
-                type="button"
-                className="btn-pill btn-pill--light"
-                onClick={onOrderClick}
-              >
-                Заказать воду
-              </button>
+              <a href="#contacts" className="btn-pill btn-pill--light">
+                Связаться с нами
+              </a>
             </div>
           </div>
 
@@ -254,7 +248,7 @@ export function FinaleFooterSection({
             </div>
 
             <div className="site-footer__contacts-col">
-              <span className="site-footer__heading">Остаёмся на связи</span>
+              <span className="site-footer__heading">Контакты</span>
               <a href="tel:+79780207500" className="site-footer__phone">
                 +7 978 020-75-00
               </a>
