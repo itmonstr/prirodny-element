@@ -249,8 +249,8 @@ export function FinaleFooterSection({
 
             <div className="site-footer__contacts-col">
               <span className="site-footer__heading">Контакты</span>
-              <a href="tel:+79780207500" className="site-footer__phone">
-                +7 978 020-75-00
+              <a href="tel:+79790314673" className="site-footer__phone">
+                +7 979 031-46-73
               </a>
               <a href="mailto:matushka-voditsa@mail.ru" className="site-footer__email">
                 matushka-voditsa@mail.ru

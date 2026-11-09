@@ -143,8 +143,8 @@ export function Header({ isDarkScene, onOrderClick }: HeaderProps) {
             </button>
 
             <div className="mobile-menu__contacts">
-              <a href="tel:+79780207500" className="mobile-menu__contact-link">
-                +7 978 020-75-00
+              <a href="tel:+79790314673" className="mobile-menu__contact-link">
+                +7 979 031-46-73
               </a>
               <a href="mailto:matushka-voditsa@mail.ru" className="mobile-menu__contact-link">
                 matushka-voditsa@mail.ru

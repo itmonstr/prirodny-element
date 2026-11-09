@@ -110,9 +110,9 @@ export function Modals({
             </p>
 
             <div className="modal-direct-channels">
-              <a href="tel:+79780207500" className="modal-channel-link">
+              <a href="tel:+79790314673" className="modal-channel-link">
                 <span className="modal-channel-link__label">Прямой телефон</span>
-                <span className="modal-channel-link__val">+7 978 020-75-00</span>
+                <span className="modal-channel-link__val">+7 979 031-46-73</span>
               </a>
               <a href={buildMailtoHref()} className="modal-channel-link">
                 <span className="modal-channel-link__label">Электронная почта</span>
@@ -126,7 +126,7 @@ export function Modals({
                 <p className="modal-success__text">
                   Отправьте открывшееся письмо на <strong>matushka-voditsa@mail.ru</strong> или
                   позвоните нам по номеру{' '}
-                  <a href="tel:+79780207500">+7 978 020-75-00</a> для мгновенного подтверждения.
+                  <a href="tel:+79790314673">+7 979 031-46-73</a> для мгновенного подтверждения.
                 </p>
                 <button type="button" className="btn-pill btn-pill--primary" onClick={onClose}>
                   Готово
